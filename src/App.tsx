@@ -3,7 +3,7 @@ import MakeFlag from './pages/MakeFlag';
 import MakeFlex from './pages/MakeFlex';
 
 function App() {
-  return <MakeFlex />;
+  return <MakeFlag />;
 }
 
 export default App;
