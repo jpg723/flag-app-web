@@ -80,7 +80,7 @@ const Delete = styled.button`
   background-color: transparent;
 `;
 
-const FlagSecondStep = () => {
+const FormSelectFriends = () => {
   const [searchName, setSearchName] = useState('');
   const onSubmit = (
     e: React.FormEvent<HTMLFormElement>,
@@ -121,4 +121,4 @@ const FlagSecondStep = () => {
   );
 };
 
-export default FlagSecondStep;
+export default FormSelectFriends;

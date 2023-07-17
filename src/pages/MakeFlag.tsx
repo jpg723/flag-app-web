@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-import FlagFirstStep from '../components/FlagFirstStep';
-import FlagSecondStep from '../components/FlagSecondStep';
-import FlagThirdStep from '../components/FlagThirdStep';
-import FlagFourthStep from '../components/FlagFourthStep';
+import FormInputName from '../components/FormInputName';
+import FormSelectFriends from '../components/FormSelectFriends';
+import FormSelectDates from '../components/FormSelectDates';
 
 const Wrapper = styled.div`
   position: absolute;
@@ -17,10 +16,9 @@ const Wrapper = styled.div`
 const MakeFlag = () => {
   return (
     <Wrapper>
-      <FlagFirstStep />
-      <FlagSecondStep />
-      <FlagThirdStep />
-      <FlagFourthStep />
+      <FormInputName isFlag={true} />
+      <FormSelectFriends />
+      <FormSelectDates isFlag={true} />
     </Wrapper>
   );
 };

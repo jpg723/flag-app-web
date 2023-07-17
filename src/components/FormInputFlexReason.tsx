@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import ic_step1 from '../contents/grid/Ic_약속만들기_Step1.svg';
-import img_input from '../contents/grid/Box_약속만들기_Nameappoint.svg';
+import ic_step5 from '../contents/grid/Ic_약속만들기_Step5.svg';
+import img_textarea from '../contents/grid/Box_약속만들기_Explanation.svg';
 import { useState } from 'react';
 
 const Wrapper = styled.div`
@@ -27,22 +27,23 @@ const Image = styled.img`
 `;
 
 const InputWrapper = styled.div`
-  width: 336px;
+  width: 420px;
   margin-left: 62px;
   text-align: end;
 `;
 
-const Input = styled.input`
+const TextArea = styled.textarea`
+  box-sizing: border-box;
   width: 100%;
-  height: 42px;
-  border-radius: 14px;
-  gap: 8px;
-  font-size: 18px;
-  background-image: url('${img_input}');
+  height: 129px;
+  background-image: url('${img_textarea}');
   background-repeat: no-repeat;
-  border: 0;
-  padding-left: 16px;
+  border-radius: 14px;
+  padding: 16px;
   margin-bottom: 8px;
+  font-size: 18px;
+  border: 0;
+  resize: none;
   &:focus {
     outline: none;
   }
@@ -54,30 +55,26 @@ const InputTextInfo = styled.span`
   line-height: 17px;
 `;
 
-const FlagFirstStep = () => {
-  const [flexName, setFlexName] = useState('');
+const FormInputFlexReason = () => {
+  const [reason, setReason] = useState('');
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setFlexName(e.target.value);
+    setReason(e.target.value);
   };
   return (
     <Wrapper>
       <TitleWrapper>
-        <Image src={ic_step1} />
-        <Title>약속 이름을 정해주세요.</Title>
+        <Image src={ic_step5} />
+        <Title>FLEX 이유를 전달해주세요.</Title>
       </TitleWrapper>
       <InputWrapper>
-        <Input
-          onChange={onChange}
-          placeholder="약속 이름"
-          maxLength={15}
-        />
-        <InputTextInfo>최대 15자</InputTextInfo>
+        <TextArea maxLength={200} />
+        <InputTextInfo>최대 200자</InputTextInfo>
       </InputWrapper>
     </Wrapper>
   );
 };
 
-export default FlagFirstStep;
+export default FormInputFlexReason;
