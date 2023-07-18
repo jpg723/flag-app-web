@@ -4,7 +4,7 @@ import FormSelectFriends from '../components/FormSelectFriends';
 import FormSelectDates from '../components/FormSelectDates';
 import FormInputFlagPlace from '../components/FormInputFlagPlace';
 import FormInputMemo from '../components/FormInputMemo';
-import img_btn from '../contents/grid/Btn_약속만들기_Createappoint.svg';
+import img_btn from '../contents/desktop/flag/Btn_약속만들기_Createappoint.svg';
 import FormMinimumTime from '../components/FormMinimumTime';
 
 const Wrapper = styled.div`

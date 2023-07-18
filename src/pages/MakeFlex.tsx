@@ -4,7 +4,7 @@ import FormSelectFriends from '../components/FormSelectFriends';
 import FormSelectDates from '../components/FormSelectDates';
 import FormInputFlexPlace from '../components/FormInputFlexPlace';
 import FormInputFlexReason from '../components/FormInputFlexReason';
-import img_btn from '../contents/grid/Btn_약속만들기_Createappoint.svg';
+import img_btn from '../contents/desktop/flag/Btn_약속만들기_Createappoint.svg';
 
 const Wrapper = styled.div`
   //position: absolute;

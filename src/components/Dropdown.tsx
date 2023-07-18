@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import img_button from '../contents/grid/Btn_약속만들기_Undefined.svg';
+import img_button from '../contents/desktop/flag/Btn_약속만들기_Undefined.svg';
 
 const Button = styled.button`
   width: 112px;

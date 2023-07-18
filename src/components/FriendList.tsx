@@ -4,7 +4,7 @@ import React, {
   useState,
 } from 'react';
 import styled from 'styled-components';
-import img_wrapper from '../contents/grid/Frame_약속만들기_Friendslist.svg';
+import img_wrapper from '../contents/desktop/flag/Frame_약속만들기_Friendslist.svg';
 import FriendItem from './FriendItem';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import {

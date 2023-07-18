@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import img_checked from '../contents/grid/icon_약속만들기_checked.svg';
-import img_unchecked from '../contents/grid/icon_약속만들기_Unchecked.svg';
+import img_checked from '../contents/desktop/flag/icon_약속만들기_checked.svg';
+import img_unchecked from '../contents/desktop/flag/icon_약속만들기_Unchecked.svg';
 import React, { useState } from 'react';
 
 const Wrapper = styled.div`

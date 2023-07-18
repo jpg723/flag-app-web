@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import ic_step2 from '../contents/grid/Ic_약속만들기_Step2.svg';
-import img_input from '../contents/grid/Box_약속만들기_Search.svg';
-import ic_search from '../contents/grid/Ic_Search.svg';
+import ic_step2 from '../contents/desktop/flag/Ic_약속만들기_Step2.svg';
+import img_input from '../contents/desktop/flag/Box_약속만들기_Search.svg';
+import ic_search from '../contents/desktop/flag/Ic_Search.svg';
 import FriendList from './FriendList';
 import AddedFriendList from './AddedFriendList';
 import { useState } from 'react';

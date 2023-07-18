@@ -1,14 +1,12 @@
 import styled from 'styled-components';
-import ic_step3 from '../contents/grid/Ic_약속만들기_Step3.svg';
-import img_checked from '../contents/grid/icon_약속만들기_checked.svg';
-import img_unchecked from '../contents/grid/icon_약속만들기_Unchecked.svg';
-import img_line from '../contents/grid/Line_약속만들기.svg';
+import ic_step3 from '../contents/desktop/flag/Ic_약속만들기_Step3.svg';
+import img_checked from '../contents/desktop/flag/icon_약속만들기_checked.svg';
+import img_unchecked from '../contents/desktop/flag/icon_약속만들기_Unchecked.svg';
+import img_line from '../contents/desktop/flag/Line_약속만들기.svg';
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Dropdown from './Dropdown';
-import { Value } from 'react-calendar/dist/cjs/shared/types';
-import dayjs from 'dayjs';
 
 const Wrapper = styled.div`
   margin-bottom: 333px;

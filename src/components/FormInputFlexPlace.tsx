@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import ic_step4 from '../contents/grid/Ic_약속만들기_Step4.svg';
-import img_input from '../contents/grid/Box_약속만들기_Selectplace.svg';
+import ic_step4 from '../contents/desktop/flex/Ic_약속만들기_Step4.svg';
+import img_input from '../contents/desktop/flex/Box_약속만들기_Selectplace.svg';
 import { useState } from 'react';
 
 const Wrapper = styled.div`
