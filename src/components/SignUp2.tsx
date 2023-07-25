@@ -1,113 +1,152 @@
 import { Link } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import profilepic from '../contents/desktop/webSign/_Img_계정생성완료_Profilepic.svg';
-//import nickname from '../contents/desktop/webSign/Box_프로필생성_Nickname.svg';
-import createaccount from '../contents/desktop/webSign/Btn_프로필생성_Createaccount.svg';
+import axios from 'axios';
+import profilepic from '../contents/desktop/sign/Btn_프로필생성_Profilepic.svg';
+import createaccount from '../contents/desktop/sign/Btn_프로필생성_Createaccount.svg';
+import { SignUpProfileAtom } from '../state/SignUpState';
+import { SignUpNameAtom } from '../state/SignUpState';
+import { SignUpIdAtom } from '../state/SignUpState';
+import { SignUpPwAtom } from '../state/SignUpState';
 
 const SignUp2Cover = styled.div`
   height: 910px;
   width: 1440px;
 `;
 const SignUpInputImgIc = styled.img`
-  margin: 227px 645px 0px;
+  width: 118px;
+  height: 122px;
+  flex-shrink: 0;
+  margin: 159px 661px 0px;
 `;
 const SignUpInputImg = styled.input`
   visibility: hidden;
 `;
 const SignUpInputName = styled.input`
-  width: 433px;
-  height: 60px;
   border: none;
-  border-radius: 13px;
+  width: 450px;
+  height: 50px;
   flex-shrink: 0;
+  border-radius: 13px;
   background: #d9d9d9;
-  font-family: Inter;
-  font-size: 20px;
-  margin: 57px 503.5px 0px;
+  color: #999;
+  font-family: Noto Sans KR;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 38px 494px 0px 496px;
 `;
-const SignUpInputText = styled.div`
+const SignUpInputHint = styled.div`
   color: #999;
   font-family: Noto Sans KR;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  margin: 5px auto 0px 509px;
+  margin: 20px auto 0px 500px;
 `;
 const SignUpCreateaccountBtn = styled.button`
   border: none;
-  width: 552px;
-  height: 63px;
+  width: 355px;
+  height: 41px;
   flex-shrink: 0;
   background-image: url(${createaccount});
   background-color: transparent;
   background-repeat: no-repeat;
-  margin: 38px 444px auto;
+  margin: 33px 542.5px auto;
 `;
 
 function SignUp2() {
-  /*
-  onchange="loadProfile(this)"
-  function loadProfile(input) {
-    var file = input.files[0];	//선택된 파일 가져오기
+  const [userProfile, setUserProfile] = useRecoilState(
+    SignUpProfileAtom,
+  );
+  const [userName, setUserName] =
+    useRecoilState(SignUpNameAtom);
+  const [id, setId] = useRecoilState(SignUpIdAtom);
+  const [pw, setPw] = useRecoilState(SignUpPwAtom);
 
-    //미리 만들어 놓은 div에 text(파일 이름) 추가
-    var name = document.getElementById('fileName');
-    name.textContent = file.name;
+  const updateUserName = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => setUserName(e.target.value);
 
-  	//새로운 이미지 div 추가
-    var newImage = document.createElement("img");
-    newImage.setAttribute("class", 'img');
-
-    //이미지 source 가져오기
-    newImage.src = URL.createObjectURL(file);   
-
-    newImage.style.width = "70%";
-    newImage.style.height = "70%";
-    //newImage.style.visibility = "hidden";   //버튼을 누르기 전까지는 이미지를 숨긴다
-    newImage.style.objectFit = "contain";
-
-    //이미지를 image-show div에 추가
-    var container = document.getElementById('image-show');
-    container.appendChild(newImage);
+  const updateUserProfile = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (!e.target.files) return;
+    else {
+      const newFileURL = URL.createObjectURL(
+        e.target.files[0],
+      );
+      setUserProfile(newFileURL);
+    }
   };
-  var submit = document.getElementById('submitButton');
-  submit.onclick = showImage;     //Submit 버튼 클릭시 이미지 보여주기
-  function showImage() {
-    var newImage = document.getElementById('image-show').lastElementChild;
-  
-    //이미지는 화면에 나타나고
-    newImage.style.visibility = "visible";
-  
-    //이미지 업로드 버튼은 숨겨진다
-    document.getElementById('image-upload').style.visibility = 'hidden';
 
-    document.getElementById('fileName').textContent = null;     //기존 파일 이름 지우기
-  }
-  */
+  const nextUser = () =>{
+    console.log(
+      'Profile:' + userProfile + ' Name:' + userName,
+    );
+    /*
+    if (id !== '' && pw !== '') {
+      axios({
+        url: '/member/login.do',
+        method: 'post',
+        data: {
+          data1: id,
+          data2: pw,
+        },
+        baseURL: 'http://localhost:8080',
+      }).then(function (response) {
+        console.log(response.data);
+        console.log(response.data.user_id);
+        if (response.data.user_id === undefined) {
+          alert(
+            'response.data.user_id === undefined',
+          );
+        } else if (response.data.password === undefined) {
+          alert(
+            'response.data.password === undefined',
+          );
+        } else {
+          alert(response.data.user_name + '님 환영합니다!');
+        }
+      });
+    } else {
+      alert('로그인 입력폼을 확인해주세요');
+    }
+    */
+  };
+    
 
   return (
     <>
       <form method="post" encType="multipart/form-data">
         <SignUp2Cover>
-          <label htmlFor="profileImg">
-            <SignUpInputImgIc src={profilepic} />
+          <label htmlFor="userProfile">
+            <SignUpInputImgIc
+              id="profileImg"
+              src={userProfile ? userProfile : profilepic}
+            />
           </label>
           <SignUpInputImg
             type="file"
-            id="profileImg"
+            id="userProfile"
             accept="image/*"
+            onChange={updateUserProfile}
           />
           <SignUpInputName
             type="text"
-            id="nickname"
+            id="userName"
             placeholder="닉네임"
+            /* minlength="2"
+            maxlength="7" */
+            onChange={updateUserName}
           />
-          <SignUpInputText>
+          <SignUpInputHint>
             최소 2자 최대 7자 이내
-          </SignUpInputText>
+          </SignUpInputHint>
           <Link to="/SignUp3">
-            <SignUpCreateaccountBtn />
+            <SignUpCreateaccountBtn onClick={nextUser} />
           </Link>
         </SignUp2Cover>
       </form>

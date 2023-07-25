@@ -13,30 +13,30 @@ import CheckFriendlist from '../contents/desktop/mypage/Ic_마이페이지_Check
 import ProfilepicChecked from '../contents/desktop/mypage/Img_약속만들기_Profilepic_Checked.svg';
 
 const MyPageCover = styled.div`
-  height: 1467px;
+  height: 1481px;
   width: 1440px;
 `;
 const MyPageCover2 = styled.div`
-  width: 356px;
-  margin: 0px auto auto 525px;
+  width: 355px;
+  margin: 0px auto auto 542px;
 `;
 const MyPageAccount = styled.div`
   color: #000;
   font-family: Inter;
-  font-size: 30px;
+  font-size: 27px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin: 55px auto 0px 216px;
+  margin: 69px auto 0px 233px;
 `;
 const MyPageAccountImg = styled.div`
-  height: 161px;
+  height: 112px;
   background-image: URL(${profilepic});
   background-repeat: no-repeat;
-  margin: 46px 97px 0px 97px;
+  margin: 50px auto 0px 122px;
 `;
 const MyPageAccountImgEdit = styled.img`
-  margin: 125px 66.5px 0px;
+  margin: 74px 42px 0px;
 `;
 const MyPageAccountImgInput = styled.input`
   visibility: hidden;
@@ -49,7 +49,7 @@ const MyPageName = styled.div`
   font-weight: 600;
   line-height: normal;
   text-align: center;
-  margin: 17px auto 0px;
+  margin: 15px auto 0px;
 `;
 const MyPageEmail = styled.div`
   color: #8d8d8d;
@@ -65,13 +65,13 @@ const MyPageEdit = styled.button`
   border: 0;
   background-color: transparent;
   padding: 0px;
-  margin: 0px auto 18px;
+  margin: 0px auto 14px;
 `;
 const MyPageLine = styled.hr`
-  width: 356px;
+  width: 355px;
   height: 1px;
   background: rgba(0, 0, 0, 0.29);
-  margin: 10px auto 29px;
+  margin: 2px auto 16px;
 `;
 const MyPageCover3 = styled.div`
   border: 2px solid #000;
@@ -93,11 +93,14 @@ const MyPageAddFriend = styled.button`
   border: 0;
   background-color: transparent;
   padding: 0px;
-  text-align: right;
+  float: right;
   margin: auto 10px 9px auto;
 `;
-const MyPageFriendsList = styled.span`
-  border: 2px solid #000;
+const MyPageFriendsList = styled.div`
+  border: 2px solid #090;
+  width: 607px;
+  height: 362px;
+  flex-shrink: 0;
   background-image: URL(${FrameFriendslist});
   background-repeat: no-repeat;
   margin: 0px;

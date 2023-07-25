@@ -1,5 +1,6 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Route, Routes } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 import Header from './components/Header';
 import SignUp1 from './components/SignUp1';
 import SignUp2 from './components/SignUp2';
@@ -8,7 +9,7 @@ import MyPage from './components/MyPage';
 
 function App() {
   return (
-    <>
+    <RecoilRoot>
       <Header />
       <Router>
         <Routes>
@@ -19,7 +20,7 @@ function App() {
           <Route path="/MyPage" element={<MyPage />} />
         </Routes>
       </Router>
-    </>
+    </RecoilRoot>
   );
 }
 export default App;
