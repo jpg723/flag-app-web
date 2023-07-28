@@ -7,6 +7,8 @@ import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Dropdown from './Dropdown';
+import moment from 'moment';
+import 'moment/locale/ko';
 
 const Wrapper = styled.div`
   margin-bottom: 333px;
@@ -152,6 +154,13 @@ const MyCalender = styled(Calendar)`
   button {
     width: 33;
   }
+  .react-calendar__title--inactive {
+    background: none !important;
+  }
+
+  .react-calendar__tile:disabled {
+    background-color: #f0f0f0 !important;
+  }
 `;
 
 interface IProps {
@@ -160,7 +169,7 @@ interface IProps {
 
 const FormSelectDates = ({ isFlag }: IProps) => {
   const [option, setOption] = useState('INDIVIDUAL');
-  const [selectedDates, setSelectedDates] = useState([]);
+  const [clicked, setClicked] = useState<string[]>([]);
 
   const today = new Date(
     new Date().getFullYear(),
@@ -173,6 +182,32 @@ const FormSelectDates = ({ isFlag }: IProps) => {
   ) => {
     setOption(e.target.value);
   };
+
+  const onClick = (
+    value: any,
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    const date = moment(value).format('YYYY-MM-DD');
+    // clicked에 이미 있으면 삭제, 없으면 추가
+    if (clicked.find((item) => item === date)) {
+      console.log('이미 있음');
+      const copied = [...clicked];
+      const filtered = copied.filter(
+        (item) => item !== date,
+      );
+      setClicked([...filtered]);
+      return;
+    }
+
+    setClicked((prev: string[]) => [
+      ...prev,
+      moment(value).format('YYYY-MM-DD'),
+    ]);
+  };
+
+  interface IProps {
+    date: Date;
+  }
 
   return (
     <Wrapper>
@@ -233,6 +268,22 @@ const FormSelectDates = ({ isFlag }: IProps) => {
             maxDetail="month"
             minDate={today}
             selectRange={false}
+            onChange={() => {
+              return;
+            }}
+            onClickDay={onClick}
+            tileClassName={({ date }: IProps) => {
+              if (
+                clicked!.find(
+                  (x: any) =>
+                    x === moment(date).format('YYYY-MM-DD'),
+                )
+              ) {
+                return 'react-calendar__tile--active';
+              } else {
+                return 'react-calendar__title--inactive';
+              }
+            }}
           />
           <DropdownArea>
             <DropdownWrapper>
