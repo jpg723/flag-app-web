@@ -6,15 +6,12 @@ import FormInputFlagPlace from '../components/FormInputFlagPlace';
 import FormInputMemo from '../components/FormInputMemo';
 import img_btn from '../contents/desktop/flag/Btn_약속만들기_Createappoint.svg';
 import FormMinimumTime from '../components/FormMinimumTime';
+import { useRecoilValue } from 'recoil';
+import { makeFlagAtom } from '../recoil/Atoms';
 
 const Wrapper = styled.div`
   //position: absolute;
-  margin-top: 232px;
-  margin-left: 205px;
   padding: 5px 0px 5px 0px;
-  @media screen and (max-width: 768px) {
-    padding: 50px;
-  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -34,6 +31,12 @@ const Button = styled.button`
 `;
 
 const MakeFlag = () => {
+  const result = useRecoilValue(makeFlagAtom);
+
+  const handleSubmit = () => {
+    console.log(result);
+  };
+
   return (
     <>
       <Wrapper>
@@ -45,7 +48,7 @@ const MakeFlag = () => {
         <FormInputMemo />
       </Wrapper>
       <ButtonWrapper>
-        <Button />
+        <Button onClick={handleSubmit} />
       </ButtonWrapper>
     </>
   );

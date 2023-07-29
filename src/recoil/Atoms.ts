@@ -1,8 +1,17 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 
 export interface IFriendTypes {
   id: number;
   name: string;
+}
+
+export interface IFlag {
+  flagName: string;
+  checkedFriend: IFriendTypes[];
+  selectedDates: string[];
+  minimumTime: number;
+  flagPlace: string;
+  flagMemo: string;
 }
 
 export const friendListAtom = atom<IFriendTypes[]>({
@@ -24,4 +33,16 @@ export const friendListAtom = atom<IFriendTypes[]>({
 export const checkedFriendsAtom = atom<IFriendTypes[]>({
   key: 'checkedFriends',
   default: [],
+});
+
+export const makeFlagAtom = atom<IFlag>({
+  key: 'makeFlag',
+  default: {
+    flagName: '',
+    checkedFriend: [],
+    selectedDates: [],
+    minimumTime: 1,
+    flagPlace: '',
+    flagMemo: '',
+  },
 });

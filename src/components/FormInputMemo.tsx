@@ -3,6 +3,8 @@ import img_checked from '../contents/desktop/flag/icon_약속만들기_checked.s
 import img_unchecked from '../contents/desktop/flag/icon_약속만들기_Unchecked.svg';
 import img_textarea from '../contents/desktop/flag/Box_약속만들기_Explanation.svg';
 import React, { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { makeFlagAtom } from '../recoil/Atoms';
 
 const Wrapper = styled.div`
   margin-bottom: 333px;
@@ -68,7 +70,7 @@ const InputTextInfo = styled.span<{ disable: boolean }>`
 `;
 
 const FormInputMemo = () => {
-  const [memo, setMemo] = useState('');
+  const setValue = useSetRecoilState(makeFlagAtom);
   const [disable, setDisable] = useState(true);
 
   const toggleDisable = (
@@ -80,9 +82,9 @@ const FormInputMemo = () => {
   };
 
   const onChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
-    setMemo(e.target.value);
+    setValue((v) => ({ ...v, flagMemo: e.target.value }));
   };
   return (
     <Wrapper>
@@ -97,6 +99,7 @@ const FormInputMemo = () => {
       </TitleWrapper>
       <InputWrapper>
         <TextArea
+          onChange={onChange}
           disabled={disable}
           placeholder="약속 장소"
           maxLength={200}

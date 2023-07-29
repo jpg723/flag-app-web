@@ -2,33 +2,38 @@ import styled from 'styled-components';
 import ic_step1 from '../contents/desktop/flag/Ic_약속만들기_Step1.svg';
 import img_input from '../contents/desktop/flag/Box_약속만들기_Nameappoint.svg';
 import { useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { makeFlagAtom } from '../recoil/Atoms';
 
 const Wrapper = styled.div`
   margin-bottom: 333px;
 `;
 
 const TitleWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 17px;
+  display: inline-flex;
+  padding: 5px 0px;
+  align-items: flex-end;
+  margin-bottom: 14px;
+  gap: 13px;
 `;
 
-const Title = styled.span`
-  line-height: 43px;
-  font-size: 30px;
+const Title = styled.div`
+  line-height: normal;
+  font-size: 22px;
   font-weight: 700;
+  text-align: center;
 `;
 
 const Image = styled.img`
-  width: 42px;
-  height: 43px;
-  margin-right: 20px;
+  width: 35px;
+  height: 35px;
 `;
 
 const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 336px;
-  margin-left: 62px;
+  margin-left: 48px;
   text-align: end;
 `;
 
@@ -59,12 +64,12 @@ interface IProps {
 }
 
 const FormInputName = ({ isFlag }: IProps) => {
-  const [flexName, setFlexName] = useState('');
+  const setValue = useSetRecoilState(makeFlagAtom);
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setFlexName(e.target.value);
+    setValue((v) => ({ ...v, flagName: e.target.value }));
   };
   return (
     <Wrapper>

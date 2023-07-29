@@ -3,6 +3,8 @@ import img_checked from '../contents/desktop/flag/icon_약속만들기_checked.s
 import img_unchecked from '../contents/desktop/flag/icon_약속만들기_Unchecked.svg';
 import img_input from '../contents/desktop/flag/Box_약속만들기_Selectplace.svg';
 import React, { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { makeFlagAtom } from '../recoil/Atoms';
 
 const Wrapper = styled.div`
   margin-bottom: 333px;
@@ -67,7 +69,7 @@ const InputTextInfo = styled.span<{ disable: boolean }>`
 `;
 
 const FormInputFlagPlace = () => {
-  const [place, setPlace] = useState('');
+  const setValue = useSetRecoilState(makeFlagAtom);
   const [disable, setDisable] = useState(true);
 
   const toggleDisable = (
@@ -81,7 +83,7 @@ const FormInputFlagPlace = () => {
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setPlace(e.target.value);
+    setValue((v) => ({ ...v, flagPlace: e.target.value }));
   };
   return (
     <Wrapper>

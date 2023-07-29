@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import img_checked from '../contents/desktop/flag/icon_약속만들기_checked.svg';
 import img_unchecked from '../contents/desktop/flag/icon_약속만들기_Unchecked.svg';
 import React, { useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { makeFlagAtom } from '../recoil/Atoms';
 
 const Wrapper = styled.div`
   margin-bottom: 333px;
@@ -60,7 +62,8 @@ const Select = styled.select`
 `;
 
 const FormMinimumTime = () => {
-  const [time, setTime] = useState('1');
+  const { minimumTime } = useRecoilValue(makeFlagAtom);
+  const setValue = useSetRecoilState(makeFlagAtom);
   const [disable, setDisable] = useState(true);
 
   const toggleDisable = (
@@ -74,7 +77,10 @@ const FormMinimumTime = () => {
   const onChange = (
     e: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    setTime(e.target.value);
+    setValue((v) => ({
+      ...v,
+      minimumTime: Number(e.target.value),
+    }));
   };
   return (
     <Wrapper>
@@ -91,7 +97,7 @@ const FormMinimumTime = () => {
         <Info disable={disable}>최소</Info>
         <Select
           disabled={disable}
-          value={time}
+          value={minimumTime}
           onChange={onChange}
         >
           <option value={'1'}>1</option>
