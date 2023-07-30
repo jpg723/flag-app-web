@@ -1,19 +1,10 @@
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import img_wrapper from '../contents/desktop/flag/Frame_약속만들기_Friendslist.svg';
 import FriendItem from './FriendItem';
-import {
-  useRecoilValue,
-  useRecoilState,
-  useSetRecoilState,
-} from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   friendListAtom,
-  checkedFriendsAtom,
   IFriendTypes,
   makeFlagAtom,
 } from '../recoil/Atoms';
