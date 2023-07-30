@@ -9,6 +9,8 @@ import 'react-calendar/dist/Calendar.css';
 import Dropdown from './Dropdown';
 import moment from 'moment';
 import 'moment/locale/ko';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { makeFlagAtom } from '../recoil/Atoms';
 
 const Wrapper = styled.div`
   margin-bottom: 333px;
@@ -169,7 +171,8 @@ interface IProps {
 
 const FormSelectDates = ({ isFlag }: IProps) => {
   const [option, setOption] = useState('INDIVIDUAL');
-  const [clicked, setClicked] = useState<string[]>([]);
+  const { selectedDates } = useRecoilValue(makeFlagAtom);
+  const setValue = useSetRecoilState(makeFlagAtom);
 
   const today = new Date(
     new Date().getFullYear(),
@@ -183,26 +186,61 @@ const FormSelectDates = ({ isFlag }: IProps) => {
     setOption(e.target.value);
   };
 
-  const onClick = (
+  const onClickIndividual = (
     value: any,
     e: React.MouseEvent<HTMLButtonElement>,
   ) => {
     const date = moment(value).format('YYYY-MM-DD');
     // clicked에 이미 있으면 삭제, 없으면 추가
-    if (clicked.find((item) => item === date)) {
-      console.log('이미 있음');
-      const copied = [...clicked];
+    if (selectedDates.find((item) => item === date)) {
+      const copied = [...selectedDates];
       const filtered = copied.filter(
         (item) => item !== date,
       );
-      setClicked([...filtered]);
+      setValue((v) => ({ ...v, selectedDates: filtered }));
       return;
     }
 
-    setClicked((prev: string[]) => [
-      ...prev,
-      moment(value).format('YYYY-MM-DD'),
-    ]);
+    setValue((v) => {
+      const newList = [...selectedDates, date];
+      return { ...v, selectedDates: newList };
+    });
+  };
+
+  const onClickPeriod = (
+    value: any,
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    const startDate = value[0];
+    const endDate = value[1];
+    console.log(startDate, endDate);
+    const periodList: Date[] = [startDate];
+
+    // startDate와 endDate 사이 날짜들 구하는 부분
+    while (true) {
+      const date = addDays(
+        periodList[periodList.length - 1],
+        1,
+      );
+      if (date <= endDate) {
+        periodList.push(date);
+      } else {
+        break;
+      }
+    }
+    setValue((v) => {
+      const formatted = periodList.map((date) =>
+        moment(date).format('YYYY-MM-DD'),
+      );
+      return { ...v, selectedDates: formatted };
+    });
+  };
+
+  // Date 객체 입력받아서 다음 날짜 리턴하는 함수
+  const addDays = (date: Date, days: number) => {
+    const clone = new Date(date);
+    clone.setDate(date.getDate() + days);
+    return clone;
   };
 
   interface IProps {
@@ -268,13 +306,10 @@ const FormSelectDates = ({ isFlag }: IProps) => {
             maxDetail="month"
             minDate={today}
             selectRange={false}
-            onChange={() => {
-              return;
-            }}
-            onClickDay={onClick}
+            onClickDay={onClickIndividual}
             tileClassName={({ date }: IProps) => {
               if (
-                clicked!.find(
+                selectedDates!.find(
                   (x: any) =>
                     x === moment(date).format('YYYY-MM-DD'),
                 )
@@ -324,6 +359,7 @@ const FormSelectDates = ({ isFlag }: IProps) => {
             maxDetail="month"
             minDate={today}
             selectRange={true}
+            onChange={onClickPeriod}
           />
           <DropdownArea>
             <DropdownWrapper>
