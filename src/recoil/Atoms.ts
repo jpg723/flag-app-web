@@ -7,7 +7,7 @@ export interface IFriendTypes {
 
 export interface IFlag {
   flagName: string;
-  checkedFriend: IFriendTypes[];
+  checkedFriends: IFriendTypes[];
   selectedDates: string[];
   minimumTime: number;
   flagPlace: string;
@@ -30,16 +30,11 @@ export const friendListAtom = atom<IFriendTypes[]>({
   ],
 });
 
-export const checkedFriendsAtom = atom<IFriendTypes[]>({
-  key: 'checkedFriends',
-  default: [],
-});
-
 export const makeFlagAtom = atom<IFlag>({
   key: 'makeFlag',
   default: {
     flagName: '',
-    checkedFriend: [],
+    checkedFriends: [],
     selectedDates: [],
     minimumTime: 1,
     flagPlace: '',

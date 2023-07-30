@@ -6,11 +6,16 @@ import React, {
 import styled from 'styled-components';
 import img_wrapper from '../contents/desktop/flag/Frame_약속만들기_Friendslist.svg';
 import FriendItem from './FriendItem';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import {
+  useRecoilValue,
+  useRecoilState,
+  useSetRecoilState,
+} from 'recoil';
 import {
   friendListAtom,
   checkedFriendsAtom,
   IFriendTypes,
+  makeFlagAtom,
 } from '../recoil/Atoms';
 
 const Wrapper = styled.div`
@@ -40,22 +45,24 @@ interface IFriendListProps {
 
 const FriendList = ({ searchName }: IFriendListProps) => {
   const friendList = useRecoilValue(friendListAtom);
-  const [checkedFriends, setCheckedFriends] =
-    useRecoilState(checkedFriendsAtom);
+  const { checkedFriends } = useRecoilValue(makeFlagAtom);
+  const setValue = useSetRecoilState(makeFlagAtom);
 
   const handleCheck = useCallback(
     (checked: boolean, id: number, name: string) => {
       if (checked) {
-        setCheckedFriends((prev) => {
-          const newList = [...prev, { id, name }];
-          return newList;
+        setValue((v) => {
+          const copied = [...v.checkedFriends];
+          const newList = [...copied, { id, name }];
+          return { ...v, checkedFriends: newList };
         });
       } else {
-        setCheckedFriends((prev) => {
-          const newList = prev.filter(
+        setValue((v) => {
+          const copied = [...v.checkedFriends];
+          const newList = copied.filter(
             (item) => item.id !== id,
           );
-          return newList;
+          return { ...v, checkedFriends: newList };
         });
       }
     },

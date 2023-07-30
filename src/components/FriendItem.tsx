@@ -65,7 +65,6 @@ const FriendItem = ({
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    console.log(e.target.checked);
     handleCheck(e.target.checked, id, name);
   };
   return (

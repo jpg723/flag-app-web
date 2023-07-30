@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import AddedFriendItem from './AddedFriendItem';
-import { checkedFriendsAtom } from '../recoil/Atoms';
+import { makeFlagAtom } from '../recoil/Atoms';
 import { useRecoilValue } from 'recoil';
 
 const Wrapper = styled.div`
@@ -10,7 +10,7 @@ const Wrapper = styled.div`
 `;
 
 const AddedFriendList = () => {
-  const checkedFriends = useRecoilValue(checkedFriendsAtom);
+  const { checkedFriends } = useRecoilValue(makeFlagAtom);
   return (
     <Wrapper>
       {checkedFriends.map((item) => (
