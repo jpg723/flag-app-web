@@ -4,127 +4,88 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import logo from '../contents/grid/Logo_플래그_Small_수정.svg';
-import emailInputBg from '../contents/Box_로그인_Email_Unentered.svg';
-import passwordInputBg from '../contents/Box_로그인_Password_Unentered.svg';
-import loginButtonImage from '../contents/Btn_Login.svg'; //로그인
-import signupButtonImage from '../contents/Btn_로그인_newaccount.svg'; //회원가입
-
-const LoginFormWrapper = styled.div`
-  position: relative;
-`;
+import emailInput from '../contents/Box_로그인_Email_Unentered.svg';
+import passwordInput from '../contents/Box_로그인_Password_Unentered.svg';
+import loginButton from '../contents/Btn_Login.svg'; //로그인
+import signUpButton from '../contents/Btn_로그인_newaccount.svg'; //회원가입
 
 const Logo = styled.img`
   width: 253.662109375px;
   height: 93px;
-  position: absolute;
-  top: 136px;
-  left: 593px;
+  margin: 164px auto 0px;
+  display: block;
 `;
 
-const EmailInputWrapper = styled.div`
-  position: relative;
-`;
-
-const EmailInputField = styled.input`
-  width: 492px;
-  height: 60px;
-  position: absolute;
-  top: 344px;
-  left: 444px;
+const EmailInput = styled.input`
+  width: 450px;
+  height: 50px;
+  margin: 78px auto 10px;
   padding-left: 60px;
+  font-size: 18px;
+  font-weight: 400;
   background-color: transparent;
-  background-image: url(${emailInputBg});
+  background-image: url(${emailInput});
   background-repeat: no-repeat;
-  background-position: left center;
+  background-size: contain;
   border: 0;
-`;
-
-const PasswordInputWrapper = styled.div`
-  position: relative;
-`;
-
-const PasswordInputField = styled.input`
-  width: 492px;
-  height: 60px;
-  position: absolute;
-  top: 433px;
-  left: 444px;
-  padding-left: 60px;
-  background-color: transparent;
-  background-image: url(${passwordInputBg});
-  background-repeat: no-repeat;
-  background-position: left center;
-  border: 0;
+  outline: none;
+  display: block;
 `;
 
 const HintMessage = styled.span`
-  width: 78px;
-  height: 19px;
-  position: absolute;
-  top: 500px;
-  left: 455px;
-  font-size: 16px;
-  color: #999999;
+  width: 69px;
+  color: #999;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: normal;
+  margin: 10px 868px 0px 503px;
+`;
+
+const PasswordInput = styled(EmailInput)`
+  margin-top: 12px;
+  background-image: url(${passwordInput});
 `;
 
 const LoginButton = styled.button`
-  width: 552px;
-  height: 63px;
-  position: absolute;
-  top: 547px;
-  left: 444px;
-  background-image: url(${loginButtonImage});
+  width: 355px;
+  height: 41px;
+  margin: 28px auto 0px;
+  background-image: url(${loginButton});
   background-color: transparent;
   background-repeat: no-repeat;
-  font-size: 24px;
-  color: white;
   border: 0;
-  font-weight: 700;
+  display: block;
 `;
 
 const Frame = styled.div`
-  display: flex;
-  width: fit-content(395px);
-  height: fit-content(34px);
-  position: absolute;
-  top: 651px;
-  left: 522px;
-  gap: 76px;
+  margin: 62px auto 0px;
+  width: 395px;
+  height: 34px;
 `;
 
-const PasswordLink = styled.a`
-  width: 87px;
+const FindPassword = styled.span`
   height: 22px;
+  color: #494949;
+  text-align: center;
   font-size: 15px;
   font-weight: 400;
-  line-height: 22px;
-  text-align: center;
-  color: #494949;
+  margin-right: 76px;
 `;
 
-const EmailLink = styled.a`
-  width: 73px;
-  height: 22px;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 22px;
-  text-align: center;
-  color: #494949;
-`;
+const FindEmail = styled(FindPassword)``;
 
 const SignupButton = styled.button`
-  width: Hug (83px);
-  height: Hug (34px);
-  padding: 10px 16px 10px 16px;
-  background-image: url(${signupButtonImage});
+  width: 83px;
+  height: 34px;
+  background-image: url(${signUpButton});
   background-color: transparent;
   background-repeat: no-repeat;
   border: 0;
+  padding: 10px 16px;
   color: white;
   font-size: 14px;
   font-weight: 600;
-  line-height: 14px;
-  letter-spacing: -0.5px;
+  line-height: 100%;
   text-align: center;
 `;
 
@@ -208,30 +169,31 @@ function LoginForm() {
     }
   }
   return (
-    <LoginFormWrapper>
+    <>
       <Logo src={logo} alt="로고" />
-      <EmailInputWrapper>
-        <EmailInputField
+      <div>
+        <EmailInput
           type="email"
           placeholder="이메일"
           onChange={updateUserId}
         />
-      </EmailInputWrapper>
-      <PasswordInputWrapper>
-        <PasswordInputField
+        <HintMessage>힌트 메세지</HintMessage>
+      </div>
+      <div>
+        <PasswordInput
           type="password"
           placeholder="비밀번호"
           onChange={updatePw}
         />
-      </PasswordInputWrapper>
-      <HintMessage>힌트메세지</HintMessage>
-      <LoginButton>로그인</LoginButton>
+      </div>
+      <HintMessage>힌트 메세지</HintMessage>
+      <LoginButton />
       <Frame>
-        <PasswordLink>비밀번호 찾기</PasswordLink>
-        <EmailLink>이메일 찾기</EmailLink>
+        <FindPassword>비밀번호 찾기</FindPassword>
+        <FindEmail>이메일 찾기</FindEmail>
         <SignupButton>회원가입</SignupButton>
       </Frame>
-    </LoginFormWrapper>
+    </>
   );
 }
 
