@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import React, { useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import axios from 'axios';
 import profilepic from '../contents/desktop/sign/Btn_프로필생성_Profilepic.svg';
 import createaccount from '../contents/desktop/sign/Btn_프로필생성_Createaccount.svg';
 import { SignUpProfileAtom } from '../state/SignUpState';
@@ -12,15 +12,23 @@ import { SignUpPwAtom } from '../state/SignUpState';
 const SignUp2Cover = styled.div`
   height: 910px;
   width: 1440px;
+  @media screen and (max-width: 360px) {
+    width: 360px;
+  }
 `;
 const SignUpInputImgIc = styled.img`
   width: 118px;
   height: 122px;
   flex-shrink: 0;
   margin: 159px 661px 0px;
+  @media screen and (max-width: 360px) {
+    width: 95px;
+    height: 98px;
+    margin: 68px 132.5px 0px;
+  }
 `;
 const SignUpInputImg = styled.input`
-  visibility: hidden;
+  display: none;
 `;
 const SignUpInputName = styled.input`
   border: none;
@@ -36,8 +44,15 @@ const SignUpInputName = styled.input`
   font-weight: 400;
   line-height: normal;
   margin: 38px 494px 0px 496px;
+  @media screen and (max-width: 360px) {
+    width: 212px;
+    height: 43px;
+    font-size: 13px;
+    margin: 23px auto 0px 74px;
+  }
 `;
 const SignUpInputHint = styled.div`
+  width: 450px;
   color: #999;
   font-family: Noto Sans KR;
   font-size: 16px;
@@ -45,112 +60,73 @@ const SignUpInputHint = styled.div`
   font-weight: 400;
   line-height: normal;
   margin: 20px auto 0px 500px;
+  @media screen and (max-width: 360px) {
+    width: 212px;
+    font-size: 10px;
+    margin: 4px auto 0px 79px;
+  }
 `;
-const SignUpCreateaccountBtn = styled.button`
+const SignUpCreateaccount = styled.img`
   border: none;
   width: 355px;
   height: 41px;
   flex-shrink: 0;
-  background-image: url(${createaccount});
-  background-color: transparent;
-  background-repeat: no-repeat;
   margin: 33px 542.5px auto;
+  @media screen and (max-width: 360px) {
+    width: 285px;
+    height: 38px;
+    margin: 25px auto 0px 37px;
+  }
 `;
 
 function SignUp2() {
-  const [userProfile, setUserProfile] = useRecoilState(
-    SignUpProfileAtom,
-  );
-  const [userName, setUserName] =
-    useRecoilState(SignUpNameAtom);
-  const [id, setId] = useRecoilState(SignUpIdAtom);
-  const [pw, setPw] = useRecoilState(SignUpPwAtom);
+  const [profile, setProfile] = useRecoilState(SignUpProfileAtom);
+  const [name, setName] = useRecoilState(SignUpNameAtom);
+  const id = useRecoilValue(SignUpIdAtom);
+  const pw = useRecoilValue(SignUpPwAtom);
+  //유효성 검사
+  const [isName, setIsName] = useState(false);
 
-  const updateUserName = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => setUserName(e.target.value);
-
-  const updateUserProfile = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    if (!e.target.files) return;
-    else {
-      const newFileURL = URL.createObjectURL(
-        e.target.files[0],
-      );
-      setUserProfile(newFileURL);
+  const updateName = ( e: React.ChangeEvent<HTMLInputElement> ) => {
+    setName(e.target.value)
+    const nameRegExp = /^[a-z0-9가-힣]{2,5}$/;
+    if (name !== undefined) setIsName(nameRegExp.test(name));
+  };
+  const updateProfile = ( e: React.ChangeEvent<HTMLInputElement> ) => {
+    if (e.target.files) {
+      const newFileURL = URL.createObjectURL(e.target.files[0]);
+      setProfile(newFileURL);
     }
   };
-
-  const nextUser = () =>{
-    console.log(
-      'Profile:' + userProfile + ' Name:' + userName,
-    );
-    /*
-    if (id !== '' && pw !== '') {
-      axios({
-        url: '/member/login.do',
-        method: 'post',
-        data: {
-          data1: id,
-          data2: pw,
-        },
-        baseURL: 'http://localhost:8080',
-      }).then(function (response) {
-        console.log(response.data);
-        console.log(response.data.user_id);
-        if (response.data.user_id === undefined) {
-          alert(
-            'response.data.user_id === undefined',
-          );
-        } else if (response.data.password === undefined) {
-          alert(
-            'response.data.password === undefined',
-          );
-        } else {
-          alert(response.data.user_name + '님 환영합니다!');
-        }
-      });
+  const signupHandler = (e: any) => {
+    console.log('id:' + id + ' pw:' + pw);
+    console.log('Profile:' + profile + ' Name:' + name);
+    console.log(' isName:' + isName);
+    if (!isName) {
+      console.log('isName === false');
     } else {
-      alert('로그인 입력폼을 확인해주세요');
+      console.log('SignUp2 유효성 검사 통과~!');
     }
-    */
+    if (!isName) e.preventDefault();
+    else {
+      //백엔드로 데이터 전달
+    }
   };
     
-
   return (
-    <>
-      <form method="post" encType="multipart/form-data">
-        <SignUp2Cover>
-          <label htmlFor="userProfile">
-            <SignUpInputImgIc
-              id="profileImg"
-              src={userProfile ? userProfile : profilepic}
-            />
-          </label>
-          <SignUpInputImg
-            type="file"
-            id="userProfile"
-            accept="image/*"
-            onChange={updateUserProfile}
-          />
-          <SignUpInputName
-            type="text"
-            id="userName"
-            placeholder="닉네임"
-            /* minlength="2"
-            maxlength="7" */
-            onChange={updateUserName}
-          />
-          <SignUpInputHint>
-            최소 2자 최대 7자 이내
-          </SignUpInputHint>
-          <Link to="/SignUp3">
-            <SignUpCreateaccountBtn onClick={nextUser} />
-          </Link>
-        </SignUp2Cover>
-      </form>
-    </>
+    <form method="post" encType="multipart/form-data">
+      <SignUp2Cover>
+        <label htmlFor="profile">
+          <SignUpInputImgIc id="profileImg" src={profile ? profile : profilepic} />
+        </label>
+        <SignUpInputImg type="file" id="profile" accept="image/*" onChange={updateProfile} />
+        <SignUpInputName type="text" id="name" placeholder="닉네임" autoComplete="off" onChange={updateName} />
+        <SignUpInputHint>최소 2자 최대 5자 이내</SignUpInputHint>
+        <Link to="/SignUp3" onClick={signupHandler}>
+          <SignUpCreateaccount src={createaccount} />
+        </Link>
+      </SignUp2Cover>
+    </form>
   );
 }
 export default SignUp2;

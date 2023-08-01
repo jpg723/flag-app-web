@@ -8,7 +8,7 @@ export const SignUpPwAtom = atom<string | undefined>({
   key: 'SignUpPw',
   default: undefined,
 });
-export const SignUpProfileAtom = atom<string | null>({
+export const SignUpProfileAtom = atom<string | any>({
   key: 'SignUpProfile',
   default: null,
 });

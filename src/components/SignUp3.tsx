@@ -2,13 +2,18 @@ import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import profilepic from '../contents/desktop/sign/_Img_계정생성완료_Profilepic.svg';
-//import nickname from '../contents/desktop/sign/Box_프로필생성_Nickname.svg';
 import btnLogin from '../contents/desktop/sign/Btn_Login.svg';
 import { SignUpProfileAtom } from '../state/SignUpState';
+//display: none;
+//border: 2px solid #000;
+//@media screen and (max-width: 360px) {}
 
 const SignUp3Cover = styled.div`
   height: 910px;
   width: 1440px;
+  @media screen and (max-width: 360px) {
+    width: 360px;
+  }
 `;
 const SignUpInputImgIc = styled.img`
   width: 118px;
@@ -16,6 +21,11 @@ const SignUpInputImgIc = styled.img`
   flex-shrink: 0;
   border-radius: 50%;
   margin: 183px 661px 0px;
+  @media screen and (max-width: 360px) {
+    width: 95px;
+    height: 95px;
+    margin: 68px 132.5px 0px;
+  }
 `;
 const SignUpAccount = styled.div`
   color: #000;
@@ -26,6 +36,10 @@ const SignUpAccount = styled.div`
   line-height: normal;
   margin: 13px auto 0px;
   text-align: center;
+  @media screen and (max-width: 360px) {
+    font-size: 14px;
+    margin: 8px auto 0px;
+  }
 `;
 const SignUpAccountText = styled.div`
   color: #2d2d2d;
@@ -36,28 +50,32 @@ const SignUpAccountText = styled.div`
   line-height: normal;
   margin: 43px auto 0px;
   text-align: center;
+  @media screen and (max-width: 360px) {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 20px auto 0px;
+  }
 `;
 const SignUpBtnLogin = styled.img`
   margin: 27px 542.5px auto;
+  @media screen and (max-width: 360px) {
+    width: 277px;
+    height: 38px;
+    margin: 42px 41.5px 0px;
+  }
 `;
 
 function SignUp3() {
   const userProfile = useRecoilValue(SignUpProfileAtom);
   return (
-    <>
-      <SignUp3Cover>
-        <SignUpInputImgIc
-          src={userProfile ? userProfile : profilepic}
-        />
-        <SignUpAccount>닉네임</SignUpAccount>
-        <SignUpAccountText>
-          계정이 생성되었습니다.
-        </SignUpAccountText>
-        <Link to="/">
-          <SignUpBtnLogin src={btnLogin} />
-        </Link>
-      </SignUp3Cover>
-    </>
+    <SignUp3Cover>
+      <SignUpInputImgIc src={userProfile ? userProfile : profilepic} />
+      <SignUpAccount>닉네임</SignUpAccount>
+      <SignUpAccountText>계정이 생성되었습니다.</SignUpAccountText>
+      <Link to="/">
+        <SignUpBtnLogin src={btnLogin} />
+      </Link>
+    </SignUp3Cover>
   );
 }
 export default SignUp3;
