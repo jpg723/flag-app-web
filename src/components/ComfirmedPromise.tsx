@@ -1,6 +1,9 @@
 //import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import TimeTable from './TimeTable';
+import DawnTimeTable from './TimeTable/DawnTimeTable';
+import MorningTimeTable from './TimeTable/MorningTimeTable';
+import AfternoonTimeTable from './TimeTable/AfternoonTimeTable';
+import NightTimeTable from './TimeTable/NightTimeTable';
 
 const Comfirmed_promise_main1 = styled.div`
   margin-top: 44px;
@@ -25,13 +28,14 @@ const Comfirmed_promise_main2_text = styled.text`
 
 const Comfirmed_promise_footer = styled.div`
   margin-top: 113.5px;
-  margin-bottom: 110px;
+  margin-bottom: 37px;
 `;
 
 const Comfirmed_promise_btn_box = styled.div`
   width: 208px;
   height: 49px;
-  margin: 0 auto;
+  margin-top: 37px;
+  margin-left: 510px;
 `;
 
 const Comfirmed_promise_btn = styled.button`
@@ -61,7 +65,7 @@ function ComfirmedPromise() {
           가능한 시간대를 스크롤해 입력해주세요.
         </Comfirmed_promise_main2_text>
       </Comfirmed_promise_main2>
-      <TimeTable></TimeTable>
+      <MorningTimeTable></MorningTimeTable>
       <Comfirmed_promise_footer>
         <Comfirmed_promise_btn_box>
           <Comfirmed_promise_btn>
