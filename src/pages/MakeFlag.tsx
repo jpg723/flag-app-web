@@ -51,12 +51,18 @@ const Button = styled.button`
 `;
 
 const MakeFlag = () => {
-  const result = useRecoilValue(makeFlagAtom);
+  const { flagName, checkedFriends, selectedDates } =
+    useRecoilValue(makeFlagAtom);
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    console.log(result);
-    navigate('/makeFlagFinish');
+    if (
+      flagName !== '' &&
+      checkedFriends.length > 0 &&
+      selectedDates.length > 0
+    ) {
+      navigate('/makeFlagFinish');
+    } else console.log('필수 입력을 채워주세요');
   };
 
   return (

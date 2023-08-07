@@ -71,6 +71,7 @@ const FriendsArea = styled.div`
   width: 250px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 8px;
   @media screen and (max-width: 500px) {
     margin-top: 24px;
