@@ -20,8 +20,8 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  {"include": [
-    "src", "src/contents/images.d.ts" ]
+  "include": [
+    "src"
   ],
   "typeRoots": ["src/types"]
 }
