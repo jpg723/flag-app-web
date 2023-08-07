@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import profilepic from '../contents/desktop/sign/Btn_프로필생성_Profilepic.svg';
@@ -8,6 +8,7 @@ import { SignUpProfileAtom } from '../state/SignUpState';
 import { SignUpNameAtom } from '../state/SignUpState';
 import { SignUpIdAtom } from '../state/SignUpState';
 import { SignUpPwAtom } from '../state/SignUpState';
+//padding
 
 const SignUp2Cover = styled.div`
   height: 910px;
@@ -86,11 +87,13 @@ function SignUp2() {
   const pw = useRecoilValue(SignUpPwAtom);
   //유효성 검사
   const [isName, setIsName] = useState(false);
+  useEffect(() => {
+    const nameRegExp = /^[a-z0-9가-힣]{2,5}$/;
+    if (name !== undefined) setIsName(nameRegExp.test(name));
+  }, [name]);
 
   const updateName = ( e: React.ChangeEvent<HTMLInputElement> ) => {
     setName(e.target.value)
-    const nameRegExp = /^[a-z0-9가-힣]{2,5}$/;
-    if (name !== undefined) setIsName(nameRegExp.test(name));
   };
   const updateProfile = ( e: React.ChangeEvent<HTMLInputElement> ) => {
     if (e.target.files) {

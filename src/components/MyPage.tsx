@@ -139,31 +139,51 @@ const MyPageFriendsListText = styled.span`
   line-height: normal;
   margin: 0px auto 0px 0px;
 `;
-const MyPageAddFriend = styled.img`
-  border: 2px solid #000;
-  border: none;
+const MyPageFriendAdd = styled.img`
   background-color: transparent;
   padding: 0px;
   float: right;
-  margin: 18px 20px 9px auto;
+  margin: 20px 15px 11px auto;
 `;
+/*
+::-webkit-scrollbar : 스크롤바 영역에 대한 설정
+::-webkit-scrollbar-thumb : 스크롤바 막대에 대한 설정
+::-webkit-scrollbar-track  : 스크롤바 뒷 배경에 대한 설정
+*/
 const MyPageFriendsFrame = styled.div`
-  width: 407px;
+  width: 547px;
   height: 282px;
-  row-gap: 22px;
   flex-shrink: 0;
   background-image: URL(${FrameFriendslist});
   background-repeat: no-repeat;
-  overflow-y: scroll;
   margin: 21px 0px 0px;
-  padding: 40px 150px 40px 50px
+  padding: 40px 10px 40px 50px;
+`;
+const MyPageFriendsList = styled.div`
+  border: 2px solid #000;
+  width: 100%;
+  height: 100%;
+  row-gap: 22px;
+  flex-shrink: 0;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    width: 5px;
+    height: 108px; 
+    border-radius: 12px;
+    background: #D9D9D9;
+  }
+  &::-webkit-scrollbar-track {
+  }
 `;
 const MyPageFriend = styled.div`
   border: 2px solid #000;
   display: flex;
   align-items: center;
   gap: 28px;
-  margin-buttom: 22px;
+  margin-right: 157px;
 `;
 const MyPageFriendImg = styled.img`
   border: 2px solid #000;
@@ -189,6 +209,9 @@ const MyPageFriendDel = styled.span`
   line-height: normal;
   margin: auto 0px auto auto;
 `;
+const MyPageFriendListEnter = styled.br`
+  height: 22px;
+`;
 const MyPageFriendEdit = styled.span`
   color: #000;
   font-family: Apple SD Gothic Neo;
@@ -202,6 +225,14 @@ const MyPageFriendEdit = styled.span`
 
 function MyPage() {
   const [userName] = useState('OO');
+  function addFriends() {
+    window.open("/MyPage_FriendsAdd", "_blank", 
+      "width=835, height=562, toolbar=no");
+  }
+  function deleteFriends() {
+    window.open("/MyPage_FriendsDelete", "_blank", 
+      "width=500, height=500, toolbar=no");
+  }
   return (
     <>
       <MyPageCover>
@@ -221,23 +252,27 @@ function MyPage() {
         </MyPageCover2>
         <MyPageCover3>
           <MyPageFriendsListText>{userName}님의 친구목록</MyPageFriendsListText>
-          <MyPageAddFriend src={btnAddfriend} alt='img..' />
+          <MyPageFriendAdd src={btnAddfriend} alt='img..' onClick={addFriends} />
           
           <MyPageFriendsFrame>
-            <MyPageFriend>
-              <MyPageFriendImg src={CheckFriendlist} />
-              <MyPageFriendImg src={ProfilepicChecked} />
-              <MyPageFriendName>친구이름</MyPageFriendName>
-              <MyPageFriendDel>삭제하기</MyPageFriendDel>
-            </MyPageFriend>
-            <MyPageFriend>
-              <MyPageFriendImg src={CheckFriendlist} />
-              <MyPageFriendImg src={ProfilepicChecked} />
-              <MyPageFriendName>친구이름</MyPageFriendName>
-              <MyPageFriendDel>삭제하기</MyPageFriendDel>
-            </MyPageFriend>
+            <MyPageFriendsList>
+              <MyPageFriend>
+                <MyPageFriendImg src={CheckFriendlist} />
+                <MyPageFriendImg src={ProfilepicChecked} />
+                <MyPageFriendName>친구이름</MyPageFriendName>
+                <MyPageFriendDel>삭제하기</MyPageFriendDel>
+              </MyPageFriend>
+              <MyPageFriendListEnter />
+              <MyPageFriend>
+                <MyPageFriendImg src={CheckFriendlist} />
+                <MyPageFriendImg src={ProfilepicChecked} />
+                <MyPageFriendName>친구이름</MyPageFriendName>
+                <MyPageFriendDel>삭제하기</MyPageFriendDel>
+              </MyPageFriend>
+              <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            </MyPageFriendsList>
           </MyPageFriendsFrame>
-          <MyPageFriendEdit>편집하기</MyPageFriendEdit>
+          <MyPageFriendEdit onClick={deleteFriends}>편집하기</MyPageFriendEdit>
         </MyPageCover3>
       </MyPageCover>
     </>

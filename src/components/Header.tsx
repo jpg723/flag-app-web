@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Outlet } from 'react-router-dom';
 import logo from '../contents/Logo_플래그_Small_수정.svg';
 import mobileLogo from '../contents/mobile/sign/Logo_플래그.svg';
 import menuBtn from '../contents/mobile/sign/Btn_로그인_Menu.svg';
@@ -90,6 +91,7 @@ function Header() {
         <HeaderMenuBtn />
       </HeaderCover>
       <HeaderLine />
+      <Outlet />
     </>
   );
 }

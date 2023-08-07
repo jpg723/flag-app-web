@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import profile from '../contents/desktop/sign/Ic_회원가입_Profile.svg';
@@ -148,42 +148,49 @@ const SignUpNext = styled.img`
 function SignUp1() {
   const [id, setId] = useRecoilState(SignUpIdAtom);
   const [pw, setPw] = useRecoilState(SignUpPwAtom);
-  //const [email, setEmail] = useState('');
+
   //유효성 검사
+  const [inputId, setInputId] = useState("");
+  const [inputEmail, setInputEmail] = useState("");
   const [isId, setIsId] = useState(false);
+  const [inputPw, setInputPw] = useState("");
   const [isPw, setIsPw] = useState(false);
+  const [inputPwCheck, setInputPwCheck] = useState("");
   const [isPwCheck, setIsPwCheck] = useState(false);
 
-  const updateId = () => {
-    var id1 = "";
-    var id1Input = document.querySelector('#id1') as HTMLInputElement;
-    id1 = id1Input?.value;
-    var email = "";
-    var emailAdd = document.querySelector('#emailAdd') as HTMLInputElement;
-    email = emailAdd?.value;
-    
-    setId(id1 + email);
-    
+  useEffect(() => {
+    setId(inputId + inputEmail);
+  }, [inputId, inputEmail]);
+  useEffect(() => {
     const emailRegExp = /^[0-9a-zA-Z]+@[0-9a-zA-Z]+(\.[a-zA-Z]{2,3})+$/;
     const checkIdText = document.querySelector('#checkIdText');
+    console.log('id: ' + id + '  check!!!!!!!');
     if (id !== undefined) {
       setIsId(emailRegExp.test(id));
       if (checkIdText instanceof Element) {
-        if (isId) checkIdText.innerHTML = '사용 가능한 이메일입니다.';
-        else checkIdText.innerHTML = 'ex) abc123@email.com'
+        console.log('id:' + id + '!== ');
+        console.log('isId: ' + isId);
+        if (isId) {
+          checkIdText.innerHTML = '사용 가능한 이메일입니다.';
+          console.log('isId: ' + isId);
+        }
+        else {
+          checkIdText.innerHTML = 'ex) abc123@email.com';
+          console.log('isId: ' + isId);
+        }
       }     
     }
-  };
-  const updatePw = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPw(e.target.value)
+  }, [id]);
+  useEffect(() => {
+    setPw(inputPw)
     const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
-    if (pw !== undefined) setIsPw(pwRegExp.test(pw));      
-  };
-  const updateCheckPw = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (pw !== undefined) setIsPw(pwRegExp.test(pw)); 
+  }, [inputPw]);
+  useEffect(() => {
     const checkPwText = document.querySelector('#checkPwText');
     const checkPwImg = document.querySelector('#checkPwImg') as HTMLElement;
     if (checkPwText instanceof Element) {
-      if (pw !== e.target.value) {
+      if (pw !== inputPwCheck) {
         if (checkPwImg !== null) { checkPwImg.style.display = "inline"; }
         checkPwText.innerHTML = '비밀번호가 일치하지 않습니다';
         setIsPwCheck(false);
@@ -193,11 +200,12 @@ function SignUp1() {
         setIsPwCheck(true);
       }
     }
-  };
+  }, [inputPwCheck]);
+
   const nextHandler = (e: any) => {
-    updateId();
     console.log('id:' + id + ' pw:' + pw);
-    console.log('isId:' + isId + ' isPw:' + isPw + ' isPwCheck: ' + isPwCheck);
+    console.log('isId:' + isId + ' isPw:' + isPw);
+    console.log('isPwCheck: ' + isPwCheck);
     if (!isId) {
       console.log('isId === false');
     } else if (!isPw) {
@@ -209,7 +217,6 @@ function SignUp1() {
     }
     if (!(isId && isPw && isPwCheck)) {
       e.preventDefault();
-      alert('형식에 맞게 입력해주세요.');
     }
   };
 
@@ -218,8 +225,10 @@ function SignUp1() {
       <SignUpImgText> <img src={profile} alt="img..." /> 회원가입</SignUpImgText>
       <SignUpCover2>
         <SignUpInputEmailCover>
-          <SignUpInputEmail type="text" id="id1" placeholder="이메일" autoComplete="off" onChange={updateId} />
-          <SignUpInputEmailAdd id="emailAdd" onChange={updateId}>
+          <SignUpInputEmail type="text" id="id" placeholder="이메일" autoComplete="off" 
+            onChange={ (e: React.ChangeEvent<HTMLInputElement>) => { setInputId(e.target.value); } } />
+          <SignUpInputEmailAdd id="email"
+            onChange={ (e: React.ChangeEvent<HTMLSelectElement>) => { setInputEmail(e.target.value); } }>
             <option value="">직접 입력</option>
             <option value="@gmail.com">@gmail.com</option>
             <option value="@naver.com">@naver.com</option>
@@ -227,9 +236,11 @@ function SignUp1() {
           </SignUpInputEmailAdd>
         </SignUpInputEmailCover>
         <SignUpHintText id="checkIdText"> ex) abc123@email.com </SignUpHintText>
-        <SignUpInput type="password" id="pw" name="pw" placeholder="비밀번호" onChange={updatePw} />
+        <SignUpInput type="password" id="pw" name="pw" placeholder="비밀번호"
+          onChange={ (e: React.ChangeEvent<HTMLInputElement>) => { setInputPw(e.target.value); } } />
         <SignUpHintText id="pwText"> 영문/숫자 조합, 최소 8자 이상 </SignUpHintText>
-        <SignUpInput type="password" id="checkPw" name="checkPw" placeholder="비밀번호 재입력" onChange={updateCheckPw} />
+        <SignUpInput type="password" id="checkPw" name="checkPw" placeholder="비밀번호 재입력"
+          onChange={ (e: React.ChangeEvent<HTMLInputElement>) => { setInputPwCheck(e.target.value); } } />
         <SignUpHintText>
           <SignUpHintImg id="checkPwImg" src={errorImg} />
           <span id="checkPwText">비밀번호를 한 번 더 입력하세요</span>
