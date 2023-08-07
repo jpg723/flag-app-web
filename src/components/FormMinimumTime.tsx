@@ -6,72 +6,107 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { makeFlagAtom } from '../recoil/Atoms';
 
 const Wrapper = styled.div`
-  margin-bottom: 333px;
+  margin-bottom: 100px;
+  @media screen and (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+    //align-items: center;
+  }
 `;
 
 const TitleWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 17px;
+  gap: 13px;
+  @media screen and (max-width: 500px) {
+    gap: 8px;
+  }
 `;
 
 const Title = styled.span<{ disable: boolean }>`
-  line-height: 43px;
-  font-size: 30px;
+  font-size: 22px;
   font-weight: 700;
   color: ${({ disable }) =>
     disable ? '#BCBCBC' : 'black'};
+  @media screen and (max-width: 500px) {
+    font-size: 17px;
+  }
 `;
 
 const RadioButton = styled.input`
   appearance: none;
-  width: 42px;
-  height: 42px;
-  margin-right: 20px;
+  width: 35px;
+  height: 35px;
   background-image: url('${img_unchecked}');
   &:checked {
     background-image: url('${img_checked}');
   }
   background-size: cover;
   background-repeat: none;
+  @media screen and (max-width: 500px) {
+    width: 22px;
+    height: 22px;
+  }
 `;
 
 const InputWrapper = styled.div`
-  margin-left: 62px;
+  margin-left: 48px;
+  padding-left: 16px;
+  @media screen and (max-width: 500px) {
+    //width: 259px;
+    margin-left: 24px;
+  }
 `;
 
 const Info = styled.span<{ disable: boolean }>`
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 400;
   line-height: 32px;
   color: ${({ disable }) =>
     disable ? '#BCBCBC' : 'black'};
+  @media screen and (max-width: 500px) {
+    font-size: 14px;
+  }
 `;
 
 const Select = styled.select`
-  //width: Fixed(53px);
-  //height: Fixed(35px);
   padding: 3px 14px 3px 14px;
   border-radius: 9px;
   font-size: 18px;
   font-weight: 500;
   line-height: 26px;
-  margin-left: 17px;
-  margin-right: 17px;
+  margin-left: 14px;
+  margin-right: 14px;
+  @media screen and (max-width: 500px) {
+    font-size: 14px;
+  }
 `;
 
 const FormMinimumTime = () => {
   const { minimumTime } = useRecoilValue(makeFlagAtom);
   const setValue = useSetRecoilState(makeFlagAtom);
-  const [disable, setDisable] = useState(true);
 
   const toggleDisable = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    if (disable) {
-      setDisable(false);
-    } else setDisable(true);
+    if (minimumTime.isChecked) {
+      setValue((v) => ({
+        ...v,
+        minimumTime: {
+          content: minimumTime.content,
+          isChecked: false,
+        },
+      }));
+    } else {
+      setValue((v) => ({
+        ...v,
+        minimumTime: {
+          content: minimumTime.content,
+          isChecked: true,
+        },
+      }));
+    }
   };
 
   const onChange = (
@@ -79,7 +114,10 @@ const FormMinimumTime = () => {
   ) => {
     setValue((v) => ({
       ...v,
-      minimumTime: Number(e.target.value),
+      minimumTime: {
+        content: Number(e.target.value),
+        isChecked: minimumTime.isChecked,
+      },
     }));
   };
   return (
@@ -87,17 +125,18 @@ const FormMinimumTime = () => {
       <TitleWrapper>
         <RadioButton
           type="checkbox"
+          checked={minimumTime.isChecked}
           onChange={toggleDisable}
         />
-        <Title disable={disable}>
+        <Title disable={!minimumTime.isChecked}>
           약속의 최소 시간을 정해주세요.
         </Title>
       </TitleWrapper>
       <InputWrapper>
-        <Info disable={disable}>최소</Info>
+        <Info disable={!minimumTime.isChecked}>최소</Info>
         <Select
-          disabled={disable}
-          value={minimumTime}
+          disabled={!minimumTime.isChecked}
+          value={minimumTime.content.toString()}
           onChange={onChange}
         >
           <option value={'1'}>1</option>
@@ -106,7 +145,9 @@ const FormMinimumTime = () => {
           <option value={'4'}>4</option>
           <option value={'5'}>5</option>
         </Select>
-        <Info disable={disable}>시간은 만나야 해요!</Info>
+        <Info disable={!minimumTime.isChecked}>
+          시간은 만나야 해요!
+        </Info>
       </InputWrapper>
     </Wrapper>
   );

@@ -5,13 +5,18 @@ export interface IFriendTypes {
   name: string;
 }
 
+export interface IOption {
+  content: string | number;
+  isChecked: boolean;
+}
+
 export interface IFlag {
   flagName: string;
   checkedFriends: IFriendTypes[];
   selectedDates: string[];
-  minimumTime: number;
-  flagPlace: string;
-  flagMemo: string;
+  minimumTime: IOption;
+  flagPlace: IOption;
+  flagMemo: IOption;
 }
 
 export const friendListAtom = atom<IFriendTypes[]>({
@@ -36,8 +41,17 @@ export const makeFlagAtom = atom<IFlag>({
     flagName: '',
     checkedFriends: [],
     selectedDates: [],
-    minimumTime: 1,
-    flagPlace: '',
-    flagMemo: '',
+    minimumTime: {
+      content: 1,
+      isChecked: false,
+    },
+    flagPlace: {
+      content: '',
+      isChecked: false,
+    },
+    flagMemo: {
+      content: '',
+      isChecked: false,
+    },
   },
 });

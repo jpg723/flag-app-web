@@ -7,6 +7,10 @@ const Wrapper = styled.div`
   display: grid;
   width: 170px;
   grid-template-columns: 1fr 1fr 1fr;
+  @media screen and (max-width: 500px) {
+    width: 228px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  }
 `;
 
 const AddedFriendList = () => {

@@ -6,6 +6,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
+  @media screen and (max-width: 500px) {
+    margin-bottom: 0px;
+  }
 `;
 
 const ProfilePicture = styled.div`
@@ -14,7 +17,12 @@ const ProfilePicture = styled.div`
   border-radius: 70%;
   margin-bottom: 4px;
   background-image: url('${img_profile}');
+  background-size: cover;
   // overflow: hidden;
+  @media screen and (max-width: 500px) {
+    width: 23px;
+    height: 23px;
+  }
 `;
 
 const ProfileName = styled.span`
@@ -22,6 +30,9 @@ const ProfileName = styled.span`
   font-weight: 350;
   line-height: 26px;
   text-align: center;
+  @media screen and (max-width: 500px) {
+    font-size: 12px;
+  }
 `;
 
 interface IFriendItemProps {

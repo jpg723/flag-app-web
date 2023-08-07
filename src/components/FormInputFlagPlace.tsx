@@ -3,45 +3,63 @@ import img_checked from '../contents/desktop/flag/icon_약속만들기_checked.s
 import img_unchecked from '../contents/desktop/flag/icon_약속만들기_Unchecked.svg';
 import img_input from '../contents/desktop/flag/Box_약속만들기_Selectplace.svg';
 import React, { useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { makeFlagAtom } from '../recoil/Atoms';
 
 const Wrapper = styled.div`
-  margin-bottom: 333px;
+  margin-bottom: 100px;
+  @media screen and (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+    //align-items: center;
+  }
 `;
 
 const TitleWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
+  display: inline-flex;
+  padding: 5px 0px;
   align-items: center;
-  margin-bottom: 17px;
+  margin-bottom: 14px;
+  gap: 13px;
+  @media screen and (max-width: 500px) {
+    gap: 8px;
+  }
 `;
 
 const Title = styled.span<{ disable: boolean }>`
-  line-height: 43px;
-  font-size: 30px;
+  font-size: 22px;
   font-weight: 700;
   color: ${({ disable }) =>
     disable ? '#BCBCBC' : 'black'};
+  @media screen and (max-width: 500px) {
+    font-size: 17px;
+  }
 `;
 
 const RadioButton = styled.input`
   appearance: none;
-  width: 42px;
-  height: 42px;
-  margin-right: 20px;
+  width: 35px;
+  height: 35px;
   background-image: url('${img_unchecked}');
   &:checked {
     background-image: url('${img_checked}');
   }
   background-size: cover;
   background-repeat: none;
+  @media screen and (max-width: 500px) {
+    width: 22px;
+    height: 22px;
+  }
 `;
 
 const InputWrapper = styled.div`
   width: 336px;
-  margin-left: 62px;
+  margin-left: 60px;
   text-align: end;
+  @media screen and (max-width: 500px) {
+    margin-left: 0px;
+    width: 259px;
+  }
 `;
 
 const Input = styled.input`
@@ -52,11 +70,16 @@ const Input = styled.input`
   font-size: 18px;
   background-image: url('${img_input}');
   background-repeat: no-repeat;
+  background-color: transparent;
   border: 0;
   padding-left: 16px;
   margin-bottom: 8px;
   &:focus {
     outline: none;
+  }
+  @media screen and (max-width: 500px) {
+    height: 37px;
+    font-size: 14px;
   }
 `;
 
@@ -66,44 +89,70 @@ const InputTextInfo = styled.span<{ disable: boolean }>`
   line-height: 17px;
   color: ${({ disable }) =>
     disable ? '#BCBCBC' : 'black'};
+  @media screen and (max-width: 500px) {
+    font-size: 12px;
+  }
 `;
 
 const FormInputFlagPlace = () => {
+  const { flagPlace } = useRecoilValue(makeFlagAtom);
   const setValue = useSetRecoilState(makeFlagAtom);
-  const [disable, setDisable] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
 
   const toggleDisable = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    if (disable) {
-      setDisable(false);
-    } else setDisable(true);
+    if (flagPlace.isChecked) {
+      setValue((v) => ({
+        ...v,
+        flagPlace: {
+          content: flagPlace.content,
+          isChecked: false,
+        },
+      }));
+    } else {
+      setValue((v) => ({
+        ...v,
+        flagPlace: {
+          content: flagPlace.content,
+          isChecked: true,
+        },
+      }));
+    }
   };
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setValue((v) => ({ ...v, flagPlace: e.target.value }));
+    setValue((v) => ({
+      ...v,
+      flagPlace: {
+        content: e.target.value,
+        isChecked: flagPlace.isChecked,
+      },
+    }));
   };
   return (
     <Wrapper>
       <TitleWrapper>
         <RadioButton
           type="checkbox"
+          checked={flagPlace.isChecked}
           onChange={toggleDisable}
         />
-        <Title disable={disable}>
+        <Title disable={!flagPlace.isChecked}>
           약속 장소를 정해주세요.
         </Title>
       </TitleWrapper>
       <InputWrapper>
         <Input
-          disabled={disable}
+          disabled={!flagPlace.isChecked}
           onChange={onChange}
           placeholder="약속 장소"
           maxLength={15}
+          value={flagPlace.content}
         />
-        <InputTextInfo disable={disable}>
+        <InputTextInfo disable={!flagPlace.isChecked}>
           최대 15자
         </InputTextInfo>
       </InputWrapper>

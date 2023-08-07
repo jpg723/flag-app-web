@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import img_wrapper from '../contents/desktop/flag/Frame_약속만들기_Friendslist.svg';
+import img_wrapper_mobile from '../contents/mobile/flag/모바일_Frame_약속만들기_Friendlist.svg';
 import FriendItem from './FriendItem';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
@@ -12,8 +13,9 @@ import {
 const Wrapper = styled.div`
   width: 336px;
   height: 362px;
-  margin-left: 62px;
+  margin-left: 48px;
   background-image: url('${img_wrapper}');
+  background-size: cover;
   background-repeat: no-repeat;
   &::-webkit-scrollbar {
     width: 5px;
@@ -28,6 +30,12 @@ const Wrapper = styled.div`
 
   overflow: scroll;
   overflow-x: hidden;
+  @media screen and (max-width: 500px) {
+    margin-left: 0px;
+    width: 253px;
+    height: 132px;
+    background-image: url('${img_wrapper_mobile}');
+  }
 `;
 
 interface IFriendListProps {

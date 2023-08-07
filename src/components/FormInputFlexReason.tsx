@@ -4,7 +4,7 @@ import img_textarea from '../contents/desktop/flex/Box_약속만들기_Explanati
 import { useState } from 'react';
 
 const Wrapper = styled.div`
-  margin-bottom: 333px;
+  margin-bottom: 100px;
 `;
 
 const TitleWrapper = styled.div`

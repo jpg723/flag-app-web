@@ -1,13 +1,28 @@
 import React from 'react';
 import MakeFlag from './pages/MakeFlag';
-import MakeFlex from './pages/MakeFlex';
+import MakeFlagFinish from './pages/MakeFlagFinish';
 import Header from './components/Header';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from 'react-router-dom';
+import { GlobalStyle } from './GlobalStyle';
 
 function App() {
   return (
     <>
+      <GlobalStyle />
       <Header />
-      <MakeFlag />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/makeFlag" element={<MakeFlag />} />
+          <Route
+            path="/makeFlagFinish"
+            element={<MakeFlagFinish />}
+          />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
