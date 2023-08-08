@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import FormInputName from '../components/FormInputName';
-import FormSelectFriends from '../components/FormSelectFriends';
-import FormSelectDates from '../components/FormSelectDates';
-import FormInputFlagPlace from '../components/FormInputFlagPlace';
-import FormInputMemo from '../components/FormInputMemo';
+import FormInputName from '../components/makeFlag/FormInputName';
+import FormSelectFriends from '../components/makeFlag/FormSelectFriends';
+import FormSelectDates from '../components/makeFlag/FormSelectDates';
+import FormInputFlagPlace from '../components/makeFlag/FormInputFlagPlace';
+import FormInputMemo from '../components/makeFlag/FormInputMemo';
 import img_btn from '../contents/desktop/flag/Btn_약속만들기_Createappoint.svg';
 import img_btn_mobile from '../contents/mobile/flag/모바일_Btn_약속만들기_Complete.svg';
-import FormMinimumTime from '../components/FormMinimumTime';
+import FormMinimumTime from '../components/makeFlag/FormMinimumTime';
 import { useRecoilValue } from 'recoil';
 import { makeFlagAtom } from '../recoil/Atoms';
 import { useNavigate, Link } from 'react-router-dom';

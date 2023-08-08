@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import ic_step1 from '../contents/desktop/flag/Ic_약속만들기_Step1.svg';
 import img_input from '../contents/desktop/flag/Box_약속만들기_Nameappoint.svg';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { makeFlagAtom } from '../recoil/Atoms';
+import { makeFlagAtom } from '../../recoil/Atoms';
 
 const Wrapper = styled.div`
   margin-bottom: 100px;
