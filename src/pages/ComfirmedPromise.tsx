@@ -1,9 +1,9 @@
 //import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import DawnTimeTable from './TimeTable/DawnTimeTable';
-import MorningTimeTable from './TimeTable/MorningTimeTable';
-import AfternoonTimeTable from './TimeTable/AfternoonTimeTable';
-import NightTimeTable from './TimeTable/NightTimeTable';
+import DawnTimeTable from '../components/TimeTable/DawnTimeTable';
+import MorningTimeTable from '../components/TimeTable/MorningTimeTable';
+import AfternoonTimeTable from '../components/TimeTable/AfternoonTimeTable';
+import NightTimeTable from '../components/TimeTable/NightTimeTable';
 
 const Comfirmed_promise_main1 = styled.div`
   margin-top: 44px;

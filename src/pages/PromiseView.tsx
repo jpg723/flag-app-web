@@ -1,7 +1,7 @@
 //import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { ReactComponent as Arrow1 } from '../../contents/desktop/flag/arrow_back_ios_new.svg';
-import { ReactComponent as Flag } from '../../contents/desktop/flag/flag.svg';
+import { ReactComponent as Arrow1 } from '../contents/desktop/flag/arrow_back_ios_new.svg';
+import { ReactComponent as Flag } from '../contents/desktop/flag/flag.svg';
 
 const PromiseView_main = styled.div`
   display: flex;

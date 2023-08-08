@@ -1,8 +1,8 @@
 import React from 'react';
 import Header from './components/Header';
-import ComfirmedPromise from './components/FlagView/ComfirmedPromise';
-import PromiseView from './components/FlagView/PromiseView';
-import FlagMeeting from './components/FlagView/FlagMeeting';
+import ComfirmedPromise from './pages/ComfirmedPromise';
+import PromiseView from './pages/PromiseView';
+import FlagMeeting from './pages/FlagMeeting';
 import {Routes, Route} from 'react-router-dom';
 import {BrowserRouter as Router} from 'react-router-dom';
 //import {RecoilRoot} from 'recoil';
