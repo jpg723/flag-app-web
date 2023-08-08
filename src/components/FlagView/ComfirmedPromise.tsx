@@ -27,14 +27,12 @@ const Comfirmed_promise_main2_text = styled.text`
 `;
 
 const Comfirmed_promise_footer = styled.div`
-  margin-top: 113.5px;
-  margin-bottom: 37px;
+  margin-top: 20px;
 `;
 
 const Comfirmed_promise_btn_box = styled.div`
   width: 208px;
   height: 49px;
-  margin-top: 37px;
   margin-left: 510px;
 `;
 

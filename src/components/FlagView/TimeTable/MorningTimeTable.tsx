@@ -75,8 +75,7 @@ function MorningTimeTable() {
 
   const onTimeClick = (time_col:any, time_row:any) => {
     console.log(time_col, time_row);
-  };
-  
+  };  
 
   return (
     <div>
@@ -106,7 +105,6 @@ function MorningTimeTable() {
               <TimeTable_container_row onClick={() => {
                 onTimeClick(time_col, time_row);
               }}>
-                {time_col},{time_row}
               </TimeTable_container_row>
             ))}
           </TimeTable_container_col>
