@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import btn_modify from '../contents/mobile/flag/모바일_btn_약속만들기완료_Modify.svg';
-import btn_share from '../contents/desktop/flag/Btn_약속만들기완료_Sharelink.svg';
-import btn_share_mobile from '../contents/mobile/flag/모바일_Btn_약속만들기완료_Sharelink.svg';
+import btn_modify from '../contents/desktop/flag/데스크탑_Btn_약속만들기완료_Modify.svg';
+import btn_modify_mobile from '../contents/mobile/flag/모바일_btn_약속만들기완료_Modify.svg';
+import btn_recall from '../contents/desktop/flag/데스크탑_Btn_약속만들기완료_Recall.svg';
+import btn_recall_mobile from '../contents/mobile/flag/모바일_Btn_약속만들기완료_Recall.svg';
 import background_info from '../contents/desktop/flag/Rec_약속만들기완료_Undefined.svg';
 import background_info_mobile from '../contents/mobile/flag/모바일_Frame_약속만들기완료_Summary.svg';
 import { useRecoilValue } from 'recoil';
@@ -89,30 +90,31 @@ const Message = styled.div`
 `;
 
 const Btn_modify = styled.button`
-  display: none;
-  @media screen and (max-width: 500px) {
-    display: inline;
-    width: 285px;
-    height: 39px;
-    border: none;
-    background-color: transparent;
-    background-image: url('${btn_modify}');
-    background-size: cover;
-    margin-bottom: 14px;
-  }
-`;
-
-const Btn_share = styled.button`
   width: 355px;
   height: 41px;
   border: none;
   background-color: transparent;
-  background-image: url('${btn_share}');
+  background-image: url('${btn_modify}');
+  background-size: cover;
+  margin-bottom: 10px;
+  @media screen and (max-width: 500px) {
+    width: 285px;
+    height: 39px;
+    background-image: url('${btn_modify_mobile}');
+  }
+`;
+
+const Btn_recall = styled.button`
+  width: 355px;
+  height: 41px;
+  border: none;
+  background-color: transparent;
+  background-image: url('${btn_recall}');
   background-size: cover;
   @media screen and (max-width: 500px) {
     width: 285px;
     height: 39px;
-    background-image: url('${btn_share_mobile}');
+    background-image: url('${btn_recall_mobile}');
   }
 `;
 
@@ -127,7 +129,11 @@ const MakeFlagFinish = () => {
   const navigate = useNavigate();
 
   const handleModify = () => {
-    navigate(-1);
+    navigate('/makeFlag', { replace: true });
+  };
+
+  const handleRecall = () => {
+    navigate('/', { replace: true });
   };
   return (
     <Wrapper>
@@ -152,7 +158,7 @@ const MakeFlagFinish = () => {
       </Info>
       <Message>약속을 만들었습니다!</Message>
       <Btn_modify onClick={handleModify} />
-      <Btn_share />
+      <Btn_recall onClick={handleRecall} />
     </Wrapper>
   );
 };
