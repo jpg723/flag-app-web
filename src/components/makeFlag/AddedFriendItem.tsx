@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import img_profile from '../contents/desktop/flag/Img_약속만들기_Profilepic.svg';
+import img_profile from '../../contents/desktop/flag/Img_약속만들기_Profilepic.svg';
 
 const Wrapper = styled.div`
   display: flex;

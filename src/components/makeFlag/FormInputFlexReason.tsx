@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import ic_step5 from '../contents/desktop/flex/Ic_약속만들기_Step5.svg';
-import img_textarea from '../contents/desktop/flex/Box_약속만들기_Explanation.svg';
+import ic_step5 from '../../contents/desktop/flex/Ic_약속만들기_Step5.svg';
+import img_textarea from '../../contents/desktop/flex/Box_약속만들기_Explanation.svg';
 import { useState } from 'react';
 
 const Wrapper = styled.div`

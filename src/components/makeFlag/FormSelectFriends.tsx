@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import ic_step2 from '../contents/desktop/flag/Ic_약속만들기_Step2.svg';
-import img_input from '../contents/desktop/flag/Box_약속만들기_Search.svg';
-import ic_search from '../contents/desktop/flag/Ic_Search.svg';
+import ic_step2 from '../../contents/desktop/flag/Ic_약속만들기_Step2.svg';
+import img_input from '../../contents/desktop/flag/Box_약속만들기_Search.svg';
+import ic_search from '../../contents/desktop/flag/Ic_Search.svg';
 import FriendList from './FriendList';
 import AddedFriendList from './AddedFriendList';
 import { useState } from 'react';
@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   @media screen and (max-width: 500px) {
     flex-direction: column;
+    align-items: center;
   }
 `;
 
@@ -21,6 +22,7 @@ const LeftView = styled.div`
   flex-direction: column;
   @media screen and (max-width: 500px) {
     margin-right: 0px;
+    align-items: center;
   }
 `;
 
@@ -31,19 +33,11 @@ const RightView = styled.div`
   }
 `;
 
-const MobileAddedFriendsView = styled.div`
-  display: none;
-  @media screen and (max-width: 500px) {
-    display: flex;
-    margin-bottom: 20px;
-  }
-`;
-
 const TitleWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  margin-bottom: 14px;
+  margin-bottom: 20px;
   gap: 13px;
   @media screen and (max-width: 500px) {
     gap: 8px;
@@ -54,15 +48,14 @@ const Title = styled.div`
   line-height: normal;
   font-size: 22px;
   font-weight: 700;
-  text-align: center;
   @media screen and (max-width: 500px) {
     font-size: 17px;
   }
 `;
 
 const Image = styled.img`
-  width: 35px;
-  height: 35px;
+  width: 28px;
+  height: 28px;
   @media screen and (max-width: 500px) {
     width: 20px;
     height: 20px;
@@ -72,13 +65,14 @@ const Image = styled.img`
 const InputWrapper = styled.form`
   position: relative;
   width: 336px;
-  margin-left: 48px;
+  margin-left: 41px;
   margin-bottom: 24px;
   text-align: end;
   @media screen and (max-width: 500px) {
     margin-left: 0px;
+    //width: 259px;
+    margin-bottom: 20px;
     width: 259px;
-    margin-bottom: 0px;
   }
 `;
 
@@ -118,7 +112,7 @@ const InputImage = styled.img`
 `;
 
 const Delete = styled.span`
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 17px;
   border: 0;
@@ -128,8 +122,16 @@ const Delete = styled.span`
   }
 `;
 
-const FriendListText = styled.span`
-  margin-left: 48px;
+const MobileAddedFriendsView = styled.div`
+  display: none;
+  @media screen and (max-width: 500px) {
+    display: flex;
+    margin-bottom: 20px;
+  }
+`;
+
+const FriendListText = styled.div`
+  margin-left: 41px;
   font-size: 17px;
   font-weight: 600;
   padding: 8px;
@@ -137,6 +139,7 @@ const FriendListText = styled.span`
     font-size: 14px;
     font-weight: 700;
     margin-left: 0px;
+    width: 100%;
   }
 `;
 

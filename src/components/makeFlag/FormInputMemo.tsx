@@ -1,13 +1,13 @@
 import styled from 'styled-components';
-import img_checked from '../contents/desktop/flag/icon_약속만들기_checked.svg';
-import img_unchecked from '../contents/desktop/flag/icon_약속만들기_Unchecked.svg';
-import img_textarea from '../contents/desktop/flag/Box_약속만들기_Memo_Unchecked.svg';
-import React, { useState } from 'react';
+import img_checked from '../../contents/desktop/flag/icon_약속만들기_checked.svg';
+import img_unchecked from '../../contents/desktop/flag/icon_약속만들기_Unchecked.svg';
+import img_textarea from '../../contents/desktop/flag/Box_약속만들기_Memo_Unchecked.svg';
+import React from 'react';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { makeFlagAtom } from '../recoil/Atoms';
+import { makeFlagAtom } from '../../recoil/Atoms';
 
 const Wrapper = styled.div`
-  margin-bottom: 100px;
+  margin-bottom: 50px;
   @media screen and (max-width: 500px) {
     display: flex;
     flex-direction: column;
@@ -19,7 +19,7 @@ const TitleWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 17px;
+  margin-bottom: 20px;
   gap: 13px;
   @media screen and (max-width: 500px) {
     gap: 8px;
@@ -38,8 +38,9 @@ const Title = styled.span<{ disable: boolean }>`
 
 const RadioButton = styled.input`
   appearance: none;
-  width: 35px;
-  height: 35px;
+  width: 28px;
+  height: 28px;
+  margin: 0px;
   background-image: url('${img_unchecked}');
   &:checked {
     background-image: url('${img_checked}');
@@ -54,7 +55,7 @@ const RadioButton = styled.input`
 
 const InputWrapper = styled.div`
   width: 420px;
-  margin-left: 62px;
+  margin-left: 41px;
   text-align: end;
   @media screen and (max-width: 500px) {
     margin-left: 0px;
@@ -80,6 +81,7 @@ const TextArea = styled.textarea`
   }
   @media screen and (max-width: 500px) {
     font-size: 14px;
+    height: 144px;
   }
 `;
 

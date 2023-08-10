@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import ic_step1 from '../contents/desktop/flag/Ic_약속만들기_Step1.svg';
-import img_input from '../contents/desktop/flag/Box_약속만들기_Nameappoint.svg';
+import ic_step1 from '../../contents/desktop/flag/Ic_약속만들기_Step1.svg';
+import img_input from '../../contents/desktop/flag/Box_약속만들기_Nameappoint.svg';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { makeFlagAtom } from '../../recoil/Atoms';
 
@@ -15,9 +15,8 @@ const Wrapper = styled.div`
 
 const TitleWrapper = styled.div`
   display: inline-flex;
-  padding: 5px 0px;
   align-items: center;
-  margin-bottom: 14px;
+  margin-bottom: 20px;
   gap: 13px;
   @media screen and (max-width: 500px) {
     gap: 8px;
@@ -35,8 +34,8 @@ const Title = styled.div`
 `;
 
 const Image = styled.img`
-  width: 35px;
-  height: 35px;
+  width: 28px;
+  height: 28px;
   @media screen and (max-width: 500px) {
     width: 20px;
     height: 20px;
@@ -47,10 +46,11 @@ const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 336px;
-  margin-left: 48px;
+  margin-left: 41px;
   text-align: end;
   @media screen and (max-width: 500px) {
     margin-left: 0px;
+    //width: 259px;
     width: 259px;
   }
 `;
@@ -77,7 +77,7 @@ const Input = styled.input`
 `;
 
 const InputTextInfo = styled.span`
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 17px;
   @media screen and (max-width: 500px) {

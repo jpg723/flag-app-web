@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import FormInputName from '../components/makeFlag/FormInputName';
 import FormSelectFriends from '../components/makeFlag/FormSelectFriends';
 import FormSelectDates from '../components/makeFlag/FormSelectDates';
+import FormSelectCycle from '../components/makeFlag/FormSelectCycle';
 import FormInputFlagPlace from '../components/makeFlag/FormInputFlagPlace';
 import FormInputMemo from '../components/makeFlag/FormInputMemo';
 import img_btn from '../contents/desktop/flag/Btn_약속만들기_Createappoint.svg';
@@ -61,7 +62,7 @@ const MakeFlag = () => {
       checkedFriends.length > 0 &&
       selectedDates.length > 0
     ) {
-      navigate('/makeFlagFinish');
+      navigate('/makeFlagFinish', { replace: true });
     } else console.log('필수 입력을 채워주세요');
   };
 
@@ -71,6 +72,7 @@ const MakeFlag = () => {
         <FormInputName />
         <FormSelectFriends />
         <FormSelectDates />
+        <FormSelectCycle />
         <FormMinimumTime />
         <FormInputFlagPlace />
         <FormInputMemo />

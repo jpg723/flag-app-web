@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import AddedFriendItem from './AddedFriendItem';
-import { makeFlagAtom } from '../recoil/Atoms';
+import { makeFlagAtom } from '../../recoil/Atoms';
 import { useRecoilValue } from 'recoil';
 
 const Wrapper = styled.div`

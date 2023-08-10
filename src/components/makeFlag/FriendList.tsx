@@ -1,22 +1,19 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import img_wrapper from '../contents/desktop/flag/Frame_약속만들기_Friendslist.svg';
-import img_wrapper_mobile from '../contents/mobile/flag/모바일_Frame_약속만들기_Friendlist.svg';
 import FriendItem from './FriendItem';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   friendListAtom,
   IFriendTypes,
   makeFlagAtom,
-} from '../recoil/Atoms';
+} from '../../recoil/Atoms';
 
 const Wrapper = styled.div`
   width: 336px;
   height: 362px;
-  margin-left: 48px;
-  background-image: url('${img_wrapper}');
-  background-size: cover;
-  background-repeat: no-repeat;
+  margin-left: 41px;
+  border-radius: 18px;
+  border: 1.5px solid #000;
   &::-webkit-scrollbar {
     width: 5px;
     background-color: transparent;
@@ -33,8 +30,8 @@ const Wrapper = styled.div`
   @media screen and (max-width: 500px) {
     margin-left: 0px;
     width: 253px;
-    height: 132px;
-    background-image: url('${img_wrapper_mobile}');
+    height: 200px;
+    border: 1.5px solid #6041ff;
   }
 `;
 

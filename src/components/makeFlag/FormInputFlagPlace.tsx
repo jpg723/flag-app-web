@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import img_checked from '../contents/desktop/flag/icon_약속만들기_checked.svg';
-import img_unchecked from '../contents/desktop/flag/icon_약속만들기_Unchecked.svg';
-import img_input from '../contents/desktop/flag/Box_약속만들기_Selectplace.svg';
+import img_checked from '../../contents/desktop/flag/icon_약속만들기_checked.svg';
+import img_unchecked from '../../contents/desktop/flag/icon_약속만들기_Unchecked.svg';
+import img_input from '../../contents/desktop/flag/Box_약속만들기_Selectplace.svg';
 import React, { useState } from 'react';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { makeFlagAtom } from '../recoil/Atoms';
+import { makeFlagAtom } from '../../recoil/Atoms';
 
 const Wrapper = styled.div`
   margin-bottom: 100px;
@@ -17,9 +17,8 @@ const Wrapper = styled.div`
 
 const TitleWrapper = styled.div`
   display: inline-flex;
-  padding: 5px 0px;
   align-items: center;
-  margin-bottom: 14px;
+  margin-bottom: 20px;
   gap: 13px;
   @media screen and (max-width: 500px) {
     gap: 8px;
@@ -29,6 +28,7 @@ const TitleWrapper = styled.div`
 const Title = styled.span<{ disable: boolean }>`
   font-size: 22px;
   font-weight: 700;
+  line-height: normal;
   color: ${({ disable }) =>
     disable ? '#BCBCBC' : 'black'};
   @media screen and (max-width: 500px) {
@@ -38,8 +38,9 @@ const Title = styled.span<{ disable: boolean }>`
 
 const RadioButton = styled.input`
   appearance: none;
-  width: 35px;
-  height: 35px;
+  width: 28px;
+  height: 28px;
+  margin: 0px;
   background-image: url('${img_unchecked}');
   &:checked {
     background-image: url('${img_checked}');
@@ -54,7 +55,7 @@ const RadioButton = styled.input`
 
 const InputWrapper = styled.div`
   width: 336px;
-  margin-left: 60px;
+  margin-left: 41px;
   text-align: end;
   @media screen and (max-width: 500px) {
     margin-left: 0px;

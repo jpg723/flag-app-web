@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import ic_step3 from '../contents/desktop/flag/Ic_약속만들기_Step3.svg';
+import ic_step3 from '../../contents/desktop/flag/Ic_약속만들기_Step3.svg';
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
-import '../Calandar.css';
+import '../../Calandar.css';
 import moment from 'moment';
 import 'moment/locale/ko';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { makeFlagAtom } from '../recoil/Atoms';
+import { makeFlagAtom } from '../../recoil/Atoms';
 
 const Wrapper = styled.div`
   margin-bottom: 100px;
@@ -31,14 +31,15 @@ const TitleWrapper = styled.div`
 const Title = styled.span`
   font-size: 22px;
   font-weight: 700;
+  line-height: normal;
   @media screen and (max-width: 500px) {
     font-size: 17px;
   }
 `;
 
 const Image = styled.img`
-  width: 35px;
-  height: 35px;
+  width: 28px;
+  height: 28px;
   @media screen and (max-width: 500px) {
     width: 20px;
     height: 20px;
@@ -47,7 +48,7 @@ const Image = styled.img`
 
 const CalendarWrapper = styled.div`
   //border: 1px solid red;
-  margin-left: 48px;
+  margin-left: 41px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,13 +56,17 @@ const CalendarWrapper = styled.div`
   .react-calendar {
     border: none;
   }
+
   @media screen and (max-width: 500px) {
     margin-left: 0px;
+    .react-calendar {
+      border: none;
+      width: 300px;
+    }
   }
 `;
 
 const MyCalender = styled(Calendar)`
-  margin-bottom: 63px;
   .react-calendar__tile--now {
     background: transparent;
   }

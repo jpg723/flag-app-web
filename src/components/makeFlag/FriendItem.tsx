@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import img_profile from '../contents/desktop/flag/Img_약속만들기_Profilepic_Friendlist.svg';
-import img_profile_mobile from '../contents/mobile/flag/모바일_Img_약속만들기_Profilepic.svg';
-import img_checked from '../contents/desktop/flag/icon_약속만들기_checked.svg';
-import img_unchecked from '../contents/desktop/flag/icon_약속만들기_Unchecked.svg';
+import img_profile from '../../contents/desktop/flag/Img_약속만들기_Profilepic_Friendlist.svg';
+import img_profile_mobile from '../../contents/mobile/flag/모바일_Img_약속만들기_Profilepic.svg';
+import img_checked from '../../contents/desktop/flag/icon_약속만들기_checked.svg';
+import img_unchecked from '../../contents/desktop/flag/icon_약속만들기_Unchecked.svg';
 
 const Wrapper = styled.label`
   display: flex;
