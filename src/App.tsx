@@ -1,6 +1,7 @@
 import React from 'react';
 import MakeFlag from './pages/MakeFlag';
 import MakeFlagFinish from './pages/MakeFlagFinish';
+import Main from './pages/Main';
 import Header from './components/Header';
 import {
   BrowserRouter,
@@ -16,6 +17,7 @@ function App() {
       <Header />
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Main />} />
           <Route path="/makeFlag" element={<MakeFlag />} />
           <Route
             path="/makeFlagFinish"
