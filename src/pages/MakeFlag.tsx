@@ -10,7 +10,8 @@ import img_btn_mobile from '../contents/mobile/flag/모바일_Btn_약속만들�
 import FormMinimumTime from '../components/makeFlag/FormMinimumTime';
 import { useRecoilValue } from 'recoil';
 import { makeFlagAtom } from '../recoil/Atoms';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const Container = styled.div`
   display: flex;
@@ -30,7 +31,6 @@ const FormWrapper = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-  //position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,7 +52,7 @@ const Button = styled.button`
 `;
 
 const MakeFlag = () => {
-  const { flagName, checkedFriends, selectedDates } =
+  const { flagName, checkedFriends, selectedDates, cycle } =
     useRecoilValue(makeFlagAtom);
   const navigate = useNavigate();
 
@@ -60,7 +60,8 @@ const MakeFlag = () => {
     if (
       flagName !== '' &&
       checkedFriends.length > 0 &&
-      selectedDates.length > 0
+      selectedDates.length > 0 &&
+      cycle !== ''
     ) {
       navigate('/makeFlagFinish', { replace: true });
     } else console.log('필수 입력을 채워주세요');

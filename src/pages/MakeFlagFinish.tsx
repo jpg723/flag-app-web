@@ -5,7 +5,10 @@ import btn_recall from '../contents/desktop/flag/데스크탑_Btn_약속만들�
 import btn_recall_mobile from '../contents/mobile/flag/모바일_Btn_약속만들기완료_Recall.svg';
 import background_info from '../contents/desktop/flag/Rec_약속만들기완료_Undefined.svg';
 import background_info_mobile from '../contents/mobile/flag/모바일_Frame_약속만들기완료_Summary.svg';
-import { useRecoilValue } from 'recoil';
+import {
+  useRecoilValue,
+  useResetRecoilState,
+} from 'recoil';
 import { makeFlagAtom } from '../recoil/Atoms';
 import { useNavigate } from 'react-router-dom';
 
@@ -95,7 +98,6 @@ const Btn_modify = styled.button`
   border: none;
   background-color: transparent;
   background-image: url('${btn_modify}');
-  background-size: cover;
   margin-bottom: 10px;
   @media screen and (max-width: 500px) {
     width: 285px;
@@ -110,7 +112,6 @@ const Btn_recall = styled.button`
   border: none;
   background-color: transparent;
   background-image: url('${btn_recall}');
-  background-size: cover;
   @media screen and (max-width: 500px) {
     width: 285px;
     height: 39px;
@@ -127,12 +128,14 @@ const MakeFlagFinish = () => {
   } = useRecoilValue(makeFlagAtom);
 
   const navigate = useNavigate();
+  const resetValue = useResetRecoilState(makeFlagAtom);
 
   const handleModify = () => {
     navigate('/makeFlag', { replace: true });
   };
 
   const handleRecall = () => {
+    resetValue();
     navigate('/', { replace: true });
   };
   return (
