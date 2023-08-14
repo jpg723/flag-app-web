@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from './components/Header';
+import Header from './pages/Header';
 import { Routes, Route } from 'react-router-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
