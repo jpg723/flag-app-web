@@ -5,7 +5,7 @@ export const emailState = atom<string>({
   default: '',
 });
 
-export const userIdState= atom<string>({
+export const userIdState = atom<string>({
   key: 'userIdState',
   default: '',
 });
@@ -13,6 +13,7 @@ export const userIdState= atom<string>({
 export const confirmPasswordValidState = atom({
   key: 'confirmPasswordValidState',
   default: false,
+});
 
 export interface IFriendTypes {
   id: number;
