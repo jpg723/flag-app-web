@@ -23,6 +23,7 @@ import MakeFlag from './pages/MakeFlag';
 import MakeFlagFinish from './pages/MakeFlagFinish';
 
 function App() {
+  
   return (
     <div>
       <GlobalStyle />
