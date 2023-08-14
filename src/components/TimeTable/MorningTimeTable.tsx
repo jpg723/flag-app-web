@@ -9,7 +9,6 @@ const Timetable_day = styled.div`
   margin-top: 14px;
   display: flex;
   justify-content: center;
-  margin-left: 2px;
 `;
 
 const Timetable_day_contents = styled.span`
