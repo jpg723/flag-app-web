@@ -17,6 +17,10 @@ import ResetPassword1 from './pages/ResetPassword1';
 import ResetPassword2 from './pages/ResetPassword2';
 import ResetPassword3 from './pages/ResetPassword3';
 import ResetPassword4 from './pages/ResetPassword4';
+import Main from './pages/Main';
+import ServiceInfo from './pages/ServiceInfo';
+import MakeFlag from './pages/MakeFlag';
+import MakeFlagFinish from './pages/MakeFlagFinish';
 
 function App() {
   return (
@@ -26,6 +30,7 @@ function App() {
       <RecoilRoot>
         <Router>
           <Routes>
+            <Route path="/" element={<Main />} />
             <Route
               path="/promise-view"
               element={<PromiseView />}
@@ -45,6 +50,18 @@ function App() {
             <Route
               path="/password-change"
               element={<PasswordChange />}
+            />
+            <Route
+              path="/serviceInfo"
+              element={<ServiceInfo />}
+            />
+            <Route
+              path="/makeFlag"
+              element={<MakeFlag />}
+            />
+            <Route
+              path="/makeFlagFinish"
+              element={<MakeFlagFinish />}
             />
 
             {/* 헤더 없음 */}
