@@ -2,15 +2,16 @@
 import styled from 'styled-components';
 import { ReactComponent as Arrow1 } from '../contents/desktop/flag/arrow_back_ios_new.svg';
 import { ReactComponent as Flag } from '../contents/desktop/flag/flag.svg';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const PromiseView_main = styled.div`
   display: flex;
+  justify-content: center;
 `;
 
 /*플래그*/
 const PromiseView_flag_main = styled.div`
-  margin-left: 90px;
+  //margin-left: 90px;
 `;
 /*플래그 제목*/
 const PromiseView_title1 = styled.div`
@@ -146,7 +147,7 @@ function PromiseView() {
         <PromiseView_title2>
           약속신청
           <PromiseView_make_promise_box>
-            <Link to='/makeFlag'>
+            <Link to="/makeFlag">
               <PromiseView_make_promise_btn>
                 약속 만들기
                 <Arrow1_icon>
