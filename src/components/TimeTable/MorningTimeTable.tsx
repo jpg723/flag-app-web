@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { makeFlagAtom } from '../../recoil/Atoms';
+import moment from 'moment';
 
 const Timetable_day = styled.div`
   width: 395px;
@@ -74,10 +77,20 @@ const TimeTable_container_row = styled.span`
 `;
 
 function MorningTimeTable() {
-  const col = [1, 2, 3, 4, 5];
+  const {selectedDates} = useRecoilValue(makeFlagAtom);
+  const copyDates: string[] = [];
+  const copyDays: string[] = [];
+  const day = ['일', '월', '화', '수', '목', '금', '토'];
+
+  selectedDates.forEach((date, index) => {
+    let m = moment(date, 'YYYY-MM-DD');
+    let d = moment(date).day();
+    let copyDate = m.format('MM.DD');
+    copyDates.push(copyDate);
+    copyDays.push(day[d]);
+  });
+
   const row = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  const day = ['월', '화', '수', '목', '금'];
-  const date = ['7.21', '7.1', '7.1', '7.55', '7.1'];
   const time = [6, 7, 8, 9, 10, 11, 12];
  
   const onTimeClick = (time_col:any, time_row:any) => {
@@ -213,14 +226,14 @@ function MorningTimeTable() {
   return (
     <div>
       <Timetable_day>
-        {day.map((timeTable_day, index) => (
+        {copyDays.map((timeTable_day, index) => (
           <Timetable_day_contents>
             {timeTable_day}
           </Timetable_day_contents>
         ))}
       </Timetable_day>
       <Timetable_date>
-        {date.map((timeTable_date, index) => (
+        {copyDates.map((timeTable_date, index) => (
           <Timetable_day_contents>{timeTable_date}</Timetable_day_contents>
         ))}
       </Timetable_date>
@@ -233,7 +246,7 @@ function MorningTimeTable() {
           ))}
         </TimeTable_time_container>
           <TimeTable_container_col
-            className={"TimeTable_container_col" + ((col.length >= 1) ? " active" : "")}>
+            className={"TimeTable_container_col" + ((selectedDates.length >= 1) ? " active" : "")}>
             {row.map((time_row, r_index) => (
                 <TimeTable_container_row
                   className={"TimeTable_container_row" + `${time_row}` +
@@ -248,7 +261,7 @@ function MorningTimeTable() {
               ))}
           </TimeTable_container_col>
           <TimeTable_container_col
-            className={"TimeTable_container_col" + ((col.length >= 2) ? " active" : "")}>
+            className={"TimeTable_container_col" + ((selectedDates.length >= 2) ? " active" : "")}>
             {row.map((time_row, r_index) => (
                 <TimeTable_container_row
                   className={"TimeTable_container_row" + `${time_row}` +
@@ -263,7 +276,7 @@ function MorningTimeTable() {
               ))}
           </TimeTable_container_col>
           <TimeTable_container_col
-            className={"TimeTable_container_col" + ((col.length >= 3) ? " active" : "")}>
+            className={"TimeTable_container_col" + ((selectedDates.length >= 3) ? " active" : "")}>
             {row.map((time_row, r_index) => (
                 <TimeTable_container_row
                   className={"TimeTable_container_row" + `${time_row}` +
@@ -278,7 +291,7 @@ function MorningTimeTable() {
               ))}
           </TimeTable_container_col>
           <TimeTable_container_col
-            className={"TimeTable_container_col" + ((col.length >= 4) ? " active" : "")}>
+            className={"TimeTable_container_col" + ((selectedDates.length >= 4) ? " active" : "")}>
             {row.map((time_row, r_index) => (
                 <TimeTable_container_row
                   className={"TimeTable_container_row" + `${time_row}` +
@@ -293,7 +306,7 @@ function MorningTimeTable() {
               ))}
           </TimeTable_container_col>
           <TimeTable_container_col
-            className={"TimeTable_container_col" + ((col.length >= 5) ? " active" : "")}>
+            className={"TimeTable_container_col" + ((selectedDates.length >= 5) ? " active" : "")}>
             {row.map((time_row, r_index) => (
                 <TimeTable_container_row
                   className={"TimeTable_container_row" + `${time_row}` +

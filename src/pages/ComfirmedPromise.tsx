@@ -7,7 +7,6 @@ import NightTimeTable from '../components/TimeTable/NightTimeTable';
 import {Link} from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { makeFlagAtom } from '../recoil/Atoms';
-import {useEffect} from 'react';
 
 const Comfirmed_promise_main1 = styled.div`
   margin-top: 44px;
@@ -56,7 +55,6 @@ const Comfirmed_promise_btn = styled.button`
 
 function ComfirmedPromise() {
   const {cycle} = useRecoilValue(makeFlagAtom);
-  console.log(cycle);
 
   return (
     <div>
