@@ -36,6 +36,16 @@ function App() {
             path="/comfirmed-promise"
             element={<ComfirmedPromise />}
           />
+          <Route
+            path="/email-change"
+            element={<EmailChange1 />}
+          />
+          <Route
+            path="/password-change"
+            element={<PasswordChange />}
+          />
+
+          {/* 헤더 없음 */}
           <Route path="/login" element={<Login />} />
           <Route
             path="/find-email"
@@ -44,18 +54,6 @@ function App() {
           <Route
             path="/find-email-complete"
             element={<FindEmail2 />}
-          />
-          <Route
-            path="/email-change"
-            element={<EmailChange1 />}
-          />
-          <Route
-            path="/email-change-complete"
-            element={<EmailChange2 />}
-          />
-          <Route
-            path="/password-change"
-            element={<PasswordChange />}
           />
           <Route
             path="/reset-password"
@@ -72,6 +70,10 @@ function App() {
           <Route
             path="/reset-password-complete"
             element={<ResetPassword4 />}
+          />
+          <Route
+            path="/email-change-complete"
+            element={<EmailChange2 />}
           />
         </Routes>
       </Router>
