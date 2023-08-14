@@ -33,6 +33,7 @@ export interface IFlag {
   minimumTime: number;
   flagPlace: IOption;
   flagMemo: IOption;
+  selectedCell: number[];
 }
 
 export const friendListAtom = atom<IFriendTypes[]>({
@@ -67,5 +68,6 @@ export const makeFlagAtom = atom<IFlag>({
       content: '',
       isChecked: false,
     },
+    selectedCell: [],
   },
 });

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { makeFlagAtom } from '../../recoil/Atoms';
 import moment from 'moment';
 
@@ -72,15 +72,14 @@ const TimeTable_container_row = styled.span`
   background-color: white;
 
   &.active {
-    background-color: #C7B9FF;
+    background-color: #c7b9ff;
   }
 `;
 
-const TimeTable_box = styled.div`
-`;
+const TimeTable_box = styled.div``;
 
 function MorningTimeTable() {
-  const {selectedDates} = useRecoilValue(makeFlagAtom);
+  const { selectedDates } = useRecoilValue(makeFlagAtom);
   let selectedDates_copy = [...selectedDates];
   selectedDates_copy.sort();
   console.log(selectedDates_copy);
@@ -98,136 +97,240 @@ function MorningTimeTable() {
 
   const row = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const time = [6, 7, 8, 9, 10, 11, 12];
- 
-  const onTimeClick = (time_col:any, time_row:any) => {
-    let time_sel = 0;
 
-    if(time_col == 1){
-      time_sel = time_row;
-    }
+  const [isSelect1, setIsSelect1] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
-    if(time_col == 2){
-      time_sel = time_row;
-    }
+  const [isSelect2, setIsSelect2] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
-    else {
-      time_sel = time_col + time_row * 5;
-    }
-  };
+  const [isSelect3, setIsSelect3] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
+  const [isSelect4, setIsSelect4] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
-  //클릭시 셀 데이터 값 변경
-  let [rowActive, setRowActive] = useState(0);
-  const rowToggleActive = (time_row:any) => {
-    setRowActive(time_row);
-  };
+  const [isSelect5, setIsSelect5] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
-  //클릭시 색상 변경
-  const [rowSelect, setRowSelect] = useState(
-    [false, false, false, false, false]);
+  const { selectedCell } = useRecoilValue(makeFlagAtom);
+  const setValue = useSetRecoilState(makeFlagAtom);
 
-  const [isSelect1, setIsSelect1] = useState(
-    [false, false, false, false, 
-     false, false, false, false,
-     false, false, false, false,
-     false, false, false, false]);
-
-  const [isSelect2, setIsSelect2] = useState(
-    [false, false, false, false, 
-      false, false, false, false,
-      false, false, false, false,
-      false, false, false, false]);
-
-  const [isSelect3, setIsSelect3] = useState(
-    [false, false, false, false, 
-      false, false, false, false,
-      false, false, false, false,
-      false, false, false, false]);
-
-  const [isSelect4, setIsSelect4] = useState(
-    [false, false, false, false, 
-      false, false, false, false,
-      false, false, false, false,
-      false, false, false, false]);
-
-  const [isSelect5, setIsSelect5] = useState(
-    [false, false, false, false, 
-      false, false, false, false,
-      false, false, false, false,
-      false, false, false, false]);
- 
-  const timeSelect = (index:any, c_index:any) => {
-
-    if(c_index === 1){
-      if(isSelect1[index] === false){
+  const timeSelect = (
+    index: any,
+    c_index: any,
+    gap: number,
+  ) => {
+    if (c_index === 1) {
+      const start_cell = gap;
+      const result_cell = start_cell + gap * index;
+      if (isSelect1[index] === false) {
         let copy = [...isSelect1];
         copy[index] = true;
-        setIsSelect1(copy)
-      }
-
-      else if(isSelect1[index] === true){
+        setIsSelect1(copy);
+        const newList = [...selectedCell, result_cell];
+        setValue((v) => ({ ...v, selectedCell: newList }));
+      } else if (
+        isSelect1[index] === true &&
+        selectedCell.find(
+          (target) => target === result_cell,
+        )
+      ) {
         let copy = [...isSelect1];
         copy[index] = false;
-        setIsSelect1(copy)
+        setIsSelect1(copy);
+        const copied = [...selectedCell];
+        const filtered = copied.filter(
+          (target) => target !== result_cell,
+        );
+        setValue((v) => ({ ...v, selectedCell: filtered }));
       }
     }
-    
-    if(c_index === 2){
-      if(isSelect2[index] === false){
+
+    if (c_index === 2) {
+      const start_cell = gap + 1;
+      const result_cell = start_cell + gap * index;
+      if (isSelect2[index] === false) {
         let copy = [...isSelect2];
         copy[index] = true;
-        setIsSelect2(copy)
-      }
-
-      else if(isSelect2[index] === true){
+        setIsSelect2(copy);
+        const newList = [...selectedCell, result_cell];
+        setValue((v) => ({ ...v, selectedCell: newList }));
+      } else if (
+        isSelect2[index] === true &&
+        selectedCell.find(
+          (target) => target === result_cell,
+        )
+      ) {
         let copy = [...isSelect2];
         copy[index] = false;
-        setIsSelect2(copy)
+        setIsSelect2(copy);
+        const copied = [...selectedCell];
+        const filtered = copied.filter(
+          (target) => target !== result_cell,
+        );
+        setValue((v) => ({ ...v, selectedCell: filtered }));
       }
     }
 
-    if(c_index === 3){
-      if(isSelect3[index] === false){
+    if (c_index === 3) {
+      const start_cell = gap + 2;
+      const result_cell = start_cell + gap * index;
+      if (isSelect3[index] === false) {
         let copy = [...isSelect3];
         copy[index] = true;
-        setIsSelect3(copy)
-      }
-
-      else if(isSelect3[index] === true){
+        setIsSelect3(copy);
+        const newList = [...selectedCell, result_cell];
+        setValue((v) => ({ ...v, selectedCell: newList }));
+      } else if (
+        isSelect3[index] === true &&
+        selectedCell.find(
+          (target) => target === result_cell,
+        )
+      ) {
         let copy = [...isSelect3];
         copy[index] = false;
-        setIsSelect3(copy)
+        setIsSelect3(copy);
+        const copied = [...selectedCell];
+        const filtered = copied.filter(
+          (target) => target !== result_cell,
+        );
+        setValue((v) => ({ ...v, selectedCell: filtered }));
       }
     }
 
-    if(c_index === 4){
-      if(isSelect4[index] === false){
+    if (c_index === 4) {
+      const start_cell = gap + 3;
+      const result_cell = start_cell + gap * index;
+      if (isSelect4[index] === false) {
         let copy = [...isSelect4];
         copy[index] = true;
-        setIsSelect4(copy)
-      }
-
-      else if(isSelect4[index] === true){
+        setIsSelect4(copy);
+        const newList = [...selectedCell, result_cell];
+        setValue((v) => ({ ...v, selectedCell: newList }));
+      } else if (
+        isSelect4[index] === true &&
+        selectedCell.find(
+          (target) => target === result_cell,
+        )
+      ) {
         let copy = [...isSelect4];
         copy[index] = false;
-        setIsSelect4(copy)
+        setIsSelect4(copy);
+        const copied = [...selectedCell];
+        const filtered = copied.filter(
+          (target) => target !== result_cell,
+        );
+        setValue((v) => ({ ...v, selectedCell: filtered }));
       }
     }
 
-    if(c_index === 5){
-      if(isSelect5[index] === false){
+    if (c_index === 5) {
+      const start_cell = gap + 4;
+      const result_cell = start_cell + gap * index;
+      if (isSelect5[index] === false) {
         let copy = [...isSelect5];
         copy[index] = true;
-        setIsSelect5(copy)
-      }
-
-      else if(isSelect5[index] === true){
+        setIsSelect5(copy);
+        const newList = [...selectedCell, result_cell];
+        setValue((v) => ({ ...v, selectedCell: newList }));
+      } else if (
+        isSelect5[index] === true &&
+        selectedCell.find(
+          (target) => target === result_cell,
+        )
+      ) {
         let copy = [...isSelect5];
         copy[index] = false;
-        setIsSelect5(copy)
+        setIsSelect5(copy);
+        const copied = [...selectedCell];
+        const filtered = copied.filter(
+          (target) => target !== result_cell,
+        );
+        setValue((v) => ({ ...v, selectedCell: filtered }));
       }
     }
-  };  
+  };
 
   return (
     <div>
@@ -241,7 +344,9 @@ function MorningTimeTable() {
         </Timetable_day>
         <Timetable_date>
           {copyDates.map((timeTable_date, index) => (
-            <Timetable_day_contents>{timeTable_date}</Timetable_day_contents>
+            <Timetable_day_contents>
+              {timeTable_date}
+            </Timetable_day_contents>
           ))}
         </Timetable_date>
         <TimeTable_container>
@@ -252,84 +357,139 @@ function MorningTimeTable() {
               </TimeTable_time>
             ))}
           </TimeTable_time_container>
-            <TimeTable_container_col
-              className={"TimeTable_container_col" + ((selectedDates.length >= 1) ? " active" : "")}>
-              {row.map((time_row, r_index) => (
-                  <TimeTable_container_row
-                    className={"TimeTable_container_row" + `${time_row}` +
-                      (isSelect1[time_row - 1] === true ? " active" : "")}
-                      onClick={() => {
-                        rowToggleActive(time_row);
-                        if(time_row === rowActive){
-                          timeSelect(time_row - 1, 1);        
-                      }
-                    }}>
-                  </TimeTable_container_row>
-                ))}
-            </TimeTable_container_col>
-            <TimeTable_container_col
-              className={"TimeTable_container_col" + ((selectedDates.length >= 2) ? " active" : "")}>
-              {row.map((time_row, r_index) => (
-                  <TimeTable_container_row
-                    className={"TimeTable_container_row" + `${time_row}` +
-                      (isSelect2[time_row - 1] === true  ? " active" : "")}
-                    onClick={() => {
-                      rowToggleActive(time_row);
-                      if(time_row === rowActive){
-                        timeSelect(time_row - 1, 2);        
-                      }
-                    }}>
-                  </TimeTable_container_row>
-                ))}
-            </TimeTable_container_col>
-            <TimeTable_container_col
-              className={"TimeTable_container_col" + ((selectedDates.length >= 3) ? " active" : "")}>
-              {row.map((time_row, r_index) => (
-                  <TimeTable_container_row
-                    className={"TimeTable_container_row" + `${time_row}` +
-                      (isSelect3[time_row - 1] === true  ? " active" : "")}
-                    onClick={() => {
-                      rowToggleActive(time_row);
-                      if(time_row === rowActive){
-                        timeSelect(time_row - 1, 3);        
-                      }
-                    }}>
-                  </TimeTable_container_row>
-                ))}
-            </TimeTable_container_col>
-            <TimeTable_container_col
-              className={"TimeTable_container_col" + ((selectedDates.length >= 4) ? " active" : "")}>
-              {row.map((time_row, r_index) => (
-                  <TimeTable_container_row
-                    className={"TimeTable_container_row" + `${time_row}` +
-                      (isSelect4[time_row - 1] === true  ? " active" : "")}
-                    onClick={() => {
-                      rowToggleActive(time_row);
-                      if(time_row === rowActive){
-                        timeSelect(time_row - 1, 4);        
-                      }
-                    }}>
-                  </TimeTable_container_row>
-                ))}
-            </TimeTable_container_col>
-            <TimeTable_container_col
-              className={"TimeTable_container_col" + ((selectedDates.length >= 5) ? " active" : "")}>
-              {row.map((time_row, r_index) => (
-                  <TimeTable_container_row
-                    className={"TimeTable_container_row" + `${time_row}` +
-                      (isSelect5[time_row - 1] === true  ? " active" : "")}
-                    onClick={() => {
-                      rowToggleActive(time_row);
-                      if(time_row === rowActive){
-                        timeSelect(time_row - 1, 5);        
-                      }
-                    }}>
-                  </TimeTable_container_row>
-                ))}
-            </TimeTable_container_col>
+          <TimeTable_container_col
+            className={
+              'TimeTable_container_col' +
+              (selectedDates.length >= 1 ? ' active' : '')
+            }
+          >
+            {row.map((time_row, r_index) => (
+              <TimeTable_container_row
+                className={
+                  'TimeTable_container_row' +
+                  `${time_row}` +
+                  (isSelect1[time_row - 1] === true
+                    ? ' active'
+                    : '')
+                }
+                onClick={() => {
+                  timeSelect(
+                    time_row - 1,
+                    1,
+                    selectedDates.length,
+                  );
+                }}
+              ></TimeTable_container_row>
+            ))}
+          </TimeTable_container_col>
+          <TimeTable_container_col
+            className={
+              'TimeTable_container_col' +
+              (selectedDates.length >= 2 ? ' active' : '')
+            }
+          >
+            {row.map((time_row, r_index) => (
+              <TimeTable_container_row
+                className={
+                  'TimeTable_container_row' +
+                  `${time_row}` +
+                  (isSelect2[time_row - 1] === true
+                    ? ' active'
+                    : '')
+                }
+                onClick={() => {
+                  timeSelect(
+                    time_row - 1,
+                    2,
+                    selectedDates.length,
+                  );
+                }}
+              ></TimeTable_container_row>
+            ))}
+          </TimeTable_container_col>
+          <TimeTable_container_col
+            className={
+              'TimeTable_container_col' +
+              (selectedDates.length >= 3 ? ' active' : '')
+            }
+          >
+            {row.map((time_row, r_index) => (
+              <TimeTable_container_row
+                className={
+                  'TimeTable_container_row' +
+                  `${time_row}` +
+                  (isSelect3[time_row - 1] === true
+                    ? ' active'
+                    : '')
+                }
+                onClick={() => {
+                  timeSelect(
+                    time_row - 1,
+                    3,
+                    selectedDates.length,
+                  );
+                }}
+              ></TimeTable_container_row>
+            ))}
+          </TimeTable_container_col>
+          <TimeTable_container_col
+            className={
+              'TimeTable_container_col' +
+              (selectedDates.length >= 4 ? ' active' : '')
+            }
+          >
+            {row.map((time_row, r_index) => (
+              <TimeTable_container_row
+                className={
+                  'TimeTable_container_row' +
+                  `${time_row}` +
+                  (isSelect4[time_row - 1] === true
+                    ? ' active'
+                    : '')
+                }
+                onClick={() => {
+                  timeSelect(
+                    time_row - 1,
+                    4,
+                    selectedDates.length,
+                  );
+                }}
+              ></TimeTable_container_row>
+            ))}
+          </TimeTable_container_col>
+          <TimeTable_container_col
+            className={
+              'TimeTable_container_col' +
+              (selectedDates.length >= 5 ? ' active' : '')
+            }
+          >
+            {row.map((time_row, r_index) => (
+              <TimeTable_container_row
+                className={
+                  'TimeTable_container_row' +
+                  `${time_row}` +
+                  (isSelect5[time_row - 1] === true
+                    ? ' active'
+                    : '')
+                }
+                onClick={() => {
+                  timeSelect(
+                    time_row - 1,
+                    5,
+                    selectedDates.length,
+                  );
+                }}
+              ></TimeTable_container_row>
+            ))}
+          </TimeTable_container_col>
         </TimeTable_container>
       </TimeTable_box>
     </div>
   );
 }
 export default MorningTimeTable;
+function useSetRecoilState(
+  makeFlagAtom: RecoilState<IFlag>,
+) {
+  throw new Error('Function not implemented.');
+}
