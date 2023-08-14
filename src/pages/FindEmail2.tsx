@@ -14,10 +14,10 @@ const Logo = styled.img`
   display: block;
 
   @media screen and (max-width: 500px) {
-    display: none;
+    width: 200px;
+    margin-top: 128px;
   }
 `;
-
 const Wrapper = styled.div`
   width: 100%;
   height: 1024px;
@@ -33,13 +33,13 @@ const Wrapper = styled.div`
 
 const EmailMessage = styled.p`
   font-size: 28px;
-  font-weight: 600;
+  font-weight: 700;
   font-family: Inter;
   line-height: normal;
   margin: 106px auto 0px;
 
   @media screen and (max-width: 500px) {
-    margin: 255px auto 0px;
+    margin: 109px auto 0px;
     font-size: 22px;
   }
 `;
@@ -66,7 +66,7 @@ const LoginButton = styled.img`
 
   @media screen and (max-width: 500px) {
     width: 350px;
-    margin: 42px auto 0px;
+    margin: 30px auto 0px;
   }
 `;
 

@@ -14,7 +14,8 @@ const Logo = styled.img`
   display: block;
 
   @media screen and (max-width: 500px) {
-    display: none;
+    width: 200px;
+    margin-top: 128px;
   }
 `;
 
@@ -34,8 +35,9 @@ const ResetPasswordTitle = styled.h2`
   line-height: normal;
   font-style: Inter;
 
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
     font-size: 22px;
+    margin: 97px auto 0 75px;
   }
 `;
 
@@ -67,7 +69,7 @@ const EmailInput = styled.input`
   @media screen and (max-width: 500px) {
     width: 350px;
     font-size: 15px;
-    margin: 86px auto 0px;
+    margin: 15px auto 0px;
   }
 `;
 
@@ -84,7 +86,7 @@ const NextButton = styled.img`
 
   @media screen and (max-width: 500px) {
     width: 350px;
-    margin: 28px auto 0;
+    margin: 34px auto 0;
   }
 `;
 
