@@ -31,12 +31,15 @@ const Comfirmed_promise_main2_text = styled.text`
 
 const Comfirmed_promise_footer = styled.div`
   margin-top: 20px;
+  display: flex;
+  justify-content: center;
 `;
 
 const Comfirmed_promise_btn_box = styled.div`
   width: 208px;
   height: 49px;
-  margin-left: 510px;
+  display: flex;
+  justify-content: center;
 `;
 
 const Comfirmed_promise_btn = styled.button`
