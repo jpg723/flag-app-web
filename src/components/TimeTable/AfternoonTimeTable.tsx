@@ -5,33 +5,33 @@ import { makeFlagAtom } from '../../recoil/Atoms';
 import moment from 'moment';
 
 const Timetable_day = styled.div`
-  width: 395px;
   height: 18px;
   margin-top: 14px;
-  margin-left: 415px;
   display: flex;
+  justify-content: center;
 `;
 
 const Timetable_day_contents = styled.span`
+  display: flex;
   width: 79px;
   font-size: 15px;
   text-align: center;
+  display: flex;
+  justify-content: center;
 `;
 
 const Timetable_date = styled.div`
   margin-top: 1px;
-  width: 395px;
   height: 18px;
-  margin-left: 415px;
   display: flex;
+  justify-content: center;
 `;
 
 const TimeTable_time_container = styled.div`
   height: 216px;
-  margin-left: 400px;
   margin-right: 2px;
   font-size: 10px;
-  font-wegiht: 500;
+  font-weight: 500;
   text-align: center;
 `;
 
@@ -44,9 +44,9 @@ const TimeTable_time = styled.span`
 
 const TimeTable_container = styled.div`
   display: flex;
+  justify-content: center;
   margin-top: 7px;
-  margin-left: 0;
-  margin-right: auto;
+  margin-right: 13px;
 `;
 
 const TimeTable_container_col = styled.div`
