@@ -4,6 +4,7 @@ import DawnTimeTable from '../components/TimeTable/DawnTimeTable';
 import MorningTimeTable from '../components/TimeTable/MorningTimeTable';
 import AfternoonTimeTable from '../components/TimeTable/AfternoonTimeTable';
 import NightTimeTable from '../components/TimeTable/NightTimeTable';
+import {Link} from 'react-router-dom';
 
 const Comfirmed_promise_main1 = styled.div`
   margin-top: 44px;
@@ -66,9 +67,11 @@ function ComfirmedPromise() {
       <MorningTimeTable></MorningTimeTable>
       <Comfirmed_promise_footer>
         <Comfirmed_promise_btn_box>
-          <Comfirmed_promise_btn>
-            완료하기
-          </Comfirmed_promise_btn>
+          <Link to='/makeFlagFinish'>
+            <Comfirmed_promise_btn>
+              완료하기
+            </Comfirmed_promise_btn>
+          </Link>
         </Comfirmed_promise_btn_box>
       </Comfirmed_promise_footer>
     </div>

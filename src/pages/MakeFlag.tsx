@@ -63,7 +63,7 @@ const MakeFlag = () => {
       selectedDates.length > 0 &&
       cycle !== ''
     ) {
-      navigate('/makeFlagFinish', { replace: true });
+      navigate('/comfirmed-promise', { replace: true });
     } else console.log('필수 입력을 채워주세요');
   };
 
