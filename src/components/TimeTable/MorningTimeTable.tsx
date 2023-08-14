@@ -32,7 +32,7 @@ const TimeTable_time_container = styled.div`
   height: 216px;
   margin-right: 2px;
   font-size: 10px;
-  font-wegiht: 500;
+  font-weight: 500;
   text-align: center;
 `;
 
