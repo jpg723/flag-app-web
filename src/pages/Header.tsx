@@ -21,19 +21,21 @@ const HeaderCover = styled.div`
     margin: 41px 0px 0px;
   }
 `;
-const HeaderLogo = styled.span`
+const HeaderLogo = styled.button`
+  display: inline;
+  border: none;
   width: 166px;
   height: 57px;
   flex-shrink: 0;
   background-color: transparent;
   background-repeat: no-repeat;
   background-image: url(${logo});
-  margin: auto 257px 20px 201px;
+  margin: 31px 257px 20px 201px;
   @media screen and (max-width: 500px) {
     width: 95px;
     height: 32px;
     background-image: url(${mobileLogo});
-    margin: auto 23px 14px;
+    margin: 15px 23px 14px;
   }
 `;
 const HeaderItem = styled.span`
@@ -158,15 +160,15 @@ const SideMenuItem = styled.li`
 
  
 function Header() {
-  const isLogin = 0; //로그인 상태 점검
+  const [isLogin, setIsLogin] = useState(true); //로그인 상태 점검
   const [menu, setMenu] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   return (
     <>
       <HeaderCover>
-        <HeaderLogo />
-        <HeaderItem>서비스 안내</HeaderItem>
-        <HeaderItem>플래그</HeaderItem>
+        <Link to="/"><HeaderLogo /></Link> 
+        <HeaderItem><Link to="/serviceInfo">서비스 안내</Link></HeaderItem>
+        <HeaderItem><Link to="/promise-view">플래그</Link></HeaderItem>
         { isLogin ? (
             <HeaderMenuLine>
               <HeaderLoginMenuBtn onClick={() => setMenu(!menu)} />
@@ -174,21 +176,28 @@ function Header() {
                 <MenuCover>
                   <MenuItem><Link to="/MyPage">마이페이지</Link></MenuItem>
                   <MenuItem>이용약관</MenuItem>
-                  <MenuItem>로그아웃</MenuItem>
+                  <MenuItem onClick={() => setIsLogin(!isLogin)}>로그아웃</MenuItem>
                 </MenuCover>
               )}
             </HeaderMenuLine>
           )
-          : (<HeaderLogin>로그인</HeaderLogin>)
+          : (<HeaderLogin><Link to="/login">로그인</Link></HeaderLogin>)
         }
         { mobileMenu ? ( 
             <SideMenuCover className={ mobileMenu ? 'open' : ''}>
               <HeaderMobileSideMenuBtn onClick={() => setMobileMenu(!mobileMenu)} />
               <ul>
-                <SideMenuItem>서비스 안내</SideMenuItem>
-                <SideMenuItem>플래그</SideMenuItem>
+                <SideMenuItem><Link to="/serviceInfo" onClick={() => setMobileMenu(!mobileMenu)}>서비스 안내</Link></SideMenuItem>
+                <SideMenuItem><Link to="/promise-view" onClick={() => setMobileMenu(!mobileMenu)}>플래그</Link></SideMenuItem>
                 <SideMenuItem><Link to="/MyPage" onClick={() => setMobileMenu(!mobileMenu)}>마이페이지</Link></SideMenuItem>
-                <SideMenuItem>로그인/회원가입</SideMenuItem>
+                { isLogin ? 
+                  (<SideMenuItem onClick={() => {
+                    setIsLogin(!isLogin);
+                    setMobileMenu(!mobileMenu);
+                  }}>로그아웃</SideMenuItem>)
+                  : (<SideMenuItem><Link to="/login">로그인/회원가입</Link></SideMenuItem>)
+                }
+                  
                 <SideMenuItem>이용약관</SideMenuItem>
               </ul>
             </SideMenuCover>

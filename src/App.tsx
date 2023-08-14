@@ -25,12 +25,10 @@ import SignUp1 from './pages/SignUp1';
 import SignUp2 from './pages/SignUp2';
 import SignUp3 from './pages/SignUp3';
 import MyPage from './pages/MyPage';
-import FriendsAdd from './pages/FriendsAdd';
-import FriendsDelete from './pages/FriendsDelete';
-
+import MyPageFriendsAdd from './pages/MyPageFriendsAdd';
+import MyPageFriendsDelete from './pages/MyPageFriendsDelete';
 
 function App() {
-  
   return (
     <>
       <GlobalStyle />
@@ -72,9 +70,18 @@ function App() {
                 path="/makeFlagFinish"
                 element={<MakeFlagFinish />}
               />
-              <Route path="/SignUp1" element={<SignUp1 />} />
-              <Route path="/SignUp2" element={<SignUp2 />} />
-              <Route path="/SignUp3" element={<SignUp3 />} />
+              <Route
+                path="/SignUp1"
+                element={<SignUp1 />}
+              />
+              <Route
+                path="/SignUp2"
+                element={<SignUp2 />}
+              />
+              <Route
+                path="/SignUp3"
+                element={<SignUp3 />}
+              />
               <Route path="/MyPage" element={<MyPage />} />
             </Route>
             {/* 헤더 없음 */}
@@ -107,8 +114,14 @@ function App() {
               path="/email-change-complete"
               element={<EmailChange2 />}
             />
-            <Route path="/MyPage_FriendsAdd" element={<FriendsAdd />} />
-            <Route path="/MyPage_FriendsDelete" element={<FriendsDelete />} />
+            <Route
+              path="/MyPage_FriendsAdd"
+              element={<MyPageFriendsAdd />}
+            />
+            <Route
+              path="/MyPage_FriendsDelete"
+              element={<MyPageFriendsDelete />}
+            />
           </Routes>
         </Router>
       </RecoilRoot>
