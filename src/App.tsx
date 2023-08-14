@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './components/Header';
 import { Routes, Route } from 'react-router-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 import { GlobalStyle } from './GlobalStyle';
 import ComfirmedPromise from './pages/ComfirmedPromise';
 import PromiseView from './pages/PromiseView';
@@ -22,61 +23,63 @@ function App() {
     <div>
       <GlobalStyle />
       <Header />
-      <Router>
-        <Routes>
-          <Route
-            path="/promise-view"
-            element={<PromiseView />}
-          />
-          <Route
-            path="/flag-meeting"
-            element={<FlagMeeting />}
-          />
-          <Route
-            path="/comfirmed-promise"
-            element={<ComfirmedPromise />}
-          />
-          <Route
-            path="/email-change"
-            element={<EmailChange1 />}
-          />
-          <Route
-            path="/password-change"
-            element={<PasswordChange />}
-          />
+      <RecoilRoot>
+        <Router>
+          <Routes>
+            <Route
+              path="/promise-view"
+              element={<PromiseView />}
+            />
+            <Route
+              path="/flag-meeting"
+              element={<FlagMeeting />}
+            />
+            <Route
+              path="/comfirmed-promise"
+              element={<ComfirmedPromise />}
+            />
+            <Route
+              path="/email-change"
+              element={<EmailChange1 />}
+            />
+            <Route
+              path="/password-change"
+              element={<PasswordChange />}
+            />
 
-          {/* 헤더 없음 */}
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/find-email"
-            element={<FindEmail1 />}
-          />
-          <Route
-            path="/find-email-complete"
-            element={<FindEmail2 />}
-          />
-          <Route
-            path="/reset-password"
-            element={<ResetPassword1 />}
-          />
-          <Route
-            path="/password-change-email"
-            element={<ResetPassword2 />}
-          />
-          <Route
-            path="/new-password"
-            element={<ResetPassword3 />}
-          />
-          <Route
-            path="/reset-password-complete"
-            element={<ResetPassword4 />}
-          />
-          <Route
-            path="/email-change-complete"
-            element={<EmailChange2 />}
-          />
-        </Routes>
-      </Router>
+            {/* 헤더 없음 */}
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/find-email"
+              element={<FindEmail1 />}
+            />
+            <Route
+              path="/find-email-complete"
+              element={<FindEmail2 />}
+            />
+            <Route
+              path="/reset-password"
+              element={<ResetPassword1 />}
+            />
+            <Route
+              path="/password-change-email"
+              element={<ResetPassword2 />}
+            />
+            <Route
+              path="/new-password"
+              element={<ResetPassword3 />}
+            />
+            <Route
+              path="/reset-password-complete"
+              element={<ResetPassword4 />}
+            />
+            <Route
+              path="/email-change-complete"
+              element={<EmailChange2 />}
+            />
+          </Routes>
+        </Router>
+      </RecoilRoot>
     </div>
   );
 }
