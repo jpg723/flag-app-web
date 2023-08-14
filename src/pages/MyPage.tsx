@@ -194,7 +194,8 @@ const MyPageFriendsList = styled.div`
     margin-right: 157px;
   }
 `;
-const MyPageFriendEdit = styled.span`
+const MyPageFriendEditText = styled.span<{ isEdit: boolean }>`
+  display: ${(props) => (props.isEdit ? 'none' : 'inline')};
   color: #000;
   font-family: Apple SD Gothic Neo;
   font-size: 18px;
@@ -203,37 +204,22 @@ const MyPageFriendEdit = styled.span`
   line-height: normal;
   float: right;
   margin: 8px 20px auto auto;
-  .delete {
-    color: #f00;
-    display: none;
-  }
-  .return {
-    color: #000;
-    display: none;
-  }
   @media screen and (max-width: 500px) {
     font-size: 12px;
   }
 `;
-const FriendsCSS = styled.div`
-  .itemCkeck {
-    border-radius: 50%;
-  }
-  .itemProfile {
-    border-radius: 50%;
-    margin: 0px;
-  }
-  .itemName {
-    color: #000;
-    font-family: Apple SD Gothic Neo;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    margin: 0px;
-  }
-  .itemEnter {
-    height: 22px;
+const MyPageFriendDelText = styled.span<{ isEdit: boolean }>`
+  display: ${(props) => (props.isEdit ? 'none' : 'inline')};
+  color: #f00;
+  font-family: Apple SD Gothic Neo;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  float: right;
+  margin: 8px 20px auto auto;
+  @media screen and (max-width: 500px) {
+    font-size: 12px;
   }
 `;
 
@@ -248,51 +234,9 @@ function MyPage() {
     name: string;
     profile?: string;
   };
-  const friends: friend[] = [
-    { id: '100', name: 'aaa', profile: 'aaa' },
-    { id: '101', name: 'bbb', profile: 'bbb' },
-    { id: '102', name: 'ccc', profile: 'ccc' },
-    { id: '103', name: 'ddd', profile: 'ddd' },
-    { id: '104', name: 'eee', profile: 'eee' },
-    { id: '105', name: 'fff', profile: 'fff' },
-  ];
 
   useEffect(() => {
     // 친구 목록 생성
-    const friendsList =
-      document.querySelector('#friendsList');
-    if (friendsList instanceof Element)
-      friendsList.replaceChildren();
-
-    for (let i of friends) {
-      const friendsItem = document.createElement('div');
-      friendsItem.className = 'item';
-
-      const itemCheck = document.createElement('img');
-      itemCheck.id = i.id;
-      itemCheck.className = 'itemCheck';
-      itemCheck.style.display = 'none';
-      itemCheck.src =
-        require('../contents/desktop/mypage/Ic_마이페이지_Check_Friendlist.svg').default;
-      const itemProfile = document.createElement('img');
-      itemProfile.className = 'itemProfile';
-      itemProfile.src =
-        require('../contents/desktop/mypage/Img_약속만들기_Profilepic_Checked.svg').default;
-      const itemName = document.createElement('span');
-      itemName.className = 'itemName';
-      itemName.innerHTML = i.name;
-      const itemEnter = document.createElement('br');
-      itemEnter.className = 'itemEnter';
-
-      friendsItem.appendChild(itemCheck);
-      friendsItem.appendChild(itemProfile);
-      friendsItem.appendChild(itemName);
-      if (friendsList instanceof Element) {
-        friendsList.appendChild(friendsItem);
-        friendsList.appendChild(itemEnter);
-      }
-    }
-
     /*
     <div className='item'>
       <img className='itemCheck' />
@@ -310,23 +254,11 @@ function MyPage() {
   }, []);
 
   function addFriends() {
-    window.open(
-      '/MyPage_FriendsAdd',
-      '_blank',
-      'width=835, height=562, toolbar=no',
-    );
-  }
-
-  function editFriends() {
-    setIsEdit((prev) => !prev);
+    window.open( '/MyPage_FriendsAdd', '_blank', 'width=835, height=562, toolbar=no' );
   }
 
   function deleteWindow() {
-    window.open(
-      '/MyPage_FriendsDelete',
-      '_blank',
-      'width=577, height=321, toolbar=no',
-    );
+    window.open( '/MyPage_FriendsDelete', '_blank', 'width=577, height=321, toolbar=no');
   }
 
   return (
@@ -338,11 +270,7 @@ function MyPage() {
             <label htmlFor="profileImg">
               <MyPageAccountImgEdit src={profilepicEdit} />
             </label>
-            <MyPageAccountImgInput
-              type="file"
-              id="profileImg"
-              accept="image/*"
-            />
+            <MyPageAccountImgInput type="file" id="profileImg" accept="image/*" />
           </MyPageAccountImg>
           <MyPageName>{userName}</MyPageName>
           <MyPageEmail>Email</MyPageEmail>
@@ -353,27 +281,12 @@ function MyPage() {
           <MyPageEdit src={btnWithdraw} />
         </MyPageCover2>
         <MyPageCover3>
-          <MyPageFriendsListText>
-            {userName}님의 친구목록
-          </MyPageFriendsListText>
+          <MyPageFriendsListText> {userName}님의 친구목록 </MyPageFriendsListText>
+          <MyPageFriendAdd src={btnAddfriend} />
           <FriendList isEdit={isEdit} searchName="" />
-          <MyPageFriendEdit id="edit" onClick={editFriends}>
-            편집하기
-          </MyPageFriendEdit>
-          <MyPageFriendEdit
-            id="delete"
-            className="delete"
-            onClick={deleteWindow}
-          >
-            삭제하기
-          </MyPageFriendEdit>
-          <MyPageFriendEdit
-            id="return"
-            className="return"
-            onClick={editFriends}
-          >
-            마치기
-          </MyPageFriendEdit>
+          <MyPageFriendEditText isEdit={isEdit} onClick={() => setIsEdit(!isEdit)}> 편집하기 </MyPageFriendEditText>
+          <MyPageFriendDelText isEdit={!isEdit} onClick={deleteWindow}> 삭제하기 </MyPageFriendDelText>
+          <MyPageFriendEditText isEdit={!isEdit} onClick={() => setIsEdit(!isEdit)}> 마치기 </MyPageFriendEditText>
         </MyPageCover3>
       </MyPageCover>
     </>
