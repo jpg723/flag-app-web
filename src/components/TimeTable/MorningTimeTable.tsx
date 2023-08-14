@@ -78,11 +78,14 @@ const TimeTable_container_row = styled.span`
 
 function MorningTimeTable() {
   const {selectedDates} = useRecoilValue(makeFlagAtom);
+  let selectedDates_copy = [...selectedDates];
+  selectedDates_copy.sort();
+  console.log(selectedDates_copy);
   const copyDates: string[] = [];
   const copyDays: string[] = [];
   const day = ['일', '월', '화', '수', '목', '금', '토'];
 
-  selectedDates.forEach((date, index) => {
+  selectedDates_copy.forEach((date, index) => {
     let m = moment(date, 'YYYY-MM-DD');
     let d = moment(date).day();
     let copyDate = m.format('MM.DD');
