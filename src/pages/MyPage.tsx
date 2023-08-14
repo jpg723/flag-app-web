@@ -334,7 +334,8 @@ function MyPage() {
               itemProfile[ic].style.border = "none";
             }
             else {
-              setDeleteList([...deleteList, clickId]); //값이 안들어감..
+              const newListAdd = [...deleteList];
+              setDeleteList([...newListAdd, clickId]); //값이 안들어감..
               console.log('add!! ' + deleteList);
               itemProfile[ic].style.border = "2px solid #6041FF"; 
             }
