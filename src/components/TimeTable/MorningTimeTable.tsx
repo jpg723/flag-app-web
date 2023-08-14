@@ -5,6 +5,7 @@ import { makeFlagAtom } from '../../recoil/Atoms';
 import moment from 'moment';
 
 const Timetable_day = styled.div`
+  border: 1px solid black;
   width: 395px;
   height: 18px;
   margin-top: 14px;
@@ -13,6 +14,7 @@ const Timetable_day = styled.div`
 `;
 
 const Timetable_day_contents = styled.span`
+  border: 1px solid black;
   width: 79px;
   font-size: 15px;
   text-align: center;
@@ -74,6 +76,9 @@ const TimeTable_container_row = styled.span`
   &.active {
     background-color: #C7B9FF;
   }
+`;
+
+const TimeTable_box = styled.div`
 `;
 
 function MorningTimeTable() {
@@ -225,102 +230,104 @@ function MorningTimeTable() {
 
   return (
     <div>
-      <Timetable_day>
-        {copyDays.map((timeTable_day, index) => (
-          <Timetable_day_contents>
-            {timeTable_day}
-          </Timetable_day_contents>
-        ))}
-      </Timetable_day>
-      <Timetable_date>
-        {copyDates.map((timeTable_date, index) => (
-          <Timetable_day_contents>{timeTable_date}</Timetable_day_contents>
-        ))}
-      </Timetable_date>
-      <TimeTable_container>
-        <TimeTable_time_container>
-          {time.map((timeTable_time, index) => (
-            <TimeTable_time>
-              {timeTable_time}
-            </TimeTable_time>
+      <TimeTable_box>
+        <Timetable_day>
+          {copyDays.map((timeTable_day, index) => (
+            <Timetable_day_contents>
+              {timeTable_day}
+            </Timetable_day_contents>
           ))}
-        </TimeTable_time_container>
-          <TimeTable_container_col
-            className={"TimeTable_container_col" + ((selectedDates.length >= 1) ? " active" : "")}>
-            {row.map((time_row, r_index) => (
-                <TimeTable_container_row
-                  className={"TimeTable_container_row" + `${time_row}` +
-                    (isSelect1[time_row - 1] === true ? " active" : "")}
+        </Timetable_day>
+        <Timetable_date>
+          {copyDates.map((timeTable_date, index) => (
+            <Timetable_day_contents>{timeTable_date}</Timetable_day_contents>
+          ))}
+        </Timetable_date>
+        <TimeTable_container>
+          <TimeTable_time_container>
+            {time.map((timeTable_time, index) => (
+              <TimeTable_time>
+                {timeTable_time}
+              </TimeTable_time>
+            ))}
+          </TimeTable_time_container>
+            <TimeTable_container_col
+              className={"TimeTable_container_col" + ((selectedDates.length >= 1) ? " active" : "")}>
+              {row.map((time_row, r_index) => (
+                  <TimeTable_container_row
+                    className={"TimeTable_container_row" + `${time_row}` +
+                      (isSelect1[time_row - 1] === true ? " active" : "")}
+                      onClick={() => {
+                        rowToggleActive(time_row);
+                        if(time_row === rowActive){
+                          timeSelect(time_row - 1, 1);        
+                      }
+                    }}>
+                  </TimeTable_container_row>
+                ))}
+            </TimeTable_container_col>
+            <TimeTable_container_col
+              className={"TimeTable_container_col" + ((selectedDates.length >= 2) ? " active" : "")}>
+              {row.map((time_row, r_index) => (
+                  <TimeTable_container_row
+                    className={"TimeTable_container_row" + `${time_row}` +
+                      (isSelect2[time_row - 1] === true  ? " active" : "")}
                     onClick={() => {
                       rowToggleActive(time_row);
                       if(time_row === rowActive){
-                        timeSelect(time_row - 1, 1);        
-                    }
-                  }}>
-                </TimeTable_container_row>
-              ))}
-          </TimeTable_container_col>
-          <TimeTable_container_col
-            className={"TimeTable_container_col" + ((selectedDates.length >= 2) ? " active" : "")}>
-            {row.map((time_row, r_index) => (
-                <TimeTable_container_row
-                  className={"TimeTable_container_row" + `${time_row}` +
-                    (isSelect2[time_row - 1] === true  ? " active" : "")}
-                  onClick={() => {
-                    rowToggleActive(time_row);
-                    if(time_row === rowActive){
-                      timeSelect(time_row - 1, 2);        
-                    }
-                  }}>
-                </TimeTable_container_row>
-              ))}
-          </TimeTable_container_col>
-          <TimeTable_container_col
-            className={"TimeTable_container_col" + ((selectedDates.length >= 3) ? " active" : "")}>
-            {row.map((time_row, r_index) => (
-                <TimeTable_container_row
-                  className={"TimeTable_container_row" + `${time_row}` +
-                    (isSelect3[time_row - 1] === true  ? " active" : "")}
-                  onClick={() => {
-                    rowToggleActive(time_row);
-                    if(time_row === rowActive){
-                      timeSelect(time_row - 1, 3);        
-                    }
-                  }}>
-                </TimeTable_container_row>
-              ))}
-          </TimeTable_container_col>
-          <TimeTable_container_col
-            className={"TimeTable_container_col" + ((selectedDates.length >= 4) ? " active" : "")}>
-            {row.map((time_row, r_index) => (
-                <TimeTable_container_row
-                  className={"TimeTable_container_row" + `${time_row}` +
-                    (isSelect4[time_row - 1] === true  ? " active" : "")}
-                  onClick={() => {
-                    rowToggleActive(time_row);
-                    if(time_row === rowActive){
-                      timeSelect(time_row - 1, 4);        
-                    }
-                  }}>
-                </TimeTable_container_row>
-              ))}
-          </TimeTable_container_col>
-          <TimeTable_container_col
-            className={"TimeTable_container_col" + ((selectedDates.length >= 5) ? " active" : "")}>
-            {row.map((time_row, r_index) => (
-                <TimeTable_container_row
-                  className={"TimeTable_container_row" + `${time_row}` +
-                    (isSelect5[time_row - 1] === true  ? " active" : "")}
-                  onClick={() => {
-                    rowToggleActive(time_row);
-                    if(time_row === rowActive){
-                      timeSelect(time_row - 1, 5);        
-                    }
-                  }}>
-                </TimeTable_container_row>
-              ))}
-          </TimeTable_container_col>
-      </TimeTable_container>
+                        timeSelect(time_row - 1, 2);        
+                      }
+                    }}>
+                  </TimeTable_container_row>
+                ))}
+            </TimeTable_container_col>
+            <TimeTable_container_col
+              className={"TimeTable_container_col" + ((selectedDates.length >= 3) ? " active" : "")}>
+              {row.map((time_row, r_index) => (
+                  <TimeTable_container_row
+                    className={"TimeTable_container_row" + `${time_row}` +
+                      (isSelect3[time_row - 1] === true  ? " active" : "")}
+                    onClick={() => {
+                      rowToggleActive(time_row);
+                      if(time_row === rowActive){
+                        timeSelect(time_row - 1, 3);        
+                      }
+                    }}>
+                  </TimeTable_container_row>
+                ))}
+            </TimeTable_container_col>
+            <TimeTable_container_col
+              className={"TimeTable_container_col" + ((selectedDates.length >= 4) ? " active" : "")}>
+              {row.map((time_row, r_index) => (
+                  <TimeTable_container_row
+                    className={"TimeTable_container_row" + `${time_row}` +
+                      (isSelect4[time_row - 1] === true  ? " active" : "")}
+                    onClick={() => {
+                      rowToggleActive(time_row);
+                      if(time_row === rowActive){
+                        timeSelect(time_row - 1, 4);        
+                      }
+                    }}>
+                  </TimeTable_container_row>
+                ))}
+            </TimeTable_container_col>
+            <TimeTable_container_col
+              className={"TimeTable_container_col" + ((selectedDates.length >= 5) ? " active" : "")}>
+              {row.map((time_row, r_index) => (
+                  <TimeTable_container_row
+                    className={"TimeTable_container_row" + `${time_row}` +
+                      (isSelect5[time_row - 1] === true  ? " active" : "")}
+                    onClick={() => {
+                      rowToggleActive(time_row);
+                      if(time_row === rowActive){
+                        timeSelect(time_row - 1, 5);        
+                      }
+                    }}>
+                  </TimeTable_container_row>
+                ))}
+            </TimeTable_container_col>
+        </TimeTable_container>
+      </TimeTable_box>
     </div>
   );
 }
