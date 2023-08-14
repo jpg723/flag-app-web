@@ -85,7 +85,7 @@ function SignUp2() {
   const [profile, setProfile] = useRecoilState(SignUpProfileAtom);
   const [name, setName] = useRecoilState(SignUpNameAtom);
   const id = useRecoilValue(SignUpIdAtom);
-  const pw = useRecoilValue(SignUpPwAtom);
+  const password = useRecoilValue(SignUpPwAtom);
   //유효성 검사
   const [isName, setIsName] = useState(false);
   useEffect(() => {
@@ -103,7 +103,7 @@ function SignUp2() {
     }
   };
   const signupHandler = (e: any) => {
-    console.log('id:' + id + ' pw:' + pw);
+    console.log('id:' + id + ' pw:' + password);
     console.log('Profile:' + profile + ' Name:' + name);
     console.log(' isName:' + isName);
     if (!isName) {
@@ -114,20 +114,41 @@ function SignUp2() {
     if (!isName) e.preventDefault();
     else {
       //백엔드로 데이터 전달
+      //"proxy": "http://ec2-3-36-64-117.ap-northeast-2.compute.amazonaws.com:8080",
+      /*
       axios({
-        method:"POST",
-        url: '/user/join',
-        data:{
-          "email": id,
-          "password": pw,
-          "name": name
+        method: 'POST',
+        url: '/user/join/',
+        data: {
+          "data1": name,
+          "data2": id,
+          "data3": password
+          //userId: "유저아이디", 친구 삭제
+          //friends: "[1, 2, ]"
         }
-      }).then((res)=>{
-          console.log(res);
-      }).catch(error=>{
-          console.log(error);
-          throw new Error(error);
+      }).then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.error('AxiosError:', error);
+        // 에러 처리
       });
+      */
+      console.log("유효성 통과");
+      axios(
+        {
+          url: '/user/join',
+          method: 'post',
+          data: {
+            data1:name,data2:id,data3:password
+          } , 
+          //baseURL: 'http://ec2-3-36-64-117.ap-northeast-2.compute.amazonaws.com:8080',
+          //withCredentials: true,
+        }
+      ).then(function (response) {
+        console.log(response.data);
+      });
+      console.log("백엔드 전달");
     }
   };
     

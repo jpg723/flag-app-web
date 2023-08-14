@@ -9,7 +9,7 @@ import btnPwEdit from '../contents/desktop/mypage/Btn_마이페이지_Modifypass
 import btnLogout from '../contents/desktop/mypage/Btn_마이페이지_Logout.svg';
 import btnWithdraw from '../contents/desktop/mypage/Btn_마이페이지_Withdraw.svg';
 import btnAddfriend from '../contents/desktop/mypage/Btn_마이페이지_Addfriend.svg';
-import FriendList from '../components/makeFlag/FriendList';
+import MyPageFriendList from '../components/mypageFriends/MyPageFriendList';
 //display: none;
 //border: 2px solid #000;
 //@media screen and (max-width: 500px) {}
@@ -150,50 +150,6 @@ const MyPageFriendAdd = styled.img`
     height: 21px;
   }
 `;
-/*
-::-webkit-scrollbar : 스크롤바 영역에 대한 설정
-::-webkit-scrollbar-thumb : 스크롤바 막대에 대한 설정
-::-webkit-scrollbar-track  : 스크롤바 뒷 배경에 대한 설정
-*/
-const MyPageFriendsFrame = styled.div`
-  width: 605px;
-  height: 362px;
-  flex-shrink: 0;
-  border-radius: 18px;
-  border: 2px solid var(--primary-deep, #6041ff);
-  background: #fff;
-  margin: 15px 0px 0px;
-  padding: 40px 10px 40px 50px;
-  @media screen and (max-width: 500px) {
-    width: 302px;
-    height: 216px;
-  }
-`;
-const MyPageFriendsList = styled.div`
-  width: 100%;
-  height: 100%;
-  row-gap: 22px;
-  flex-shrink: 0;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
-  &::-webkit-scrollbar-thumb {
-    width: 5px;
-    height: 108px;
-    border-radius: 12px;
-    background: #d9d9d9;
-  }
-  &::-webkit-scrollbar-track {
-  }
-
-  .item {
-    display: flex;
-    align-items: center;
-    gap: 28px;
-    margin-right: 157px;
-  }
-`;
 const MyPageFriendEditText = styled.span<{ isEdit: boolean }>`
   display: ${(props) => (props.isEdit ? 'none' : 'inline')};
   color: #000;
@@ -208,50 +164,11 @@ const MyPageFriendEditText = styled.span<{ isEdit: boolean }>`
     font-size: 12px;
   }
 `;
-const MyPageFriendDelText = styled.span<{ isEdit: boolean }>`
-  display: ${(props) => (props.isEdit ? 'none' : 'inline')};
-  color: #f00;
-  font-family: Apple SD Gothic Neo;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  float: right;
-  margin: 8px 20px auto auto;
-  @media screen and (max-width: 500px) {
-    font-size: 12px;
-  }
-`;
+
 
 function MyPage() {
   const [userName] = useState('OO');
   const [isEdit, setIsEdit] = useState(false);
-  const [deleteList, setDeleteList] = useState([] as any);
-
-  // 친구 (일련번호, 이름, 프로필)
-  type friend = {
-    id: string;
-    name: string;
-    profile?: string;
-  };
-
-  useEffect(() => {
-    // 친구 목록 생성
-    /*
-    <div className='item'>
-      <img className='itemCheck' />
-      <img className='itemProfile' src={ProfilepicChecked} />
-      <span className='itemName'>친구이름</span>
-    </div>
-    const checkIdText = document.querySelector('#checkIdText');
-    document.createElement('h1');
-    headerTag.appendChild(textNode);
-    document.querySelectorAll
-    console.log('  check!!!!!!!');
-      if (checkIdText instanceof Element) 
-        checkIdText.innerHTML = '사용 가능한 이메일입니다.'; 
-    */
-  }, []);
 
   function addFriends() {
     window.open( '/MyPage_FriendsAdd', '_blank', 'width=835, height=562, toolbar=no' );
@@ -282,11 +199,8 @@ function MyPage() {
         </MyPageCover2>
         <MyPageCover3>
           <MyPageFriendsListText> {userName}님의 친구목록 </MyPageFriendsListText>
-          <MyPageFriendAdd src={btnAddfriend} />
-          <FriendList isEdit={isEdit} searchName="" />
-          <MyPageFriendEditText isEdit={isEdit} onClick={() => setIsEdit(!isEdit)}> 편집하기 </MyPageFriendEditText>
-          <MyPageFriendDelText isEdit={!isEdit} onClick={deleteWindow}> 삭제하기 </MyPageFriendDelText>
-          <MyPageFriendEditText isEdit={!isEdit} onClick={() => setIsEdit(!isEdit)}> 마치기 </MyPageFriendEditText>
+          <MyPageFriendAdd src={btnAddfriend} onClick={addFriends} />
+          <MyPageFriendList searchName=""/>
         </MyPageCover3>
       </MyPageCover>
     </>

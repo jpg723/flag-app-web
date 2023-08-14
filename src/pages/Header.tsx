@@ -76,6 +76,9 @@ const HeaderMenuLine = styled.ul`
   width: 120px;
   text-align: right;
   margin: 55px 200px auto auto;
+  background-color: #FFF;
+  position: relative;
+  z-index: 2;
 `;
 const MenuItem = styled.li`
   color: #000;
@@ -105,9 +108,10 @@ const HeaderMobileMenuBtn = styled.button`
   }
 `;
 const HeaderLine = styled.hr`
-border: 2px solid #000;
   border: 0.5px solid rgba(142, 111, 255, 0.8);
   width: 100%;
+  position: relative;
+  z-index: 3;
   @media screen and (max-width: 500px) {
     width: 100%;
     flex-shrink: 0;
