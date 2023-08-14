@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import profilepic from '../contents/desktop/sign/_Img_계정생성완료_Profilepic.svg';
 import btnLogin from '../contents/desktop/sign/Btn_Login.svg';
-import { SignUpProfileAtom } from '../state/SignUpState';
+import { SignUpProfileAtom } from '../recoil/SignUpState';
 //display: none;
 //border: 2px solid #000;
 //@media screen and (max-width: 500px) {}

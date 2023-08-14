@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import profilepic from '../contents/desktop/sign/Btn_프로필생성_Profilepic.svg';
 import createaccount from '../contents/desktop/sign/Btn_프로필생성_Createaccount.svg';
-import { SignUpProfileAtom } from '../state/SignUpState';
-import { SignUpNameAtom } from '../state/SignUpState';
-import { SignUpIdAtom } from '../state/SignUpState';
-import { SignUpPwAtom } from '../state/SignUpState';
+import { SignUpProfileAtom } from '../recoil/SignUpState';
+import { SignUpNameAtom } from '../recoil/SignUpState';
+import { SignUpIdAtom } from '../recoil/SignUpState';
+import { SignUpPwAtom } from '../recoil/SignUpState';
 //padding
 
 const SignUp2Cover = styled.div`
@@ -113,6 +114,20 @@ function SignUp2() {
     if (!isName) e.preventDefault();
     else {
       //백엔드로 데이터 전달
+      axios({
+        method:"POST",
+        url: '/user/join',
+        data:{
+          "email": id,
+          "password": pw,
+          "name": name
+        }
+      }).then((res)=>{
+          console.log(res);
+      }).catch(error=>{
+          console.log(error);
+          throw new Error(error);
+      });
     }
   };
     
