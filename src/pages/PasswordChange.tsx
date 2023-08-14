@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
+import Header from '../pages/Header';
 import { useRecoilState } from 'recoil';
 import { confirmPasswordValidState } from '../recoil/Atoms';
 

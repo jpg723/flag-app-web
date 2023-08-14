@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
+import Header from '../pages/Header';
 import emailChangeButton from '../contents/desktop/mypage/Btn_마이페이지_Modifyemail.svg';
 import errorIcon from '../contents/desktop/sign/Ic_Error.svg';
 
