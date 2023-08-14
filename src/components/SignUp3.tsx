@@ -6,12 +6,12 @@ import btnLogin from '../contents/desktop/sign/Btn_Login.svg';
 import { SignUpProfileAtom } from '../state/SignUpState';
 //display: none;
 //border: 2px solid #000;
-//@media screen and (max-width: 360px) {}
+//@media screen and (max-width: 500px) {}
 
 const SignUp3Cover = styled.div`
   height: 910px;
   width: 1440px;
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
     width: 360px;
   }
 `;
@@ -21,7 +21,7 @@ const SignUpInputImgIc = styled.img`
   flex-shrink: 0;
   border-radius: 50%;
   margin: 183px 661px 0px;
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
     width: 95px;
     height: 95px;
     margin: 68px 132.5px 0px;
@@ -36,7 +36,7 @@ const SignUpAccount = styled.div`
   line-height: normal;
   margin: 13px auto 0px;
   text-align: center;
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
     font-size: 14px;
     margin: 8px auto 0px;
   }
@@ -50,7 +50,7 @@ const SignUpAccountText = styled.div`
   line-height: normal;
   margin: 43px auto 0px;
   text-align: center;
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
     font-size: 18px;
     font-weight: 700;
     margin: 20px auto 0px;
@@ -58,7 +58,7 @@ const SignUpAccountText = styled.div`
 `;
 const SignUpBtnLogin = styled.img`
   margin: 27px 542.5px auto;
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
     width: 277px;
     height: 38px;
     margin: 42px 41.5px 0px;

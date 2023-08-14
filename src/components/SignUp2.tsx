@@ -13,7 +13,7 @@ import { SignUpPwAtom } from '../state/SignUpState';
 const SignUp2Cover = styled.div`
   height: 910px;
   width: 1440px;
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
     width: 360px;
   }
 `;
@@ -22,7 +22,7 @@ const SignUpInputImgIc = styled.img`
   height: 122px;
   flex-shrink: 0;
   margin: 159px 661px 0px;
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
     width: 95px;
     height: 98px;
     margin: 68px 132.5px 0px;
@@ -45,7 +45,7 @@ const SignUpInputName = styled.input`
   font-weight: 400;
   line-height: normal;
   margin: 38px 494px 0px 496px;
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
     width: 212px;
     height: 43px;
     font-size: 13px;
@@ -61,7 +61,7 @@ const SignUpInputHint = styled.div`
   font-weight: 400;
   line-height: normal;
   margin: 20px auto 0px 500px;
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
     width: 212px;
     font-size: 10px;
     margin: 4px auto 0px 79px;
@@ -73,7 +73,7 @@ const SignUpCreateaccount = styled.img`
   height: 41px;
   flex-shrink: 0;
   margin: 33px 542.5px auto;
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
     width: 285px;
     height: 38px;
     margin: 25px auto 0px 37px;

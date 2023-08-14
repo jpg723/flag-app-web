@@ -12,7 +12,7 @@ import { SignUpPwAtom } from '../state/SignUpState';
 const SignUpCover = styled.div`
   height: 910px;
   width: 1440px;
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
     width: 360px;
   }
 `;
@@ -29,29 +29,38 @@ const SignUpImgText = styled.span`
   line-height: normal;
   margin: 101px auto 88px 236px;
   white-space: nowrap;
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
     height: 42px;
     width: 147px;
     gap: 5px;
     font-size: 27px;
     margin: 42px auto 65px 37px;
+    align-items: center;
   }
 `;
 const SignUpCover2 = styled.div`
   width: 610px;
   margin: 0px auto 0px 245px;
-  @media screen and (max-width: 360px) {
-    margin: 0px auto 0px 39px;
+  @media screen and (max-width: 500px) {
+    margin: 0px auto 0px 45px;
   }
 `;
 const SignUpInputEmailCover = styled.span`
-  display:inline;
+  display: inline;
   white-space:nowrap;
   margin: 0px
 `;
+const InputLine = styled.hr`
+  border: 1.5px solid #000;
+  width: 603px;
+  margin: 0px auto auto 0px;
+  @media screen and (max-width: 500px) {
+    border: 1px solid #000;
+    width: 281px;
+  }
+`;
 const SignUpInputEmail = styled.input`
   border: none;
-  border-bottom: 2px solid #000;
   width: 483px;
   outline: none;
   color: #000;
@@ -60,15 +69,13 @@ const SignUpInputEmail = styled.input`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  @media screen and (max-width: 360px) {
-    border-bottom: 1px solid #000;
+  @media screen and (max-width: 500px) {
     width: 181px;
     font-size: 15px;
   }
 `;
 const SignUpInputEmailAdd = styled.select`
   border: none;
-  border-bottom: 2px solid #000;
   outline: none;
   width: 120px;
   background: url(${spread}) no-repeat 95% 50%;
@@ -82,15 +89,13 @@ const SignUpInputEmailAdd = styled.select`
   font-weight: 500;
   line-height: 140%;
   padding: auto 25px 19px 0px;
-  @media screen and (max-width: 360px) {
-    border-bottom: 1px solid #000;
+  @media screen and (max-width: 500px) {
     width: 100px;
     font-size: 15px;
   }
 `;
 const SignUpInput = styled.input`
   border: none;
-  border-bottom: 2px solid #000;
   width: 603px;
   outline: none;
   color: #000;
@@ -101,9 +106,7 @@ const SignUpInput = styled.input`
   line-height: normal;
   white-space : normal;
   margin: 0px;
-  @media screen and (max-width: 360px) {
-    border-bottom: 1px solid #000;
-    width: 281px;
+  @media screen and (max-width: 500px) {
     font-size: 15px;
   }
 `;
@@ -113,7 +116,10 @@ const SignUpHintImg = styled.img`
   height: 28px;
   vertical-align: middle;
   margin-right: 5px;
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
+    width: 14px;
+    height: 14px;
+    margin-right: 3px;
   }
 `;
 const SignUpHintText = styled.div`
@@ -128,7 +134,7 @@ const SignUpHintText = styled.div`
   margin: 8px auto 59px 0px;
   display: flex;
   align-items: center;
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
     width: 281px;
     font-size: 10px;
     margin: 5px auto 24px 0px;
@@ -138,7 +144,7 @@ const SignUpNext = styled.img`
   width: 355px;
   height: 41px;
   margin: 12px 542.5px auto;
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
     width: 285px;
     height: 38px;
     margin: 12px auto auto 37px;
@@ -235,12 +241,15 @@ function SignUp1() {
             <option value="@daum.net">@daum.net</option>
           </SignUpInputEmailAdd>
         </SignUpInputEmailCover>
+        <InputLine />
         <SignUpHintText id="checkIdText"> ex) abc123@email.com </SignUpHintText>
         <SignUpInput type="password" id="pw" name="pw" placeholder="비밀번호"
           onChange={ (e: React.ChangeEvent<HTMLInputElement>) => { setInputPw(e.target.value); } } />
+        <InputLine />
         <SignUpHintText id="pwText"> 영문/숫자 조합, 최소 8자 이상 </SignUpHintText>
         <SignUpInput type="password" id="checkPw" name="checkPw" placeholder="비밀번호 재입력"
           onChange={ (e: React.ChangeEvent<HTMLInputElement>) => { setInputPwCheck(e.target.value); } } />
+        <InputLine />
         <SignUpHintText>
           <SignUpHintImg id="checkPwImg" src={errorImg} />
           <span id="checkPwText">비밀번호를 한 번 더 입력하세요</span>
