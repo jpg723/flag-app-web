@@ -21,50 +21,62 @@ import Main from './pages/Main';
 import ServiceInfo from './pages/ServiceInfo';
 import MakeFlag from './pages/MakeFlag';
 import MakeFlagFinish from './pages/MakeFlagFinish';
+import SignUp1 from './pages/SignUp1';
+import SignUp2 from './pages/SignUp2';
+import SignUp3 from './pages/SignUp3';
+import MyPage from './pages/MyPage';
+import FriendsAdd from './pages/FriendsAdd';
+import FriendsDelete from './pages/FriendsDelete';
+
 
 function App() {
   
   return (
-    <div>
+    <>
       <GlobalStyle />
-      <Header />
       <RecoilRoot>
         <Router>
           <Routes>
-            <Route path="/" element={<Main />} />
-            <Route
-              path="/promise-view"
-              element={<PromiseView />}
-            />
-            <Route
-              path="/flag-meeting"
-              element={<FlagMeeting />}
-            />
-            <Route
-              path="/comfirmed-promise"
-              element={<ComfirmedPromise />}
-            />
-            <Route
-              path="/email-change"
-              element={<EmailChange1 />}
-            />
-            <Route
-              path="/password-change"
-              element={<PasswordChange />}
-            />
-            <Route
-              path="/serviceInfo"
-              element={<ServiceInfo />}
-            />
-            <Route
-              path="/makeFlag"
-              element={<MakeFlag />}
-            />
-            <Route
-              path="/makeFlagFinish"
-              element={<MakeFlagFinish />}
-            />
-
+            {/* 헤더 있음 */}
+            <Route element={<Header />}>
+              <Route path="/" element={<Main />} />
+              <Route
+                path="/promise-view"
+                element={<PromiseView />}
+              />
+              <Route
+                path="/flag-meeting"
+                element={<FlagMeeting />}
+              />
+              <Route
+                path="/comfirmed-promise"
+                element={<ComfirmedPromise />}
+              />
+              <Route
+                path="/email-change"
+                element={<EmailChange1 />}
+              />
+              <Route
+                path="/password-change"
+                element={<PasswordChange />}
+              />
+              <Route
+                path="/serviceInfo"
+                element={<ServiceInfo />}
+              />
+              <Route
+                path="/makeFlag"
+                element={<MakeFlag />}
+              />
+              <Route
+                path="/makeFlagFinish"
+                element={<MakeFlagFinish />}
+              />
+              <Route path="/SignUp1" element={<SignUp1 />} />
+              <Route path="/SignUp2" element={<SignUp2 />} />
+              <Route path="/SignUp3" element={<SignUp3 />} />
+              <Route path="/MyPage" element={<MyPage />} />
+            </Route>
             {/* 헤더 없음 */}
             <Route path="/login" element={<Login />} />
             <Route
@@ -95,10 +107,12 @@ function App() {
               path="/email-change-complete"
               element={<EmailChange2 />}
             />
+            <Route path="/MyPage_FriendsAdd" element={<FriendsAdd />} />
+            <Route path="/MyPage_FriendsDelete" element={<FriendsDelete />} />
           </Routes>
         </Router>
       </RecoilRoot>
-    </div>
+    </>
   );
 }
 
