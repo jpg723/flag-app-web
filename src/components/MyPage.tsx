@@ -203,10 +203,11 @@ const MyPageFriendEdit = styled.span`
   float: right;
   margin: 8px 20px auto auto;
   .delete {
-    color: red;
+    color: #F00;
     display: none;
   }
   .return {
+    color: #000;
     display: none;
   }
   @media screen and (max-width: 500px) {
@@ -353,7 +354,7 @@ function MyPage() {
   }
 
   function deleteWindow() {
-    window.open("/MyPage_FriendsDelete", "_blank", "width=500, height=500, toolbar=no");
+    window.open("/MyPage_FriendsDelete", "_blank", "width=577, height=321, toolbar=no");
   }
 
   return (

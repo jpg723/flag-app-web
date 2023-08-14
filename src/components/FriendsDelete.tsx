@@ -16,7 +16,7 @@ const MainText = styled.div`
   font-style: normal;
   font-weight: 800;
   line-height: normal;
-  margin: 34px 243px 51px;
+  margin: 34px auto 51px;
 `;
 const SubText = styled.div`
   color: #000;

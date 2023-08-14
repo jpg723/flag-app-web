@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import searchIc from '../contents/desktop/mypage/Ic_마이페이지 - 친구추가_Search.svg';
 import btnEnd from '../contents/desktop/mypage/Btn_마이페이지 - 친구추가_Modifyemail.svg';
@@ -86,8 +87,14 @@ const FriendsAddEnd = styled.img`
 `;
 
 function FriendsAdd() {
-  function endFriendsAdd() {
+  const [inputWord, setInputWord] = useState("");
+  
+  useEffect(() => {
+    //setInputWord(inputWord);
     // 친구 정보 전송
+    // 친구 띄우기
+  }, [inputWord]);
+  function endFriendsAdd() {
     window.close();
   }
   return (
@@ -95,7 +102,7 @@ function FriendsAdd() {
       <FriendsAddText>친구 추가</FriendsAddText>
       <FriendsSearchFrame>
         <FriendsSearchIc src={searchIc} />
-        <FriendsSearch type='text' placeholder="검색" />
+        <FriendsSearch type='text' placeholder="검색" onChange={ (e: React.ChangeEvent<HTMLInputElement>) => { setInputWord(e.target.value); } } />
       </FriendsSearchFrame>
       <FriendsDel>모두 지우기</FriendsDel>
       <FriendsListFrame>
