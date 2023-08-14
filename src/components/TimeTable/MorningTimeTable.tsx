@@ -19,7 +19,6 @@ const Timetable_day_contents = styled.span`
   text-align: center;
   display: flex;
   justify-content: center;
-  margin-left: 2px;
 `;
 
 const Timetable_date = styled.div`
@@ -27,7 +26,6 @@ const Timetable_date = styled.div`
   height: 18px;
   display: flex;
   justify-content: center;
-  margin-left: 2px;
 `;
 
 const TimeTable_time_container = styled.div`
