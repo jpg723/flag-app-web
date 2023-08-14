@@ -5,6 +5,9 @@ import MorningTimeTable from '../components/TimeTable/MorningTimeTable';
 import AfternoonTimeTable from '../components/TimeTable/AfternoonTimeTable';
 import NightTimeTable from '../components/TimeTable/NightTimeTable';
 import {Link} from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { makeFlagAtom } from '../recoil/Atoms';
+import {useEffect} from 'react';
 
 const Comfirmed_promise_main1 = styled.div`
   margin-top: 44px;
@@ -51,7 +54,16 @@ const Comfirmed_promise_btn = styled.button`
   margin-right: auto;
 `;
 
+const TimeTable_box = styled.div`
+  display: none;
+  &.view{
+    
+  }
+`;
+
 function ComfirmedPromise() {
+  const {cycle} = useRecoilValue(makeFlagAtom);
+
   return (
     <div>
       <Comfirmed_promise_main1>
@@ -64,7 +76,18 @@ function ComfirmedPromise() {
           가능한 시간대를 스크롤해 입력해주세요.
         </Comfirmed_promise_main2_text>
       </Comfirmed_promise_main2>
-      <MorningTimeTable></MorningTimeTable>
+      <TimeTable_box className={"TimeTable_box" + ((cycle === 'morning') ? " view" : "")}>
+        <MorningTimeTable></MorningTimeTable>
+      </TimeTable_box>
+      <TimeTable_box className={"TimeTable_box" + ((cycle === 'afternoon') ? " view" : "")}>
+        <AfternoonTimeTable></AfternoonTimeTable>
+      </TimeTable_box>
+      <TimeTable_box className={"TimeTable_box" + ((cycle === 'evening') ? " view" : "")}>
+        <NightTimeTable></NightTimeTable>
+      </TimeTable_box>
+      <TimeTable_box className={"TimeTable_box" + ((cycle === 'dawn') ? " view" : "")}>
+        <DawnTimeTable></DawnTimeTable>
+      </TimeTable_box>
       <Comfirmed_promise_footer>
         <Comfirmed_promise_btn_box>
           <Link to='/makeFlagFinish'>
