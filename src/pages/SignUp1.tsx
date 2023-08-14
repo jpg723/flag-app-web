@@ -6,8 +6,8 @@ import profile from '../contents/desktop/sign/Ic_회원가입_Profile.svg';
 import spread from '../contents/desktop/sign/Ic_회원가입_Spread.svg';
 import nextBtn from '../contents/desktop/sign/Btn_다음.svg';
 import errorImg from '../contents/desktop/sign/Ic_Error.svg';
-import { SignUpIdAtom } from '../state/SignUpState';
-import { SignUpPwAtom } from '../state/SignUpState';
+import { SignUpIdAtom } from '../recoil/SignUpState';
+import { SignUpPwAtom } from '../recoil/SignUpState';
 
 const SignUpCover = styled.div`
   height: 910px;

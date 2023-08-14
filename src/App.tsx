@@ -25,8 +25,8 @@ import SignUp1 from './pages/SignUp1';
 import SignUp2 from './pages/SignUp2';
 import SignUp3 from './pages/SignUp3';
 import MyPage from './pages/MyPage';
-import FriendsAdd from './pages/FriendsAdd';
-import FriendsDelete from './pages/FriendsDelete';
+import MyPageFriendsAdd from './pages/MyPageFriendsAdd';
+import MyPageFriendsDelete from './pages/MyPageFriendsDelete';
 
 
 function App() {
@@ -39,7 +39,7 @@ function App() {
           <Routes>
             {/* 헤더 있음 */}
             <Route element={<Header />}>
-              <Route path="/" element={<Main />} />
+              <Route path="/" element={<MyPage />} />
               <Route
                 path="/promise-view"
                 element={<PromiseView />}
@@ -107,8 +107,8 @@ function App() {
               path="/email-change-complete"
               element={<EmailChange2 />}
             />
-            <Route path="/MyPage_FriendsAdd" element={<FriendsAdd />} />
-            <Route path="/MyPage_FriendsDelete" element={<FriendsDelete />} />
+            <Route path="/MyPage_FriendsAdd" element={<MyPageFriendsAdd />} />
+            <Route path="/MyPage_FriendsDelete" element={<MyPageFriendsDelete />} />
           </Routes>
         </Router>
       </RecoilRoot>
