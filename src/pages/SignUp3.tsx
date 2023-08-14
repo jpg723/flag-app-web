@@ -67,6 +67,7 @@ const SignUpBtnLogin = styled.img`
 
 function SignUp3() {
   const userProfile = useRecoilValue(SignUpProfileAtom);
+  
   return (
     <SignUp3Cover>
       <SignUpInputImgIc src={userProfile ? userProfile : profilepic} />
