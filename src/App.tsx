@@ -1,60 +1,71 @@
-import { Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 import React from 'react';
 
-import Login from './components/LoginForm';
-import FindEmail1 from './components/FindEmail1';
-import FindEmail2 from './components/FindEmail2';
-import EmailChange1 from './components/EmailChange1';
-import EmailChange2 from './components/EmailChange2';
-import PasswordChange from './components/PasswordChange';
-import ResetPassword from './components/ResetPassword1';
-import ResetPassword2 from './components/ResetPassword2';
-import ResetPassword3 from './components/ResetPassword3';
-import ResetPassword4 from './components/ResetPassword4';
+import { GlobalStyle } from './GlobalStyle';
+import Login from './pages/LoginForm';
+import FindEmail1 from './pages/FindEmail1';
+import FindEmail2 from './pages/FindEmail2';
+import EmailChange1 from './pages/EmailChange1';
+import EmailChange2 from './pages/EmailChange2';
+import PasswordChange from './pages/PasswordChange';
+import ResetPassword1 from './pages/ResetPassword1';
+import ResetPassword2 from './pages/ResetPassword2';
+import ResetPassword3 from './pages/ResetPassword3';
+import ResetPassword4 from './pages/ResetPassword4';
 
 function App() {
   return (
-    <div>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/find-email"
-          element={<FindEmail1 />}
-        />
-        <Route
-          path="/find-email-complete"
-          element={<FindEmail2 />}
-        />
-        <Route
-          path="/email-change"
-          element={<EmailChange1 />}
-        />
-        <Route
-          path="/email-change-complete"
-          element={<EmailChange2 />}
-        />
-        <Route
-          path="/password-change"
-          element={<PasswordChange />}
-        />
-        <Route
-          path="/reset-password"
-          element={<ResetPassword />}
-        />
-        <Route
-          path="/password-change-email"
-          element={<ResetPassword2 />}
-        />
-        <Route
-          path="/new-password"
-          element={<ResetPassword3 />}
-        />
-        <Route
-          path="/reset-password-complete"
-          element={<ResetPassword4 />}
-        />
-      </Routes>
-    </div>
+    <>
+      <GlobalStyle />
+      <RecoilRoot>
+        <Router>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/find-email"
+              element={<FindEmail1 />}
+            />
+            <Route
+              path="/find-email-complete"
+              element={<FindEmail2 />}
+            />
+            <Route
+              path="/email-change"
+              element={<EmailChange1 />}
+            />
+            <Route
+              path="/email-change-complete"
+              element={<EmailChange2 />}
+            />
+            <Route
+              path="/password-change"
+              element={<PasswordChange />}
+            />
+            <Route
+              path="/reset-password"
+              element={<ResetPassword1 />}
+            />
+            <Route
+              path="/password-change-email"
+              element={<ResetPassword2 />}
+            />
+            <Route
+              path="/new-password"
+              element={<ResetPassword3 />}
+            />
+            <Route
+              path="/reset-password-complete"
+              element={<ResetPassword4 />}
+            />
+          </Routes>
+        </Router>
+      </RecoilRoot>
+    </>
   );
 }
 export default App;

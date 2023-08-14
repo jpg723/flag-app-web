@@ -1,6 +1,6 @@
 //import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import logo from '../contents/grid/Logo_플래그_Small_수정.svg';
+import logo from '../contents/Logo_플래그_Small_수정.svg';
 
 const HeaderCover = styled.div`
   height: 114px;
