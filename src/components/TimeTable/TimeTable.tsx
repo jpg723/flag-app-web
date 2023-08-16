@@ -1,8 +1,15 @@
 import styled from 'styled-components';
-import { useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { makeFlagAtom } from '../../recoil/Atoms';
+import {
+  useRecoilValue,
+  useSetRecoilState,
+  useResetRecoilState,
+} from 'recoil';
+import {
+  makeFlagAtom,
+  timeTableAtom,
+} from '../../recoil/Atoms';
 import moment from 'moment';
+import { useEffect } from 'react';
 
 const Timetable_day = styled.div`
   height: 18px;
@@ -78,14 +85,24 @@ const TimeTable_container_row = styled.span`
 
 const TimeTable_box = styled.div``;
 
-function MorningTimeTable() {
+interface IProps {
+  cycle: string;
+}
+
+function TimeTable({ cycle }: IProps) {
   const { selectedDates } = useRecoilValue(makeFlagAtom);
+  const resetTimeTable = useResetRecoilState(timeTableAtom);
   let selectedDates_copy = [...selectedDates];
   selectedDates_copy.sort();
-  console.log(selectedDates_copy);
+
   const copyDates: string[] = [];
   const copyDays: string[] = [];
   const day = ['일', '월', '화', '수', '목', '금', '토'];
+
+  const { selectedCell } = useRecoilValue(makeFlagAtom);
+  const timeTable = useRecoilValue(timeTableAtom);
+  const setValue = useSetRecoilState(makeFlagAtom);
+  const setTimeTable = useSetRecoilState(timeTableAtom);
 
   selectedDates_copy.forEach((date, index) => {
     let m = moment(date, 'YYYY-MM-DD');
@@ -96,105 +113,39 @@ function MorningTimeTable() {
   });
 
   const row = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  const time = [6, 7, 8, 9, 10, 11, 12];
+  const time: number[] = [];
 
-  const [isSelect1, setIsSelect1] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  useEffect(() => {
+    resetTimeTable();
+    setValue((v) => ({ ...v, selectedCell: [] }));
+  }, [selectedDates.length]);
 
-  const [isSelect2, setIsSelect2] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
-
-  const [isSelect3, setIsSelect3] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
-
-  const [isSelect4, setIsSelect4] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
-
-  const [isSelect5, setIsSelect5] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
-
-  const { selectedCell } = useRecoilValue(makeFlagAtom);
-  const setValue = useSetRecoilState(makeFlagAtom);
+  switch (cycle) {
+    case 'morning': {
+      for (let i = 6; i <= 12; i++) {
+        time.push(i);
+      }
+      break;
+    }
+    case 'afternoon': {
+      for (let i = 12; i <= 18; i++) {
+        time.push(i);
+      }
+      break;
+    }
+    case 'evening': {
+      for (let i = 18; i <= 24; i++) {
+        time.push(i);
+      }
+      break;
+    }
+    case 'dawn': {
+      for (let i = 0; i <= 6; i++) {
+        time.push(i);
+      }
+      break;
+    }
+  }
 
   const timeSelect = (
     index: any,
@@ -204,21 +155,16 @@ function MorningTimeTable() {
     if (c_index === 1) {
       const start_cell = gap;
       const result_cell = start_cell + gap * index;
-      if (isSelect1[index] === false) {
-        let copy = [...isSelect1];
-        copy[index] = true;
-        setIsSelect1(copy);
+      if (timeTable[c_index - 1][index] === false) {
+        let copy = JSON.parse(JSON.stringify(timeTable));
+        copy[c_index - 1][index] = true;
+        setTimeTable(copy);
         const newList = [...selectedCell, result_cell];
         setValue((v) => ({ ...v, selectedCell: newList }));
-      } else if (
-        isSelect1[index] === true &&
-        selectedCell.find(
-          (target) => target === result_cell,
-        )
-      ) {
-        let copy = [...isSelect1];
-        copy[index] = false;
-        setIsSelect1(copy);
+      } else {
+        let copy = JSON.parse(JSON.stringify(timeTable));
+        copy[c_index - 1][index] = false;
+        setTimeTable(copy);
         const copied = [...selectedCell];
         const filtered = copied.filter(
           (target) => target !== result_cell,
@@ -226,25 +172,19 @@ function MorningTimeTable() {
         setValue((v) => ({ ...v, selectedCell: filtered }));
       }
     }
-
     if (c_index === 2) {
       const start_cell = gap + 1;
       const result_cell = start_cell + gap * index;
-      if (isSelect2[index] === false) {
-        let copy = [...isSelect2];
-        copy[index] = true;
-        setIsSelect2(copy);
+      if (timeTable[c_index - 1][index] === false) {
+        let copy = JSON.parse(JSON.stringify(timeTable));
+        copy[c_index - 1][index] = true;
+        setTimeTable(copy);
         const newList = [...selectedCell, result_cell];
         setValue((v) => ({ ...v, selectedCell: newList }));
-      } else if (
-        isSelect2[index] === true &&
-        selectedCell.find(
-          (target) => target === result_cell,
-        )
-      ) {
-        let copy = [...isSelect2];
-        copy[index] = false;
-        setIsSelect2(copy);
+      } else {
+        let copy = JSON.parse(JSON.stringify(timeTable));
+        copy[c_index - 1][index] = false;
+        setTimeTable(copy);
         const copied = [...selectedCell];
         const filtered = copied.filter(
           (target) => target !== result_cell,
@@ -252,25 +192,19 @@ function MorningTimeTable() {
         setValue((v) => ({ ...v, selectedCell: filtered }));
       }
     }
-
     if (c_index === 3) {
       const start_cell = gap + 2;
       const result_cell = start_cell + gap * index;
-      if (isSelect3[index] === false) {
-        let copy = [...isSelect3];
-        copy[index] = true;
-        setIsSelect3(copy);
+      if (timeTable[c_index - 1][index] === false) {
+        let copy = JSON.parse(JSON.stringify(timeTable));
+        copy[c_index - 1][index] = true;
+        setTimeTable(copy);
         const newList = [...selectedCell, result_cell];
         setValue((v) => ({ ...v, selectedCell: newList }));
-      } else if (
-        isSelect3[index] === true &&
-        selectedCell.find(
-          (target) => target === result_cell,
-        )
-      ) {
-        let copy = [...isSelect3];
-        copy[index] = false;
-        setIsSelect3(copy);
+      } else {
+        let copy = JSON.parse(JSON.stringify(timeTable));
+        copy[c_index - 1][index] = false;
+        setTimeTable(copy);
         const copied = [...selectedCell];
         const filtered = copied.filter(
           (target) => target !== result_cell,
@@ -278,25 +212,19 @@ function MorningTimeTable() {
         setValue((v) => ({ ...v, selectedCell: filtered }));
       }
     }
-
     if (c_index === 4) {
       const start_cell = gap + 3;
       const result_cell = start_cell + gap * index;
-      if (isSelect4[index] === false) {
-        let copy = [...isSelect4];
-        copy[index] = true;
-        setIsSelect4(copy);
+      if (timeTable[c_index - 1][index] === false) {
+        let copy = JSON.parse(JSON.stringify(timeTable));
+        copy[c_index - 1][index] = true;
+        setTimeTable(copy);
         const newList = [...selectedCell, result_cell];
         setValue((v) => ({ ...v, selectedCell: newList }));
-      } else if (
-        isSelect4[index] === true &&
-        selectedCell.find(
-          (target) => target === result_cell,
-        )
-      ) {
-        let copy = [...isSelect4];
-        copy[index] = false;
-        setIsSelect4(copy);
+      } else {
+        let copy = JSON.parse(JSON.stringify(timeTable));
+        copy[c_index - 1][index] = false;
+        setTimeTable(copy);
         const copied = [...selectedCell];
         const filtered = copied.filter(
           (target) => target !== result_cell,
@@ -304,25 +232,19 @@ function MorningTimeTable() {
         setValue((v) => ({ ...v, selectedCell: filtered }));
       }
     }
-
     if (c_index === 5) {
       const start_cell = gap + 4;
       const result_cell = start_cell + gap * index;
-      if (isSelect5[index] === false) {
-        let copy = [...isSelect5];
-        copy[index] = true;
-        setIsSelect5(copy);
+      if (timeTable[c_index - 1][index] === false) {
+        let copy = JSON.parse(JSON.stringify(timeTable));
+        copy[c_index - 1][index] = true;
+        setTimeTable(copy);
         const newList = [...selectedCell, result_cell];
         setValue((v) => ({ ...v, selectedCell: newList }));
-      } else if (
-        isSelect5[index] === true &&
-        selectedCell.find(
-          (target) => target === result_cell,
-        )
-      ) {
-        let copy = [...isSelect5];
-        copy[index] = false;
-        setIsSelect5(copy);
+      } else {
+        let copy = JSON.parse(JSON.stringify(timeTable));
+        copy[c_index - 1][index] = false;
+        setTimeTable(copy);
         const copied = [...selectedCell];
         const filtered = copied.filter(
           (target) => target !== result_cell,
@@ -368,7 +290,7 @@ function MorningTimeTable() {
                 className={
                   'TimeTable_container_row' +
                   `${time_row}` +
-                  (isSelect1[time_row - 1] === true
+                  (timeTable[0][time_row - 1] === true
                     ? ' active'
                     : '')
                 }
@@ -393,7 +315,7 @@ function MorningTimeTable() {
                 className={
                   'TimeTable_container_row' +
                   `${time_row}` +
-                  (isSelect2[time_row - 1] === true
+                  (timeTable[1][time_row - 1] === true
                     ? ' active'
                     : '')
                 }
@@ -418,7 +340,7 @@ function MorningTimeTable() {
                 className={
                   'TimeTable_container_row' +
                   `${time_row}` +
-                  (isSelect3[time_row - 1] === true
+                  (timeTable[2][time_row - 1] === true
                     ? ' active'
                     : '')
                 }
@@ -443,7 +365,7 @@ function MorningTimeTable() {
                 className={
                   'TimeTable_container_row' +
                   `${time_row}` +
-                  (isSelect4[time_row - 1] === true
+                  (timeTable[3][time_row - 1] === true
                     ? ' active'
                     : '')
                 }
@@ -468,7 +390,7 @@ function MorningTimeTable() {
                 className={
                   'TimeTable_container_row' +
                   `${time_row}` +
-                  (isSelect5[time_row - 1] === true
+                  (timeTable[4][time_row - 1] === true
                     ? ' active'
                     : '')
                 }
@@ -487,9 +409,4 @@ function MorningTimeTable() {
     </div>
   );
 }
-export default MorningTimeTable;
-function useSetRecoilState(
-  makeFlagAtom: RecoilState<IFlag>,
-) {
-  throw new Error('Function not implemented.');
-}
+export default TimeTable;

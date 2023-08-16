@@ -1,10 +1,7 @@
 //import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import DawnTimeTable from '../components/TimeTable/DawnTimeTable';
-import MorningTimeTable from '../components/TimeTable/MorningTimeTable';
-import AfternoonTimeTable from '../components/TimeTable/AfternoonTimeTable';
-import NightTimeTable from '../components/TimeTable/NightTimeTable';
-import {Link} from 'react-router-dom';
+import TimeTable from '../components/TimeTable/TimeTable';
+import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { makeFlagAtom } from '../recoil/Atoms';
 
@@ -57,7 +54,12 @@ const Comfirmed_promise_btn = styled.button`
 `;
 
 function ComfirmedPromise() {
-  const {cycle} = useRecoilValue(makeFlagAtom);
+  const { cycle, selectedCell } =
+    useRecoilValue(makeFlagAtom);
+
+  const handleSubmit = () => {
+    console.log(selectedCell);
+  };
 
   return (
     <div>
@@ -71,14 +73,22 @@ function ComfirmedPromise() {
           가능한 시간대를 스크롤해 입력해주세요.
         </Comfirmed_promise_main2_text>
       </Comfirmed_promise_main2>
-      {cycle === 'morning' ? (<MorningTimeTable/>) : null}
-      {cycle === 'afternoon' ? (<AfternoonTimeTable/>) : null}
-      {cycle === 'evening' ? (<NightTimeTable/>) : null}
-      {cycle === 'dawn' ? (<DawnTimeTable/>) : null}
+      {cycle === 'morning' ? (
+        <TimeTable cycle={'morning'} />
+      ) : null}
+      {cycle === 'afternoon' ? (
+        <TimeTable cycle={'afternoon'} />
+      ) : null}
+      {cycle === 'evening' ? (
+        <TimeTable cycle={'evening'} />
+      ) : null}
+      {cycle === 'dawn' ? (
+        <TimeTable cycle={'dawn'} />
+      ) : null}
       <Comfirmed_promise_footer>
         <Comfirmed_promise_btn_box>
-          <Link to='/makeFlagFinish'>
-            <Comfirmed_promise_btn>
+          <Link to="/makeFlagFinish">
+            <Comfirmed_promise_btn onClick={handleSubmit}>
               완료하기
             </Comfirmed_promise_btn>
           </Link>
