@@ -42,12 +42,10 @@ const FriendsListFrame = styled.div`
 `;
 
 interface IFriendListProps {
-  isEdit: boolean;
   searchName: string;
 }
 
 const MyPageFriendList = ({
-  isEdit,
   searchName,
 }: IFriendListProps) => {
   const friendList = useRecoilValue(friendListAtom);
@@ -91,7 +89,6 @@ const MyPageFriendList = ({
                     ? true
                     : false
                 }
-                isEdit={isEdit}
                 handleCheck={handleCheck}
               />
             ))
@@ -111,11 +108,10 @@ const MyPageFriendList = ({
                       ? true
                       : false
                   }
-                  isEdit={isEdit}
                   handleCheck={handleCheck}
                 />
               ))}
-    </FriendsListFrame>        
+      </FriendsListFrame>
     </Wrapper>
   );
 };
