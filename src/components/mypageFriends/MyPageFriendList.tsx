@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import FriendItem from './FriendItem';
+import MyPageFriendItem from './MyPageFriendItem';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   friendListAtom,
@@ -9,19 +9,19 @@ import {
 } from '../../recoil/Atoms';
 
 const Wrapper = styled.div`
-  width: 336px;
+  width: 605px;
   height: 362px;
-  margin: 0px 0px 0px 41px;
+  margin: 20px 0px 0px 0px;
   border-radius: 18px;
-  border: 1.5px solid #000;
-  padding: 21px 8px 21px 0px;
+  border: 2px solid var(--primary-deep, #6041ff);
+  padding: 20px 10px 20px 25px;
 
   @media screen and (max-width: 500px) {
     margin-left: 0px;
-    width: 253px;
-    height: 200px;
-    border: 1.5px solid #6041ff;
-    padding: 21px 8px 21px 0px;
+    width: 302px;
+    height: 216px;
+    border: 2px solid var(--primary-deep, #6041ff);
+    padding: 10px 10px 20px 10px;
   }
 `;
 const FriendsListFrame = styled.div`
@@ -42,12 +42,10 @@ const FriendsListFrame = styled.div`
 `;
 
 interface IFriendListProps {
-  isEdit: boolean;
   searchName: string;
 }
 
 const MyPageFriendList = ({
-  isEdit,
   searchName,
 }: IFriendListProps) => {
   const friendList = useRecoilValue(friendListAtom);
@@ -56,6 +54,7 @@ const MyPageFriendList = ({
 
   const handleCheck = useCallback(
     (checked: boolean, id: number, name: string) => {
+      window.open( '/MyPage_FriendsDelete', '_blank', 'width=577, height=321, toolbar=no');
       if (checked) {
         setValue((v) => {
           const copied = [...v.checkedFriends];
@@ -80,18 +79,10 @@ const MyPageFriendList = ({
       <FriendsListFrame>
         {searchName === ''
           ? friendList.map((item: IFriendTypes) => (
-              <FriendItem
+              <MyPageFriendItem
                 key={item.id}
                 id={item.id}
                 name={item.name}
-                checked={
-                  checkedFriends.find(
-                    (it) => it.id === item.id,
-                  )
-                    ? true
-                    : false
-                }
-                isEdit={isEdit}
                 handleCheck={handleCheck}
               />
             ))
@@ -100,18 +91,10 @@ const MyPageFriendList = ({
                 item.name.includes(searchName),
               )
               .map((item: IFriendTypes) => (
-                <FriendItem
+                <MyPageFriendItem
                   key={item.id}
                   id={item.id}
                   name={item.name}
-                  checked={
-                    checkedFriends.find(
-                      (it) => it.id === item.id,
-                    )
-                      ? true
-                      : false
-                  }
-                  isEdit={isEdit}
                   handleCheck={handleCheck}
                 />
               ))}
