@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import img_profile from '../../contents/desktop/flag/Img_약속만들기_Profilepic_Friendlist.svg';
-import img_profile_mobile from '../../contents/mobile/flag/모바일_Img_약속만들기_Profilepic.svg';
 import img_checked from '../../contents/desktop/flag/icon_약속만들기_checked.svg';
 import img_unchecked from '../../contents/desktop/flag/icon_약속만들기_Unchecked.svg';
 
@@ -15,8 +14,7 @@ const Wrapper = styled.label`
   }
 `;
 
-const CheckBox = styled.input<{ isEdit: boolean }>`
-  display: ${(props) => (props.isEdit ? 'inline' : 'none')};
+const CheckBox = styled.input`
   appearance: none;
   width: 25px;
   height: 25px;
@@ -62,7 +60,6 @@ interface IFriendItemProps {
   id: number;
   name: string;
   checked: boolean;
-  isEdit: boolean;
   handleCheck: (
     checked: boolean,
     id: number,
@@ -74,7 +71,6 @@ const FriendItem = ({
   id,
   name,
   checked,
-  isEdit,
   handleCheck,
 }: IFriendItemProps) => {
   const onChange = (
@@ -88,7 +84,6 @@ const FriendItem = ({
         type="checkbox"
         defaultChecked={checked}
         onChange={onChange}
-        isEdit={isEdit}
       />
       <ProfileWrapper>
         <ProfilePicture />

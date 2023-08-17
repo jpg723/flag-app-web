@@ -179,7 +179,7 @@ const FormSelectFriends = () => {
           <AddedFriendList />
         </MobileAddedFriendsView>
         <FriendListText>친구 목록</FriendListText>
-        <FriendList searchName={searchName} isEdit={false} />
+        <FriendList searchName={searchName} />
       </LeftView>
       <RightView>
         <AddedFriendList />
