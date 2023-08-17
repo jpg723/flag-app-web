@@ -13,7 +13,8 @@ const Logo = styled.img`
   display: block;
 
   @media screen and (max-width: 500px) {
-    display: none;
+    width: 200px;
+    margin-top: 128px;
   }
 `;
 

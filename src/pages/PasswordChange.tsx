@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Header from '../pages/Header';
 import { useRecoilState } from 'recoil';
 import { confirmPasswordValidState } from '../recoil/Atoms';
 
@@ -62,18 +61,25 @@ const NewPasswordInput = styled.input`
 `;
 
 const ErrorIcon = styled.img`
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   margin-right: 6px;
+
+  @media screen and (max-width: 500px) {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
-const Message = styled.p`
+const Message = styled.div`
   color: #999999;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   line-height: normal;
   font-family: Noto Sans KR;
-  margin: 5px auto 0 0;
+  margin: 8px auto 0 0;
+  display: flex;
+  align-items: center;
 
   @media screen and (max-width: 500px) {
     font-size: 12px;
@@ -81,7 +87,11 @@ const Message = styled.p`
 `;
 
 const ConfirmPasswordInput = styled(NewPasswordInput)`
-  margin: 24px auto 0;
+  margin: 60px auto 0;
+
+  @media screen and (max-width: 500px) {
+    margin-top: 24px;
+  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -142,7 +152,6 @@ function PasswordChange() {
   return (
     <>
       <Wrapper>
-        <Header />
         <PasswordChangeTitle>
           비밀번호 변경
         </PasswordChangeTitle>

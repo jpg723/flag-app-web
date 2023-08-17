@@ -2,17 +2,17 @@
 import styled from 'styled-components';
 
 const Flag_Meeting_header = styled.div`
-  margin-top: 102px;
+  margin-top: 44px;
   margin-left: 198px;
   margin-bottom: 9px;
-  font-size: 40px;
+  font-size: 28px;
   font-weight: 600;
 `;
 
 const Flag_Meeting_content = styled.div`
   margin-top: 10px;
   margin-left: 198px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
 `;
 

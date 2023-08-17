@@ -14,7 +14,8 @@ const Logo = styled.img`
   display: block;
 
   @media screen and (max-width: 500px) {
-    display: none;
+    width: 200px;
+    margin-top: 128px;
   }
 `;
 
@@ -35,7 +36,7 @@ const FindEmailTitle = styled.h2`
   font-family: Noto Sans KR;
 
   @media screen and (max-width: 500px) {
-    margin: 191px auto 0 75px;
+    margin: 99px auto 0 75px;
     font-size: 22px;
   }
 `;
@@ -56,18 +57,17 @@ const NameInput = styled.input`
 
   @media screen and (max-width: 500px) {
     width: 350px;
-    margin-top: 78px;
+    margin-top: 13px;
   }
 `;
 
 const NextButton = styled.img`
   width: 355px;
-  margin: 60px auto 0;
+  margin: 34px auto 0;
   display: block;
 
   @media screen and (max-width: 500px) {
     width: 350px;
-    margin-top: 35px;
   }
 `;
 
@@ -88,12 +88,12 @@ function FindEmail1() {
     <>
       <Wrapper>
         <Logo src={logo} alt="로고" />
-          <FindEmailTitle>이메일 찾기</FindEmailTitle>
-          <NameInput
-            placeholder="닉네임"
-            value={userId}
-            onChange={handleUserIdChange}
-          />
+        <FindEmailTitle>이메일 찾기</FindEmailTitle>
+        <NameInput
+          placeholder="닉네임"
+          value={userId}
+          onChange={handleUserIdChange}
+        />
         <Link to="/find-email-complete">
           <NextButton
             src={nextButton}

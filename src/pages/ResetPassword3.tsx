@@ -15,7 +15,8 @@ const Logo = styled.img`
   display: block;
 
   @media screen and (max-width: 500px) {
-    display: none;
+    width: 200px;
+    margin-top: 128px;
   }
 `;
 
@@ -29,14 +30,14 @@ const Wrapper = styled.div`
 `;
 
 const ResetPasswordTitle = styled.h2`
-  margin: 95px auto 0 535px;
+  margin: 52px auto 0 535px;
   font-size: 20px;
   font-weight: 700;
   font-family: Inter;
   line-height: normal;
 
   @media screen and (max-width: 500px) {
-    margin: 189px auto 0 75px;
+    margin: 57px auto 0 75px;
     font-size: 20px;
   }
 `;
@@ -45,7 +46,7 @@ const InputWrapper = styled.div`
   margin: 0 auto 0 530px;
 
   @media screen and (max-width: 500px) {
-    margin: 0 auto;
+    margin: 20px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -73,8 +74,8 @@ const NewPasswordInput = styled.input`
 `;
 
 const ErrorIcon = styled.img`
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   margin-right: 6px;
 
   @media screen and (max-width: 500px) {
@@ -83,13 +84,15 @@ const ErrorIcon = styled.img`
   }
 `;
 
-const Message = styled.p`
+const Message = styled.div`
   color: #999;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   line-height: normal;
   font-family: Noto Sans KR;
-  margin: 8px auto 0 0;
+  margin: 7px auto 0 0;
+  display: flex;
+  align-items: center;
 
   @media screen and (max-width: 500px) {
     margin: 5px auto 0 75px;
@@ -101,7 +104,7 @@ const NewPasswordCheckInput = styled(NewPasswordInput)`
   margin-top: 30px;
 
   @media screen and (max-width: 500px) {
-    margin-top: 28px;
+    margin-top: 5px;
   }
 `;
 
@@ -111,7 +114,7 @@ const ResetButton = styled.img`
   display: block;
 
   @media screen and (max-width: 500px) {
-    margin-top: 43px;
+    margin-top: 35px;
     width: 350px;
   }
 `;
