@@ -9,6 +9,7 @@ import btnPwEdit from '../contents/desktop/mypage/Btn_마이페이지_Modifypass
 import btnLogout from '../contents/desktop/mypage/Btn_마이페이지_Logout.svg';
 import btnWithdraw from '../contents/desktop/mypage/Btn_마이페이지_Withdraw.svg';
 import btnAddfriend from '../contents/desktop/mypage/Btn_마이페이지_Addfriend.svg';
+import FriendList from '../components/makeFlag/FriendList';
 //display: none;
 //border: 2px solid #000;
 //@media screen and (max-width: 500px) {}
@@ -159,8 +160,8 @@ const MyPageFriendsFrame = styled.div`
   height: 362px;
   flex-shrink: 0;
   border-radius: 18px;
-  border: 2px solid var(--primary-deep, #6041FF);
-  background: #FFF;
+  border: 2px solid var(--primary-deep, #6041ff);
+  background: #fff;
   margin: 15px 0px 0px;
   padding: 40px 10px 40px 50px;
   @media screen and (max-width: 500px) {
@@ -179,9 +180,9 @@ const MyPageFriendsList = styled.div`
   }
   &::-webkit-scrollbar-thumb {
     width: 5px;
-    height: 108px; 
+    height: 108px;
     border-radius: 12px;
-    background: #D9D9D9;
+    background: #d9d9d9;
   }
   &::-webkit-scrollbar-track {
   }
@@ -203,7 +204,7 @@ const MyPageFriendEdit = styled.span`
   float: right;
   margin: 8px 20px auto auto;
   .delete {
-    color: #F00;
+    color: #f00;
     display: none;
   }
   .return {
@@ -234,28 +235,33 @@ const FriendsCSS = styled.div`
   .itemEnter {
     height: 22px;
   }
-`
+`;
 
 function MyPage() {
   const [userName] = useState('OO');
-  const [onEdit, setOnEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [deleteList, setDeleteList] = useState([] as any);
 
   // 친구 (일련번호, 이름, 프로필)
-  type friend = { id : string, name : string, profile? : string };
-  const friends : friend[] = [
-    {id : '100', name : 'aaa', profile : 'aaa' },
-    {id : '101', name : 'bbb', profile : 'bbb' },
-    {id : '102', name : 'ccc', profile : 'ccc' },
-    {id : '103', name : 'ddd', profile : 'ddd' },
-    {id : '104', name : 'eee', profile : 'eee' },
-    {id : '105', name : 'fff', profile : 'fff' }
-  ]
+  type friend = {
+    id: string;
+    name: string;
+    profile?: string;
+  };
+  const friends: friend[] = [
+    { id: '100', name: 'aaa', profile: 'aaa' },
+    { id: '101', name: 'bbb', profile: 'bbb' },
+    { id: '102', name: 'ccc', profile: 'ccc' },
+    { id: '103', name: 'ddd', profile: 'ddd' },
+    { id: '104', name: 'eee', profile: 'eee' },
+    { id: '105', name: 'fff', profile: 'fff' },
+  ];
 
   useEffect(() => {
     // 친구 목록 생성
-    const friendsList = document.querySelector('#friendsList');
-    if (friendsList instanceof Element) 
+    const friendsList =
+      document.querySelector('#friendsList');
+    if (friendsList instanceof Element)
       friendsList.replaceChildren();
 
     for (let i of friends) {
@@ -266,10 +272,12 @@ function MyPage() {
       itemCheck.id = i.id;
       itemCheck.className = 'itemCheck';
       itemCheck.style.display = 'none';
-      itemCheck.src = require('../contents/desktop/mypage/Ic_마이페이지_Check_Friendlist.svg').default;
+      itemCheck.src =
+        require('../contents/desktop/mypage/Ic_마이페이지_Check_Friendlist.svg').default;
       const itemProfile = document.createElement('img');
       itemProfile.className = 'itemProfile';
-      itemProfile.src = require('../contents/desktop/mypage/Img_약속만들기_Profilepic_Checked.svg').default;
+      itemProfile.src =
+        require('../contents/desktop/mypage/Img_약속만들기_Profilepic_Checked.svg').default;
       const itemName = document.createElement('span');
       itemName.className = 'itemName';
       itemName.innerHTML = i.name;
@@ -283,7 +291,6 @@ function MyPage() {
         friendsList.appendChild(friendsItem);
         friendsList.appendChild(itemEnter);
       }
-        
     }
 
     /*
@@ -300,62 +307,26 @@ function MyPage() {
       if (checkIdText instanceof Element) 
         checkIdText.innerHTML = '사용 가능한 이메일입니다.'; 
     */
-
   }, []);
 
   function addFriends() {
-    window.open("/MyPage_FriendsAdd", "_blank", "width=835, height=562, toolbar=no");
+    window.open(
+      '/MyPage_FriendsAdd',
+      '_blank',
+      'width=835, height=562, toolbar=no',
+    );
   }
 
   function editFriends() {
-    setOnEdit(!onEdit);
-    const itemCheck = Array.from(document.querySelectorAll<HTMLElement>('.itemCheck'));
-    const itemProfile = Array.from(document.querySelectorAll<HTMLElement>('.itemProfile'));
-    const deleteText = document.querySelector<HTMLElement>('#delete');
-    const returnText = document.querySelector<HTMLElement>('#return');
-    if (deleteText instanceof Element && returnText instanceof Element) {
-      if (onEdit === true) {
-        deleteText.style.display = "inline";
-        returnText.style.display = "inline";
-        for (let ic in itemCheck){
-          itemCheck[ic].style.display = "inline";
-          itemCheck[ic].onclick = function ()  {
-            const clickId = itemCheck[ic].id;
-            console.log('click!' + clickId);
-            if (deleteList.includes(clickId) === true) {
-              var newList = [];
-              for (let id of deleteList){
-                if (id !== clickId) {
-                  newList.push(id);
-                }
-              }
-              setDeleteList([...newList]);
-              console.log('del!! ' + deleteList);
-              itemProfile[ic].style.border = "none";
-            }
-            else {
-              const newListAdd = [...deleteList];
-              setDeleteList([...newListAdd, clickId]); //값이 안들어감..
-              console.log('add!! ' + deleteList);
-              itemProfile[ic].style.border = "2px solid #6041FF"; 
-            }
-          }
-        }
-      }
-      else {
-        deleteText.style.display = "none";
-        returnText.style.display = "none";
-        for (let ic in itemCheck){
-          itemCheck[ic].style.display = "none";
-          itemProfile[ic].style.border = "none";
-        }
-      }
-    }
-
+    setIsEdit((prev) => !prev);
   }
 
   function deleteWindow() {
-    window.open("/MyPage_FriendsDelete", "_blank", "width=577, height=321, toolbar=no");
+    window.open(
+      '/MyPage_FriendsDelete',
+      '_blank',
+      'width=577, height=321, toolbar=no',
+    );
   }
 
   return (
@@ -364,8 +335,14 @@ function MyPage() {
         <MyPageAccount>{userName}님의 계정</MyPageAccount>
         <MyPageCover2>
           <MyPageAccountImg>
-            <label htmlFor="profileImg"><MyPageAccountImgEdit src={profilepicEdit} /></label>
-            <MyPageAccountImgInput type="file" id="profileImg" accept="image/*"/>
+            <label htmlFor="profileImg">
+              <MyPageAccountImgEdit src={profilepicEdit} />
+            </label>
+            <MyPageAccountImgInput
+              type="file"
+              id="profileImg"
+              accept="image/*"
+            />
           </MyPageAccountImg>
           <MyPageName>{userName}</MyPageName>
           <MyPageEmail>Email</MyPageEmail>
@@ -376,17 +353,27 @@ function MyPage() {
           <MyPageEdit src={btnWithdraw} />
         </MyPageCover2>
         <MyPageCover3>
-          <MyPageFriendsListText>{userName}님의 친구목록</MyPageFriendsListText>
-          <MyPageFriendAdd src={btnAddfriend} alt='img..' onClick={addFriends} />
-          <MyPageFriendsFrame>
-            
-              <MyPageFriendsList ><FriendsCSS id='friendsList'></FriendsCSS></MyPageFriendsList>
-            
-          </MyPageFriendsFrame>
-          
-          <MyPageFriendEdit id='edit' onClick={editFriends}>편집하기</MyPageFriendEdit>
-          <MyPageFriendEdit id='delete' className='delete' onClick={deleteWindow}>삭제하기</MyPageFriendEdit>
-          <MyPageFriendEdit id='return' className='return' onClick={editFriends}>마치기</MyPageFriendEdit>
+          <MyPageFriendsListText>
+            {userName}님의 친구목록
+          </MyPageFriendsListText>
+          <FriendList isEdit={isEdit} searchName="" />
+          <MyPageFriendEdit id="edit" onClick={editFriends}>
+            편집하기
+          </MyPageFriendEdit>
+          <MyPageFriendEdit
+            id="delete"
+            className="delete"
+            onClick={deleteWindow}
+          >
+            삭제하기
+          </MyPageFriendEdit>
+          <MyPageFriendEdit
+            id="return"
+            className="return"
+            onClick={editFriends}
+          >
+            마치기
+          </MyPageFriendEdit>
         </MyPageCover3>
       </MyPageCover>
     </>

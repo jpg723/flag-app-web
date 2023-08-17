@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Selecto from 'react-selecto';
 import {
   useRecoilValue,
   useSetRecoilState,
@@ -252,10 +253,54 @@ function TimeTable({ cycle }: IProps) {
         setValue((v) => ({ ...v, selectedCell: filtered }));
       }
     }
+    //console.log(selectedCell);
   };
 
   return (
     <div>
+      <Selecto
+        dragContainer={'.TimeTable_container_col'}
+        selectableTargets={[
+          '.TimeTable_container_row1',
+          '.TimeTable_container_row2',
+          '.TimeTable_container_row3',
+          '.TimeTable_container_row4',
+          '.TimeTable_container_row5',
+          '.TimeTable_container_row6',
+          '.TimeTable_container_row7',
+          '.TimeTable_container_row8',
+          '.TimeTable_container_row9',
+          '.TimeTable_container_row10',
+          '.TimeTable_container_row11',
+          '.TimeTable_container_row12',
+        ]}
+        hitRate={100}
+        selectByClick={true}
+        selectFromInside={true}
+        continueSelect={true}
+        onSelect={(e) => {
+          e.added.forEach((el) => {
+            const keys = el.getAttribute('id')?.split(' ');
+            const c_index = Number(keys![0]);
+            const r_index = Number(keys![1]);
+            timeSelect(
+              r_index - 1,
+              c_index,
+              selectedDates.length,
+            );
+          });
+          e.removed.forEach((el) => {
+            const keys = el.getAttribute('id')?.split(' ');
+            const c_index = Number(keys![0]);
+            const r_index = Number(keys![1]);
+            timeSelect(
+              r_index - 1,
+              c_index,
+              selectedDates.length,
+            );
+          });
+        }}
+      />
       <TimeTable_box>
         <Timetable_day>
           {copyDays.map((timeTable_day, index) => (
@@ -287,6 +332,8 @@ function TimeTable({ cycle }: IProps) {
           >
             {row.map((time_row, r_index) => (
               <TimeTable_container_row
+                key={'1 ' + time_row}
+                id={'1 ' + time_row}
                 className={
                   'TimeTable_container_row' +
                   `${time_row}` +
@@ -294,13 +341,6 @@ function TimeTable({ cycle }: IProps) {
                     ? ' active'
                     : '')
                 }
-                onClick={() => {
-                  timeSelect(
-                    time_row - 1,
-                    1,
-                    selectedDates.length,
-                  );
-                }}
               ></TimeTable_container_row>
             ))}
           </TimeTable_container_col>
@@ -312,6 +352,8 @@ function TimeTable({ cycle }: IProps) {
           >
             {row.map((time_row, r_index) => (
               <TimeTable_container_row
+                key={'2 ' + time_row}
+                id={'2 ' + time_row}
                 className={
                   'TimeTable_container_row' +
                   `${time_row}` +
@@ -319,13 +361,6 @@ function TimeTable({ cycle }: IProps) {
                     ? ' active'
                     : '')
                 }
-                onClick={() => {
-                  timeSelect(
-                    time_row - 1,
-                    2,
-                    selectedDates.length,
-                  );
-                }}
               ></TimeTable_container_row>
             ))}
           </TimeTable_container_col>
@@ -337,6 +372,8 @@ function TimeTable({ cycle }: IProps) {
           >
             {row.map((time_row, r_index) => (
               <TimeTable_container_row
+                key={'3 ' + time_row}
+                id={'3 ' + time_row}
                 className={
                   'TimeTable_container_row' +
                   `${time_row}` +
@@ -344,13 +381,6 @@ function TimeTable({ cycle }: IProps) {
                     ? ' active'
                     : '')
                 }
-                onClick={() => {
-                  timeSelect(
-                    time_row - 1,
-                    3,
-                    selectedDates.length,
-                  );
-                }}
               ></TimeTable_container_row>
             ))}
           </TimeTable_container_col>
@@ -362,6 +392,8 @@ function TimeTable({ cycle }: IProps) {
           >
             {row.map((time_row, r_index) => (
               <TimeTable_container_row
+                key={'4 ' + time_row}
+                id={'4 ' + time_row}
                 className={
                   'TimeTable_container_row' +
                   `${time_row}` +
@@ -369,13 +401,6 @@ function TimeTable({ cycle }: IProps) {
                     ? ' active'
                     : '')
                 }
-                onClick={() => {
-                  timeSelect(
-                    time_row - 1,
-                    4,
-                    selectedDates.length,
-                  );
-                }}
               ></TimeTable_container_row>
             ))}
           </TimeTable_container_col>
@@ -387,6 +412,8 @@ function TimeTable({ cycle }: IProps) {
           >
             {row.map((time_row, r_index) => (
               <TimeTable_container_row
+                key={'5 ' + time_row}
+                id={'5 ' + time_row}
                 className={
                   'TimeTable_container_row' +
                   `${time_row}` +
@@ -394,13 +421,6 @@ function TimeTable({ cycle }: IProps) {
                     ? ' active'
                     : '')
                 }
-                onClick={() => {
-                  timeSelect(
-                    time_row - 1,
-                    5,
-                    selectedDates.length,
-                  );
-                }}
               ></TimeTable_container_row>
             ))}
           </TimeTable_container_col>

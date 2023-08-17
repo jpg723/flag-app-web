@@ -36,10 +36,14 @@ const Wrapper = styled.div`
 `;
 
 interface IFriendListProps {
+  isEdit: boolean;
   searchName: string;
 }
 
-const FriendList = ({ searchName }: IFriendListProps) => {
+const FriendList = ({
+  isEdit,
+  searchName,
+}: IFriendListProps) => {
   const friendList = useRecoilValue(friendListAtom);
   const { checkedFriends } = useRecoilValue(makeFlagAtom);
   const setValue = useSetRecoilState(makeFlagAtom);
@@ -80,6 +84,7 @@ const FriendList = ({ searchName }: IFriendListProps) => {
                   ? true
                   : false
               }
+              isEdit={isEdit}
               handleCheck={handleCheck}
             />
           ))
@@ -99,6 +104,7 @@ const FriendList = ({ searchName }: IFriendListProps) => {
                     ? true
                     : false
                 }
+                isEdit={isEdit}
                 handleCheck={handleCheck}
               />
             ))}

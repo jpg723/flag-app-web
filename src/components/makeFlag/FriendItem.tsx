@@ -15,7 +15,8 @@ const Wrapper = styled.label`
   }
 `;
 
-const CheckBox = styled.input`
+const CheckBox = styled.input<{ isEdit: boolean }>`
+  display: ${(props) => (props.isEdit ? 'inline' : 'none')};
   appearance: none;
   width: 25px;
   height: 25px;
@@ -61,6 +62,7 @@ interface IFriendItemProps {
   id: number;
   name: string;
   checked: boolean;
+  isEdit: boolean;
   handleCheck: (
     checked: boolean,
     id: number,
@@ -72,6 +74,7 @@ const FriendItem = ({
   id,
   name,
   checked,
+  isEdit,
   handleCheck,
 }: IFriendItemProps) => {
   const onChange = (
@@ -85,6 +88,7 @@ const FriendItem = ({
         type="checkbox"
         defaultChecked={checked}
         onChange={onChange}
+        isEdit={isEdit}
       />
       <ProfileWrapper>
         <ProfilePicture />
