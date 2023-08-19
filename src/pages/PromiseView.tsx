@@ -1,7 +1,7 @@
 //import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as Arrow1 } from '../contents/desktop/flag/arrow_back_ios_new.svg';
-import { ReactComponent as Flag } from '../contents/desktop/flag/flag.svg';
+import { ReactComponent as Arrow2 } from '../contents/mobile/flag/모바일_Ic_플래그메인_Go.svg';
 import { Link } from 'react-router-dom';
 import FlagBox1 from '../components/FlagBox/FlagBox1';
 import FlagBox2 from '../components/FlagBox/FlagBox2';
@@ -9,6 +9,10 @@ import FlagBox2 from '../components/FlagBox/FlagBox2';
 const PromiseView_main = styled.div`
   display: flex;
   justify-content: center;
+
+  @media screen and (max-width: 500px) {
+    flex-direction: column;
+  }
 `;
 
 /*플래그*/
@@ -18,12 +22,21 @@ const PromiseView_flag_main = styled.div`
 const PromiseView_title1 = styled.div`
   margin-top: 40px;
   height: 42px;
-  font-size: 32px;
+  font-size: 27px;
   font-weight: 600;
+  display: flex;
+
+  @media screen and (max-width: 500px) {
+    margin-left: 35px;
+  }
 `;
 /*플래그 약속 박스*/
 const PromiseView_flag_box = styled.div`
   margin-top: 40px;
+
+  @media screen and (max-width: 500px) {
+    margin-top: 20px;
+}
 `;
 /*가운데 구분선*/
 const PromiseView_line = styled.div`
@@ -31,19 +44,37 @@ const PromiseView_line = styled.div`
   width: 2px;
   height: 607px;
   margin: 80px 65px 100px;
+
+  @media screen and (max-width: 500px) {
+    width: 360px;
+    height: 2px;
+    margin: 30px auto 10px auto;
+  }
 `;
 /*알림 박스*/
-const PromiseView_promise_main = styled.div``;
-/*알림 제목*/
+const PromiseView_promise_main = styled.div`
+
+  @media screen and (max-width: 500px) {
+    margin-bottom: 50px;
+  }
+`;
+/*진행중 약속 제목*/
 const PromiseView_title2 = styled.div`
   margin-top: 40px;
-  font-size: 32px;
+  font-size: 27px;
   font-weight: 600;
   display: flex;
+  @media screen and (max-width: 500px) {
+    margin-left: 35px;
+  }
 `;
 /*약속 만들기 버튼 박스*/
 const PromiseView_make_promise_box = styled.div`
   margin-left: 223px;
+
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
 `;
 /*약속 만들기 버튼*/
 const PromiseView_make_promise_btn = styled.button`
@@ -69,21 +100,78 @@ const Arrow1_icon = styled.div`
   padding-left: 3px;
 `;
 
+const Promise_make_btn2 = styled.div`
+  display: none;
+
+  @media screen and (max-width: 500px) {
+    display: flex;
+  }
+`
+const Promise_make_btn2_text = styled.div` 
+
+  @media screen and (max-width: 500px) {
+    display: flex;
+    color: var(--primary-light, #A98AFF);
+    font-size: 15px;
+    margin-left: 135px;
+    margin-top: 17px;
+    margin-right: 5px;
+  }
+`;
+
+const Arrow2_icon = styled.div` 
+  @media screen and (max-width: 500px) {
+    display: flex;
+    margin-top: 15px;
+  }
+`;
+
+const Promise_none = styled.div` 
+  color: #999;
+  font-family: Inter;
+  font-size: 20px;
+  width: 458.33px;
+  line-height:130%;
+
+  @media screen and (max-width: 500px) {
+    display: flex;
+    margin-top: 15px;
+    margin-left: 35px;
+  }
+`;
+
+
 function PromiseView() {
+
+  const promise_count = 1; //확정된 약속
+  const promising_count = 1; //진행중 약속
+  const my_promising_count = 3; //내가 만든 진행중 약속
+  const promising_total_count = promising_count + my_promising_count; //총 진행중 약속
+
   return (
     <PromiseView_main>
       <PromiseView_flag_main>
-        <PromiseView_title1>플래그</PromiseView_title1>
+        <PromiseView_title1>확정된 약속
+        <Link to="/makeFlag">
+          <Promise_make_btn2>
+            <Promise_make_btn2_text>약속만들기</Promise_make_btn2_text>
+            <Arrow2_icon><Arrow2></Arrow2></Arrow2_icon>
+          </Promise_make_btn2>
+        </Link>
+        </PromiseView_title1>
         <PromiseView_flag_box>
           {/*약속 확정 박스*/}
-          <FlagBox1></FlagBox1>
+          {(promise_count > 0 ? <FlagBox1></FlagBox1>:
+          <Promise_none>
+            확정된 약속이 없습니다.
+          </Promise_none>)}
         </PromiseView_flag_box>
       </PromiseView_flag_main>
       {/*구분선*/}
       <PromiseView_line></PromiseView_line>
       <PromiseView_promise_main>
         <PromiseView_title2>
-          약속신청
+          진행 중 약속
           <PromiseView_make_promise_box>
             <Link to="/makeFlag">
               <PromiseView_make_promise_btn>
@@ -97,8 +185,11 @@ function PromiseView() {
         </PromiseView_title2>
         <PromiseView_flag_box>
           {/*약속 진행중 박스*/}
-          <FlagBox1></FlagBox1>
-          <FlagBox2></FlagBox2>
+          {(promising_count > 0 ? <FlagBox1></FlagBox1>: '')}
+          {(my_promising_count > 0 ? <FlagBox2></FlagBox2>: '')}
+          {(promising_total_count > 0 ? '': <Promise_none>
+            현재 확정된 약속이 없어요!<br/>지금 바로 약속 신청 어때요?
+          </Promise_none>)}
         </PromiseView_flag_box>
       </PromiseView_promise_main>
     </PromiseView_main>
