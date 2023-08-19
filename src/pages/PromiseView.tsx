@@ -161,7 +161,7 @@ function PromiseView() {
         </PromiseView_title1>
         <PromiseView_flag_box>
           {/*약속 확정 박스*/}
-          {(promise_count > 0 ? <FlagBox1></FlagBox1>:
+          {(promise_count > 0 ? <Link to="/flag-meeting"><FlagBox1></FlagBox1></Link>:
           <Promise_none>
             확정된 약속이 없습니다.
           </Promise_none>)}
@@ -185,7 +185,7 @@ function PromiseView() {
         </PromiseView_title2>
         <PromiseView_flag_box>
           {/*약속 진행중 박스*/}
-          {(promising_count > 0 ? <FlagBox1></FlagBox1>: '')}
+          {(promising_count > 0 ? <Link to="/flag-meeting"><FlagBox1></FlagBox1></Link>: '')}
           {(my_promising_count > 0 ? <FlagBox2></FlagBox2>: '')}
           {(promising_total_count > 0 ? '': <Promise_none>
             현재 확정된 약속이 없어요!<br/>지금 바로 약속 신청 어때요?

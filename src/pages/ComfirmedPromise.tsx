@@ -63,6 +63,10 @@ const Comfirmed_promise_btn = styled.button`
   color: white;
   margin-left: auto;
   margin-right: auto;
+
+  @media screen and (max-width: 500px) {
+    margin-bottom: 78px;
+  }
 `;
 
 function ComfirmedPromise() {
