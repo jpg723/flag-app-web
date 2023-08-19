@@ -1,4 +1,7 @@
+import axios from 'axios';
 import styled from 'styled-components';
+import { delFriendAtom, userIdState } from '../recoil/Atoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
 //display: none;
 //border: 2px solid #000;
 //@media screen and (max-width: 360px) {}
@@ -66,8 +69,23 @@ const DeleteBtn = styled.button`
 `;
 
 function FriendsDelete() {
+  const [delFriend, setDelFriend] = useRecoilState(delFriendAtom);
+  const user = useRecoilValue(userIdState);
   function delHandler() {
-    // 삭제 목록 전송
+    console.log("친구 삭제");
+      axios({
+        url: '/user/'+ user +'/friends/'+ delFriend.id,
+        method: 'DELETE',
+        data: {} ,
+      }).then(response => {
+        console.log(response.data);
+        // 친구 목록 반환 필요 -> 친구 목록 변화
+        // setDelFriend({id: -1, name: ''});
+        // window.close();
+      }).catch(error => {
+        console.error('AxiosError:', error);
+      });
+      console.log("백엔드 전달")
     window.close();
   }
   return (

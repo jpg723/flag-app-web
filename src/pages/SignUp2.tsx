@@ -3,13 +3,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import profilepic from '../contents/desktop/sign/Btn_프로필생성_Profilepic.svg';
+import profilePlus from '../contents/desktop/sign/Btn_Plus.svg';
+import profilepic from '../contents/desktop/sign/_Img_계정생성완료_Profilepic.svg';
 import createaccount from '../contents/desktop/sign/Btn_프로필생성_Createaccount.svg';
-import { SignUpProfileAtom } from '../recoil/SignUpState';
+import { SignUpFileAtom } from '../recoil/SignUpState';
 import { SignUpNameAtom } from '../recoil/SignUpState';
 import { SignUpIdAtom } from '../recoil/SignUpState';
 import { SignUpPwAtom } from '../recoil/SignUpState';
 //padding
+//span<{isAdd: boolean}>`
+//color: ${(props) => (props.isAdd? '#f00' : '#000')};
 
 const SignUp2Cover = styled.div`
   height: 910px;
@@ -18,11 +21,28 @@ const SignUp2Cover = styled.div`
     width: 360px;
   }
 `;
-const SignUpInputImgIc = styled.img`
+const SignUpInputImgIc = styled.div<{img: string}>`
+border: 2px solid #000;
   width: 118px;
-  height: 122px;
+  height: 118px;
   flex-shrink: 0;
+  border-radius: 50%; 
+  background-image: URL(${(props) => (props.img)});
+  background-repeat: no-repeat;
+  background-size: cover;
   margin: 159px 661px 0px;
+  @media screen and (max-width: 500px) {
+    width: 95px;
+    height: 98px;
+    margin: 68px 132.5px 0px;
+  }
+`;
+const SignUpInputImgIcPlus = styled.img`
+border: 2px solid #000;
+  width: 33px;
+  height: 33px;
+  flex-shrink: 0;
+  margin: 85px auto auto 85px;
   @media screen and (max-width: 500px) {
     width: 95px;
     height: 98px;
@@ -31,6 +51,7 @@ const SignUpInputImgIc = styled.img`
 `;
 const SignUpInputImg = styled.input`
   display: none;
+  border: 2px solid #000;
 `;
 const SignUpInputName = styled.input`
   border: none;
@@ -82,7 +103,7 @@ const SignUpCreateaccount = styled.img`
 `;
 
 function SignUp2() {
-  const [profile, setProfile] = useRecoilState(SignUpProfileAtom);
+  const [profileFile, setProfileFile] = useRecoilState(SignUpFileAtom);
   const [name, setName] = useRecoilState(SignUpNameAtom);
   const id = useRecoilValue(SignUpIdAtom);
   const password = useRecoilValue(SignUpPwAtom);
@@ -97,14 +118,16 @@ function SignUp2() {
     setName(e.target.value)
   };
   const updateProfile = ( e: React.ChangeEvent<HTMLInputElement> ) => {
-    if (e.target.files) {
-      const newFileURL = URL.createObjectURL(e.target.files[0]);
-      setProfile(newFileURL);
+    if (e.target.files && e.target.files[0]) {
+      setProfileFile(e.target.files[0]);
+    }
+    else {
+      setProfileFile(null);
     }
   };
   const signupHandler = (e: any) => {
     console.log('id:' + id + ' pw:' + password);
-    console.log('Profile:' + profile + ' Name:' + name);
+    console.log('Profile:' + profileFile + ' Name:' + name);
     console.log(' isName:' + isName);
     if (!isName) {
       console.log('isName === false');
@@ -113,40 +136,23 @@ function SignUp2() {
     }
     if (!isName) e.preventDefault();
     else {
-      //백엔드로 데이터 전달
-      //"proxy": "http://ec2-3-36-64-117.ap-northeast-2.compute.amazonaws.com:8080",
-      /*
-      axios({
-        method: 'POST',
-        url: '/user/join/',
-        data: {
-          "data1": name,
-          "data2": id,
-          "data3": password
-          //userId: "유저아이디", 친구 삭제
-          //friends: "[1, 2, ]"
-        }
-      }).then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.error('AxiosError:', error);
-        // 에러 처리
-      });
-      */
       console.log("유효성 통과");
       axios(
         {
           url: '/user/join',
-          method: 'post',
+          method: 'POST',
           data: {
-            data1:name,data2:id,data3:password
+            data1:name, data2:id, data3:password
           } , 
           //baseURL: 'http://ec2-3-36-64-117.ap-northeast-2.compute.amazonaws.com:8080',
           //withCredentials: true,
         }
-      ).then(function (response) {
+      ).then(response => {
         console.log(response.data);
+        //URL.revokeObjectURL(profileFile)
+      }).catch(error => {
+        console.error('AxiosError:', error);
+        e.preventDefault();
       });
       console.log("백엔드 전달");
     }
@@ -155,9 +161,11 @@ function SignUp2() {
   return (
     <form method="post" encType="multipart/form-data">
       <SignUp2Cover>
-        <label htmlFor="profile">
-          <SignUpInputImgIc id="profileImg" src={profile ? profile : profilepic} />
-        </label>
+        <SignUpInputImgIc id="profileImg" img={profileFile ? URL.createObjectURL(profileFile) : profilepic} >
+          <label htmlFor="profile">
+            <SignUpInputImgIcPlus src={profilePlus} />
+          </label>
+        </SignUpInputImgIc>
         <SignUpInputImg type="file" id="profile" accept="image/*" onChange={updateProfile} />
         <SignUpInputName type="text" id="name" placeholder="닉네임" autoComplete="off" onChange={updateName} />
         <SignUpInputHint>최소 2자 최대 5자 이내</SignUpInputHint>

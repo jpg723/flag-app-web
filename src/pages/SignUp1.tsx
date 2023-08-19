@@ -189,7 +189,7 @@ function SignUp1() {
   }, [id]);
   useEffect(() => {
     setPw(inputPw)
-    const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
+    const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*?[#?!@$%^&*-]).{8,25}$/;
     if (pw !== undefined) setIsPw(pwRegExp.test(pw)); 
   }, [inputPw]);
   useEffect(() => {
@@ -246,7 +246,7 @@ function SignUp1() {
         <SignUpInput type="password" id="pw" name="pw" placeholder="비밀번호"
           onChange={ (e: React.ChangeEvent<HTMLInputElement>) => { setInputPw(e.target.value); } } />
         <InputLine />
-        <SignUpHintText id="pwText"> 영문/숫자 조합, 최소 8자 이상 </SignUpHintText>
+        <SignUpHintText id="pwText"> 영문/숫자/특수문자 조합, 최소 8자 이상 </SignUpHintText>
         <SignUpInput type="password" id="checkPw" name="checkPw" placeholder="비밀번호 재입력"
           onChange={ (e: React.ChangeEvent<HTMLInputElement>) => { setInputPwCheck(e.target.value); } } />
         <InputLine />

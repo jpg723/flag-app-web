@@ -1,18 +1,21 @@
 import { atom } from 'recoil';
 
-export const SignUpIdAtom = atom<string | undefined>({
+export const SignUpIdAtom = atom<string>({
   key: 'SignUpId',
-  default: undefined,
+  default: '',
 });
-export const SignUpPwAtom = atom<string | undefined>({
+
+export const SignUpPwAtom = atom<string>({
   key: 'SignUpPw',
-  default: undefined,
+  default: '',
 });
-export const SignUpProfileAtom = atom<string | any>({
+
+export const SignUpNameAtom = atom<string>({
+  key: 'SignUpName',
+  default: '',
+});
+
+export const SignUpFileAtom = atom<string | any>({
   key: 'SignUpProfile',
   default: null,
-});
-export const SignUpNameAtom = atom<string | undefined>({
-  key: 'SignUpName',
-  default: undefined,
 });

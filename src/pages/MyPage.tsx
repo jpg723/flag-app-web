@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import profilepic from '../contents/desktop/mypage/Img_마이페이지_Profilepic.svg';
-import profilepicMobile from '../contents/mobile/mypage/Img_마이페이지_Profilepic.svg';
 import profilepicEdit from '../contents/desktop/mypage/Ic_마이페이지_Edit.svg';
 import btnEmailEdit from '../contents/desktop/mypage/Btn_마이페이지_Modifyemail.svg';
 import btnPwEdit from '../contents/desktop/mypage/Btn_마이페이지_Modifypassword.svg';
@@ -10,6 +9,8 @@ import btnLogout from '../contents/desktop/mypage/Btn_마이페이지_Logout.svg
 import btnWithdraw from '../contents/desktop/mypage/Btn_마이페이지_Withdraw.svg';
 import btnAddfriend from '../contents/desktop/mypage/Btn_마이페이지_Addfriend.svg';
 import MyPageFriendList from '../components/mypageFriends/MyPageFriendList';
+import { SignUpFileAtom, SignUpNameAtom } from '../recoil/SignUpState';
+import { useRecoilState, useRecoilValue } from 'recoil';
 //display: none;
 //border: 2px solid #000;
 //@media screen and (max-width: 500px) {}
@@ -43,16 +44,18 @@ const MyPageCover2 = styled.div`
     margin: 0px 37px;
   }
 `;
-const MyPageAccountImg = styled.div`
+const MyPageAccountImg = styled.div<{img: string}>`
   width: 112px;
   height: 112px;
-  background-image: URL(${profilepic});
+  border-radius: 50%;
+  background-image: URL(${(props) => (props.img)});
   background-repeat: no-repeat;
+  background-size: cover;
   margin: 50px auto 0px;
   @media screen and (max-width: 500px) {
     width: 68px;
     height: 68px;
-    background-image: URL(${profilepicMobile});
+    background-image: URL(${(props) => (props.img)});
     margin: 23px auto 0px;
   }
 `;
@@ -150,46 +153,38 @@ const MyPageFriendAdd = styled.img`
     height: 21px;
   }
 `;
-const MyPageFriendEditText = styled.span<{ isEdit: boolean }>`
-  display: ${(props) => (props.isEdit ? 'none' : 'inline')};
-  color: #000;
-  font-family: Apple SD Gothic Neo;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  float: right;
-  margin: 8px 20px auto auto;
-  @media screen and (max-width: 500px) {
-    font-size: 12px;
-  }
-`;
 
 
 function MyPage() {
-  const [userName] = useState('OO');
-  const [isEdit, setIsEdit] = useState(false);
+  const name = useRecoilValue(SignUpNameAtom);
+  const [profileFile, setProfileFile] = useRecoilState(SignUpFileAtom);
 
   function addFriends() {
-    window.open( '/MyPage_FriendsAdd', '_blank', 'width=835, height=562, toolbar=no' );
+    window.open( '/MyPage_FriendsAdd', '_blank', 'width=835, height=375, toolbar=no' );
   }
 
-  function deleteWindow() {
-    window.open( '/MyPage_FriendsDelete', '_blank', 'width=577, height=321, toolbar=no');
-  }
+  const updateProfile = ( e: React.ChangeEvent<HTMLInputElement> ) => {
+    if (e.target.files && e.target.files[0]) {
+      //const newFileURL = URL.createObjectURL(e.target.files[0]);
+      setProfileFile(e.target.files[0]);
+    }
+    else {
+      setProfileFile(null);
+    }
+  };
 
   return (
     <>
       <MyPageCover>
-        <MyPageAccount>{userName}님의 계정</MyPageAccount>
+        <MyPageAccount>{name}님의 계정</MyPageAccount>
         <MyPageCover2>
-          <MyPageAccountImg>
+          <MyPageAccountImg img={profileFile ? URL.createObjectURL(profileFile) : profilepic} >
             <label htmlFor="profileImg">
               <MyPageAccountImgEdit src={profilepicEdit} />
             </label>
-            <MyPageAccountImgInput type="file" id="profileImg" accept="image/*" />
+            <MyPageAccountImgInput type="file" id="profileImg" accept="image/*" onChange={updateProfile} />
           </MyPageAccountImg>
-          <MyPageName>{userName}</MyPageName>
+          <MyPageName>{name}</MyPageName>
           <MyPageEmail>Email</MyPageEmail>
           <MyPageEdit src={btnEmailEdit} />
           <MyPageEdit src={btnPwEdit} />
@@ -198,9 +193,9 @@ function MyPage() {
           <MyPageEdit src={btnWithdraw} />
         </MyPageCover2>
         <MyPageCover3>
-          <MyPageFriendsListText> {userName}님의 친구목록 </MyPageFriendsListText>
+          <MyPageFriendsListText> {name}님의 친구목록 </MyPageFriendsListText>
           <MyPageFriendAdd src={btnAddfriend} onClick={addFriends} />
-          <MyPageFriendList searchName=""/>
+          <MyPageFriendList />
         </MyPageCover3>
       </MyPageCover>
     </>
