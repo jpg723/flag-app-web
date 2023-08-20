@@ -12,7 +12,8 @@ const SignUp3Cover = styled.div`
   height: 910px;
   width: 1440px;
   @media screen and (max-width: 500px) {
-    width: 360px;
+    width: 100%;
+    text-align: center;
   }
 `;
 const SignUpInputImgIc = styled.img`
@@ -24,7 +25,7 @@ const SignUpInputImgIc = styled.img`
   @media screen and (max-width: 500px) {
     width: 95px;
     height: 95px;
-    margin: 68px 132.5px 0px;
+    margin: 68px auto 0px;
   }
 `;
 const SignUpAccount = styled.div`
@@ -61,7 +62,7 @@ const SignUpBtnLogin = styled.img`
   @media screen and (max-width: 500px) {
     width: 277px;
     height: 38px;
-    margin: 42px 41.5px 0px;
+    margin: 42px auto 0px;
   }
 `;
 

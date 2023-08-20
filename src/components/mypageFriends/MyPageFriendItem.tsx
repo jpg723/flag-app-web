@@ -42,6 +42,9 @@ const ProfileName = styled.span`
   font-size: 18px;
   font-weight: 400;
   line-height: 17px;
+  @media screen and (max-width: 500px) {
+    font-size: 15px;
+  }
 `;
 
 const ProfileDel = styled.span`

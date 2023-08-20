@@ -12,6 +12,7 @@ import { SignUpFileAtom } from '../recoil/SignUpState';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Link } from 'react-router-dom';
 import { emailState, userNameState } from '../recoil/Atoms';
+import axios from 'axios';
 //display: none;
 //border: 2px solid #000;
 //@media screen and (max-width: 500px) {}
@@ -172,16 +173,65 @@ function MyPage() {
     if (e.target.files && e.target.files[0]) {
       //const newFileURL = URL.createObjectURL(e.target.files[0]);
       setProfileFile(e.target.files[0]);
+      console.log('프로필 사진 교체');
+
+      const formData = new FormData();
+      formData.append("profile",  profileFile);
+
+      axios({
+        //url: '/user/' + + '/profile',
+        method: 'POST',
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }).then((response) => {
+        console.log(response.data);
+        //URL.revokeObjectURL(profileFile)
+      })
+      .catch((error) => {
+        console.error('AxiosError:', error);
+        e.preventDefault();
+      });
+      console.log('백엔드 전달');
     }
     else {
       setProfileFile(null);
     }
   };
-  const logout = () => {
-
+  const logout = (e: any) => {
+    // eslint-disable-next-line no-restricted-globals
+    const logoutResult = confirm('로그아웃 하시겠습니까?');
+    if ( logoutResult ) {
+      sessionStorage.removeItem('token');
+    }
+    else {
+      e.preventDefault();
+    }
   };
-  const delUser = () => {
+  const delUser = (e: any) => {
+    // eslint-disable-next-line no-restricted-globals
+    const delUserResult = confirm('계정을 삭제 하시겠습니까?');
+    if ( delUserResult ) {
+      axios({
+        //url: '/user/' + + '/profile',
+        method: 'POST',
+        data: {
 
+        },
+      }).then((response) => {
+        console.log(response.data);
+        //URL.revokeObjectURL(profileFile)
+      })
+      .catch((error) => {
+        console.error('AxiosError:', error);
+        e.preventDefault();
+      });
+      console.log('백엔드 전달');
+    }
+    else {
+      e.preventDefault();
+    }
   };
 
   return (
@@ -190,17 +240,19 @@ function MyPage() {
         <MyPageAccount>{name}님의 계정</MyPageAccount>
         <MyPageCover2>
           <MyPageAccountImg img={profileFile ? URL.createObjectURL(profileFile) : profilepic} >
-            <label htmlFor="profileImg">
-              <MyPageAccountImgEdit src={profilepicEdit} />
-            </label>
+            <form method="post" encType="multipart/form-data">
+              <label htmlFor="profileImg">
+                <MyPageAccountImgEdit src={profilepicEdit} />
+              </label>
+            </form>
             <MyPageAccountImgInput type="file" id="profileImg" accept="image/*" onChange={updateProfile} />
           </MyPageAccountImg>
           <MyPageName>{name}</MyPageName>
           <MyPageEmail>{email}</MyPageEmail>
           <Link to="/password-change" ><MyPageEdit src={btnPwEdit} /></Link>
           <MyPageLine />
-          <MyPageEdit src={btnLogout} onClick={logout} />
-          <MyPageEdit src={btnWithdraw} onClick={delUser} />
+          <Link to="/" ><MyPageEdit src={btnLogout} onClick={logout} /></Link>
+          <Link to="/" ><MyPageEdit src={btnWithdraw} onClick={delUser} /></Link>
         </MyPageCover2>
         <MyPageCover3>
           <MyPageFriendsListText> {name}님의 친구목록 </MyPageFriendsListText>

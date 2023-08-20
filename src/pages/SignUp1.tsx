@@ -14,7 +14,7 @@ const SignUpCover = styled.div`
   height: 910px;
   width: 1440px;
   @media screen and (max-width: 500px) {
-    width: 360px;
+    width: 100%;
   }
 `;
 const SignUpImgText = styled.span`
@@ -213,6 +213,9 @@ function SignUp1() {
     console.log('id:' + id + ' pw:' + pw);
     console.log('isId:' + isId + ' isPw:' + isPw);
     console.log('isPwCheck: ' + isPwCheck);
+    const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[#?!@$%^&*-]).{8,25}$/;
+    if (pw !== undefined) setIsPw(pwRegExp.test(pw)); 
+
     if (!isId) {
       console.log('isId === false');
     } else if (!isPw) {
