@@ -152,15 +152,27 @@ function PromiseView() {
   const promising_count = 1; //진행중 약속
   const my_promising_count = 3; //내가 만든 진행중 약속
   const promising_total_count = promising_count + my_promising_count; //총 진행중 약속
-  const [list , SetList] = useState([]);
-   
-  useEffect(()=> {
-      axios.get('/item/list').then((res)=>{
-      SetList(res.data)
-      console.log(res)
+  const [users, setUsers] = useState([]);
+  const token = sessionStorage.getItem('token');
+
+  useEffect(() => {
+    axios({
+      url: '/flag/progresslist',
+      method: 'GET',
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((response) => {
+        console.log(response.data);                 
       })
-      .catch(error => console.log(error))
-  },[])   
+      .catch((error) => {
+        console.error('AxiosError:', error);
+        error.preventDefault();
+      });
+  }, []);
+
+  
 
   const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
   const navigate = useNavigate();
