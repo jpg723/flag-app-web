@@ -72,6 +72,22 @@ export const makeFlagAtom = atom<IFlag>({
   },
 });
 
+
+export const addFriendAtom = atom<IFriendTypes>({
+  key: 'addFriend',
+  default: {
+    id: -1,
+    name: '',
+  },
+});
+
+export const delFriendAtom = atom<IFriendTypes>({
+  key: 'delFriend',
+  default: {
+    id: -1,
+    name: '',
+  },
+
 export const timeTableAtom = atom<boolean[][]>({
   key: 'timeTable',
   default: [
@@ -166,4 +182,5 @@ export const timeTableAtom = atom<boolean[][]>({
       false,
     ],
   ],
+
 });

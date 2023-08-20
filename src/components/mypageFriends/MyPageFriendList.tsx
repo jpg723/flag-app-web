@@ -1,8 +1,9 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import MyPageFriendItem from './MyPageFriendItem';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
+  delFriendAtom,
   friendListAtom,
   IFriendTypes,
   makeFlagAtom,
@@ -41,63 +42,28 @@ const FriendsListFrame = styled.div`
   }
 `;
 
-interface IFriendListProps {
-  searchName: string;
-}
 
-const MyPageFriendList = ({
-  searchName,
-}: IFriendListProps) => {
+const MyPageFriendList = () => {
   const friendList = useRecoilValue(friendListAtom);
-  const { checkedFriends } = useRecoilValue(makeFlagAtom);
-  const setValue = useSetRecoilState(makeFlagAtom);
+  const [delFriend, setDelFriend] = useRecoilState(delFriendAtom);
 
-  const handleCheck = useCallback(
-    (checked: boolean, id: number, name: string) => {
-      window.open( '/MyPage_FriendsDelete', '_blank', 'width=577, height=321, toolbar=no');
-      if (checked) {
-        setValue((v) => {
-          const copied = [...v.checkedFriends];
-          const newList = [...copied, { id, name }];
-          return { ...v, checkedFriends: newList };
-        });
-      } else {
-        setValue((v) => {
-          const copied = [...v.checkedFriends];
-          const newList = copied.filter(
-            (item) => item.id !== id,
-          );
-          return { ...v, checkedFriends: newList };
-        });
-      }
-    },
-    [checkedFriends],
-  );
+  const handleCheck = (id: number, name: string) => {
+    console.log('id? ' + id);
+    setDelFriend({id: id, name: name});
+    window.open( '/MyPage_FriendsDelete', '_blank', 'width=577, height=321, toolbar=no');
+  };
 
   return (
     <Wrapper>
       <FriendsListFrame>
-        {searchName === ''
-          ? friendList.map((item: IFriendTypes) => (
-              <MyPageFriendItem
-                key={item.id}
-                id={item.id}
-                name={item.name}
-                handleCheck={handleCheck}
-              />
-            ))
-          : friendList
-              .filter((item) =>
-                item.name.includes(searchName),
-              )
-              .map((item: IFriendTypes) => (
-                <MyPageFriendItem
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  handleCheck={handleCheck}
-                />
-              ))}
+        { friendList.map((item: IFriendTypes) => (
+            <MyPageFriendItem
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              handleCheck={handleCheck}
+            />
+        ))}
     </FriendsListFrame>        
     </Wrapper>
   );

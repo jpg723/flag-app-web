@@ -55,21 +55,20 @@ interface IFriendItemProps {
   id: number;
   name: string;
   handleCheck: (
-    checked: boolean,
     id: number,
     name: string,
   ) => void;
 }
 
-const MyPageFriendItem = ({id, name, handleCheck}: IFriendItemProps) => {
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => 
-    { handleCheck(e.target.checked, id, name); };
+const MyPageFriendItem = ({id,name, handleCheck}: IFriendItemProps) => {
+  const onClick = (e: any) => 
+    { handleCheck(id, name); };
   return (
     <Wrapper>
       <ProfileWrapper>
         <ProfilePicture />
         <ProfileName>{name}</ProfileName>
-        <ProfileDel onChange={onChange}>삭제</ProfileDel>
+        <ProfileDel onClick={onClick}>삭제</ProfileDel>
       </ProfileWrapper>
     </Wrapper>
   );
