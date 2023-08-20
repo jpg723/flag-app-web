@@ -15,7 +15,8 @@ const Logo = styled.img`
   display: block;
 
   @media screen and (max-width: 500px) {
-    display: none;
+    width: 200px;
+    margin-top: 128px;
   }
 `;
 
@@ -41,7 +42,7 @@ const EmailIcon = styled.img`
   @media screen and (max-width: 500px) {
     width: 100px;
     height: 100px;
-    margin: 182px auto 0px;
+    margin: 45px auto 0px;
   }
 `;
 

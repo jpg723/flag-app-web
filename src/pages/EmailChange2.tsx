@@ -13,7 +13,8 @@ const Logo = styled.img`
   display: block;
 
   @media screen and (max-width: 500px) {
-    display: none;
+    width: 200px;
+    margin-top: 128px;
   }
 `;
 
@@ -38,7 +39,7 @@ const CompleteIcon = styled.img`
   @media screen and (max-width: 500px) {
     width: 100px;
     height: 100px;
-    margin-top: 217px;
+    margin-top: 62px;
   }
 `;
 

@@ -21,7 +21,7 @@ export interface IFriendTypes {
 }
 
 export interface IOption {
-  content: string | number;
+  content: string;
   isChecked: boolean;
 }
 
@@ -30,9 +30,10 @@ export interface IFlag {
   checkedFriends: IFriendTypes[];
   selectedDates: string[];
   cycle: string;
-  minimumTime: IOption;
+  minimumTime: number;
   flagPlace: IOption;
   flagMemo: IOption;
+  selectedCell: number[];
 }
 
 export const friendListAtom = atom<IFriendTypes[]>({
@@ -58,10 +59,7 @@ export const makeFlagAtom = atom<IFlag>({
     checkedFriends: [],
     selectedDates: [],
     cycle: '',
-    minimumTime: {
-      content: 1,
-      isChecked: false,
-    },
+    minimumTime: 1,
     flagPlace: {
       content: '',
       isChecked: false,
@@ -70,8 +68,10 @@ export const makeFlagAtom = atom<IFlag>({
       content: '',
       isChecked: false,
     },
+    selectedCell: [],
   },
 });
+
 
 export const addFriendAtom = atom<IFriendTypes>({
   key: 'addFriend',
@@ -87,4 +87,100 @@ export const delFriendAtom = atom<IFriendTypes>({
     id: -1,
     name: '',
   },
+
+export const timeTableAtom = atom<boolean[][]>({
+  key: 'timeTable',
+  default: [
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ],
+  ],
+
 });

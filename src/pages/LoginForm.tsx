@@ -1,9 +1,7 @@
-import React from 'react';
-//import { useRecoilState } from 'recoil';
-//import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-//import axios from 'axios';
+import axios from 'axios';
 
 import logo from '../contents/Logo_플래그_Small_수정.svg';
 import emailInput from '../contents/desktop/sign/Box_로그인_Email_Unentered.svg';
@@ -18,7 +16,8 @@ const Logo = styled.img`
   display: block;
 
   @media screen and (max-width: 500px) {
-    display: none;
+    width: 200px;
+    margin-top: 128px;
   }
 `;
 
@@ -32,7 +31,6 @@ const Wrapper = styled.div`
   text-align: center;
 
   @media screen and (max-width: 500px) {
-    margin-top: 260px;
   }
 `;
 
@@ -82,6 +80,17 @@ const PasswordInput = styled(EmailInput)`
   }
 `;
 
+const ErrorMessage = styled.p`
+  color: #999;
+  font-size: 12px;
+  margin-top: 5px;
+  text-align: left;
+
+  @media screen and (max-width: 500px) {
+    margin-left: 50px;
+  }
+`;
+
 const LoginButton = styled.img`
   width: 355px;
   margin: 28px 41.5px 0;
@@ -104,9 +113,9 @@ const FindSignUpWrapper = styled.div`
 `;
 
 const FindPassword = styled.a`
-  height: 22px;
   color: #494949;
   line-height: normal;
+  font-family: Noto Sans KR;
   font-size: 15px;
   font-weight: 400;
   margin-right: 76px;
@@ -133,84 +142,81 @@ const SignupButton = styled.img`
 `;
 
 function LoginForm() {
-  // const [userId, setUserId] = useState('');
-  // const [pw, setPw] = useState('');
-  // const [checkUserId, setCheckUserId] = useState(' ');
-  // const [checkPw, setCheckPw] = useState(' ');
+  const [userId, setUserId] = useState('');
+  const [password, setPassword] = useState('');
+  const [userIdError, setUserIdError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
-  // const updateUserId = (
-  //   e: React.ChangeEvent<HTMLInputElement>,
-  // ) => {
-  //   if (e.target.value === '')
-  //     setCheckUserId('아이디를 입력해주세요');
-  //   else {
-  //     setCheckUserId('');
-  //     setUserId(e.target.value);
-  //   }
-  // };
-  // const updatePw = (
-  //   e: React.ChangeEvent<HTMLInputElement>,
-  // ) => {
-  //   if (e.target.value === '')
-  //     setCheckPw('비밀번호를 입력해주세요');
-  //   else {
-  //     setCheckPw('');
-  //     setPw(e.target.value);
-  //   }
-  // };
-  // const [message, setMessage] = useState('');
+  const emailValid = (email: string) => {
+    const emailRegExp =
+      /^[0-9a-zA-Z]+@[0-9a-zA-Z]+(\.[a-zA-Z]{2,3})+$/;
+    return emailRegExp.test(email);
+  };
 
-  // useEffect(() => {
-  //   fetch('/member/login')
-  //     .then((response) => response.text())
-  //     .then((message) => {
-  //       setMessage(message);
-  //     });
-  // }, []);
+  const handleUserIdChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const newUserId = e.target.value;
+    setUserId(newUserId);
 
-  /*로그인 버튼 클릭시*/
-  // function loginBtn_click() {
-  //   /*백엔드로 값 전달*/
-  //   if (checkUserId === '' && checkPw === '') {
-  //     axios({
-  //       url: '/member/login.do',
-  //       method: 'post',
-  //       data: {
-  //         data1: userId,
-  //         data2: pw,
-  //       },
-  //       baseURL: 'http://localhost:8080',
-  //       //baseURL: 'http://localhost:8080',
-  //       //withCredentials: true,
-  //     }).then(function (response) {
-  //       console.log(response.data);
-  //       console.log(response.data.user_id);
-  //       if (response.data.user_id === undefined) {
-  //         alert(
-  //           '입력하신 아이디 또는 비밀번호가 일치하지 않습니다',
-  //         );
-  //       } else if (response.data.password === undefined) {
-  //         alert(
-  //           '입력하신 아이디 또는 비밀번호가 일치하지 않습니다',
-  //         );
-  //       } else {
-  //         alert(response.data.user_name + '님 환영합니다!');
+    if (newUserId === '') {
+      setUserIdError('아이디를 입력해주세요.');
+    } else if (!emailValid(newUserId)) {
+      setUserIdError('올바른 이메일 형식이 아닙니다.');
+    } else {
+      setUserIdError('');
+    }
+  };
 
-  //         sessionStorage.setItem(
-  //           'id',
-  //           response.data.user_id,
-  //         ); // sessionStorage에 id라는 key 값으로 저장
-  //         sessionStorage.setItem(
-  //           'name',
-  //           response.data.user_name,
-  //         );
-  //         document.location.href = '/';
-  //       }
-  //     });
-  //   } else {
-  //     alert('로그인 입력폼을 확인해주세요');
-  //   }
-  // }
+  const handlePasswordChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+
+    if (newPassword === '') {
+      setPasswordError('비밀번호를 입력해주세요.');
+    } else if (newPassword.length < 8) {
+      setPasswordError(
+        '비밀번호는 영문, 숫자 조합 최소 8자 이상이어야 합니다.',
+      );
+    } else {
+      setPasswordError('');
+    }
+  };
+
+  const handleLoginButtonClick = () => {
+    if (
+      !userId ||
+      !password ||
+      userIdError ||
+      passwordError
+    ) {
+      window.alert('입력한 정보를 확인해주세요.');
+    } else {
+      const requestData = {
+        userId: userId,
+        password: password,
+      };
+      axios
+        .post('/user/login', requestData, {
+          baseURL: 'http://localhost:8080',
+        })
+        .then(function (response) {
+          console.log(response.data);
+          console.log('로그인 성공');
+        })
+        .catch(function (error) {
+          console.error('Login error: ', error);
+          console.log('로그인 실패');
+        });
+      return <Link to="/promise-view" />;
+    }
+  };
+
+  const handleSignUpButtonClick = () => {
+    console.log();
+  };
 
   return (
     <>
@@ -220,17 +226,37 @@ function LoginForm() {
           <EmailInput
             type="email"
             placeholder="이메일"
-            //onChange={updateUserId}
+            value={userId}
+            onChange={handleUserIdChange}
           />
+          {userIdError && (
+            <ErrorMessage>{userIdError}</ErrorMessage>
+          )}
           <PasswordInput
             type="password"
             placeholder="비밀번호"
-            //onChange={updatePw}
+            value={password}
+            onChange={handlePasswordChange}
           />
-          <LoginButton
-            src={loginButton}
-            alt="로그인 버튼"
-          />
+          {passwordError && (
+            <ErrorMessage>{passwordError}</ErrorMessage>
+          )}
+          <Link
+            to={
+              userId ||
+              password ||
+              !userIdError ||
+              !passwordError
+                ? '/promise-view'
+                : '#'
+            }
+          >
+            <LoginButton
+              src={loginButton}
+              alt="로그인 버튼"
+              onClick={handleLoginButtonClick}
+            />
+          </Link>
         </InputWrapper>
         <FindSignUpWrapper>
           <Link
@@ -245,10 +271,11 @@ function LoginForm() {
           >
             <FindEmail>이메일 찾기</FindEmail>
           </Link>
-          <Link to="/">
+          <Link to="/SignUp1">
             <SignupButton
               src={signUpButton}
               alt="회원가입 버튼"
+              onClick={handleSignUpButtonClick}
             />
           </Link>
         </FindSignUpWrapper>
