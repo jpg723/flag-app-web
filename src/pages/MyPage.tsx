@@ -3,14 +3,15 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import profilepic from '../contents/desktop/mypage/Img_마이페이지_Profilepic.svg';
 import profilepicEdit from '../contents/desktop/mypage/Ic_마이페이지_Edit.svg';
-import btnEmailEdit from '../contents/desktop/mypage/Btn_마이페이지_Modifyemail.svg';
 import btnPwEdit from '../contents/desktop/mypage/Btn_마이페이지_Modifypassword.svg';
 import btnLogout from '../contents/desktop/mypage/Btn_마이페이지_Logout.svg';
 import btnWithdraw from '../contents/desktop/mypage/Btn_마이페이지_Withdraw.svg';
 import btnAddfriend from '../contents/desktop/mypage/Btn_마이페이지_Addfriend.svg';
 import MyPageFriendList from '../components/mypageFriends/MyPageFriendList';
-import { SignUpFileAtom, SignUpNameAtom } from '../recoil/SignUpState';
+import { SignUpFileAtom } from '../recoil/SignUpState';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { Link } from 'react-router-dom';
+import { emailState, userNameState } from '../recoil/Atoms';
 //display: none;
 //border: 2px solid #000;
 //@media screen and (max-width: 500px) {}
@@ -19,7 +20,9 @@ const MyPageCover = styled.div`
   height: 1481px;
   width: 1440px;
   @media screen and (max-width: 500px) {
-    width: 360px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
   }
 `;
 const MyPageAccount = styled.div`
@@ -32,7 +35,8 @@ const MyPageAccount = styled.div`
   margin: 69px auto 0px 233px;
   @media screen and (max-width: 500px) {
     font-size: 17px;
-    margin: 30px auto 0px 29px;
+    width: 200px;
+    margin: 30px auto 0px 0px;
   }
 `;
 const MyPageCover2 = styled.div`
@@ -40,8 +44,8 @@ const MyPageCover2 = styled.div`
   text-align: center;
   margin: 0px auto auto 542px;
   @media screen and (max-width: 500px) {
-    width: 285px;
-    margin: 0px 37px;
+    width: 100%;
+    margin: 0px;
   }
 `;
 const MyPageAccountImg = styled.div<{img: string}>`
@@ -118,7 +122,6 @@ const MyPageLine = styled.hr`
   @media screen and (max-width: 500px) {
     width: 285px;
     background: rgba(0, 0, 0, 0.18);
-    margin: 4px 0px 18px;
   }
 `;
 const MyPageCover3 = styled.div`
@@ -128,6 +131,7 @@ const MyPageCover3 = styled.div`
     width: 302px;
     height: 270px;
     margin: 51px auto 18px;
+    text-align: left;
   }
 `;
 const MyPageFriendsListText = styled.span`
@@ -139,7 +143,8 @@ const MyPageFriendsListText = styled.span`
   line-height: normal;
   margin: 0px auto 0px 0px;
   @media screen and (max-width: 500px) {
-    font-size: 17px;
+    font-size: 20px;
+    margin: 0px auto 0px 0px;
   }
 `;
 const MyPageFriendAdd = styled.img`
@@ -154,9 +159,9 @@ const MyPageFriendAdd = styled.img`
   }
 `;
 
-
 function MyPage() {
-  const name = useRecoilValue(SignUpNameAtom);
+  const name = useRecoilValue(userNameState);
+  const email = useRecoilValue(emailState);
   const [profileFile, setProfileFile] = useRecoilState(SignUpFileAtom);
 
   function addFriends() {
@@ -172,6 +177,12 @@ function MyPage() {
       setProfileFile(null);
     }
   };
+  const logout = () => {
+
+  };
+  const delUser = () => {
+
+  };
 
   return (
     <>
@@ -185,12 +196,11 @@ function MyPage() {
             <MyPageAccountImgInput type="file" id="profileImg" accept="image/*" onChange={updateProfile} />
           </MyPageAccountImg>
           <MyPageName>{name}</MyPageName>
-          <MyPageEmail>Email</MyPageEmail>
-          <MyPageEdit src={btnEmailEdit} />
-          <MyPageEdit src={btnPwEdit} />
+          <MyPageEmail>{email}</MyPageEmail>
+          <Link to="/password-change" ><MyPageEdit src={btnPwEdit} /></Link>
           <MyPageLine />
-          <MyPageEdit src={btnLogout} />
-          <MyPageEdit src={btnWithdraw} />
+          <MyPageEdit src={btnLogout} onClick={logout} />
+          <MyPageEdit src={btnWithdraw} onClick={delUser} />
         </MyPageCover2>
         <MyPageCover3>
           <MyPageFriendsListText> {name}님의 친구목록 </MyPageFriendsListText>

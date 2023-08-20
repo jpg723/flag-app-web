@@ -10,6 +10,11 @@ export const userIdState = atom<string>({
   default: '',
 });
 
+export const userNameState = atom<string>({
+  key: 'userNameState',
+  default: '',
+});
+
 export const confirmPasswordValidState = atom({
   key: 'confirmPasswordValidState',
   default: false,

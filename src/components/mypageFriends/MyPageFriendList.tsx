@@ -23,6 +23,7 @@ const Wrapper = styled.div`
     height: 216px;
     border: 2px solid var(--primary-deep, #6041ff);
     padding: 10px 10px 20px 10px;
+    margin-top: 10px;
   }
 `;
 const FriendsListFrame = styled.div`

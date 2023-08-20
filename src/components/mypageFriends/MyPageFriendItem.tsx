@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import img_profile from '../../contents/desktop/flag/Img_약속만들기_Profilepic_Friendlist.svg';
-import img_profile_mobile from '../../contents/mobile/flag/모바일_Img_약속만들기_Profilepic.svg';
-import img_checked from '../../contents/desktop/flag/icon_약속만들기_checked.svg';
-import img_unchecked from '../../contents/desktop/flag/icon_약속만들기_Unchecked.svg';
+import btnDelfriend from '../../contents/desktop/mypage/Btn_friendDelete.svg';
 
 const Wrapper = styled.label`
   display: flex;
@@ -16,10 +14,13 @@ const Wrapper = styled.label`
 `;
 
 const ProfileWrapper = styled.div`
-  width: 300px;
+  width: 370px;
   display: flex;
   flex-direction: row;
   align-items: center;
+  @media screen and (max-width: 500px) {
+    width: 230px;
+  }
 `;
 
 const ProfilePicture = styled.div`
@@ -31,8 +32,8 @@ const ProfilePicture = styled.div`
   background-image: url('${img_profile}');
   background-size: cover;
   @media screen and (max-width: 500px) {
-    width: 23px;
-    height: 23px;
+    width: 38px;
+    height: 38px;
     background-image: url('${img_profile}');
   }
 `;
@@ -44,10 +45,14 @@ const ProfileName = styled.span`
 `;
 
 const ProfileDel = styled.span`
+  width: 24px;
+  height: 24px;
   color: #f00;
   font-size: 18px;
   font-weight: 400;
   line-height: 17px;
+  background-image: url('${btnDelfriend}');
+  background-size: cover;
   margin: auto 0px auto auto;
 `;
 
@@ -68,7 +73,7 @@ const MyPageFriendItem = ({id,name, handleCheck}: IFriendItemProps) => {
       <ProfileWrapper>
         <ProfilePicture />
         <ProfileName>{name}</ProfileName>
-        <ProfileDel onClick={onClick}>삭제</ProfileDel>
+        <ProfileDel onClick={onClick} />
       </ProfileWrapper>
     </Wrapper>
   );
