@@ -10,6 +10,11 @@ const Flag_box = styled.div`
   border-radius: 14px;
   border: 1.5px solid var(--flag, #6041ff);
   margin-bottom: 23px;
+
+  @media screen and (max-width: 500px) {
+    width: 350px;
+    margin: 0px auto 19px auto;
+  }
 `;
 
 const Flag_box_header = styled.div`
