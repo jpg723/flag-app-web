@@ -8,6 +8,11 @@ const Flag_box = styled.div`
   border-radius: 14px;
   border: 1.5px solid var(--flag, #6041ff);
   margin-bottom: 23px;
+
+  @media screen and (max-width: 500px) {
+    width: 350px;
+    margin: 0px auto 19px auto;
+  }
 `;
 
 const Flag_box_header = styled.div`
@@ -20,7 +25,7 @@ const Flag_box_title = styled.div`
   font-size: 18px;
   font-weight: 600;
   margin-left: 7px;
-  margin-top: 3px;
+  margin-top: 5px;
 `;
 
 const Flag_box_dday = styled.div`
@@ -28,7 +33,7 @@ const Flag_box_dday = styled.div`
   background: #e2dbff;
   width: 83px;
   text-align: center;
-  padding-top: 5px;
+  padding-top: 6px;
   font-size: 15px;
   font-weight: 700;
   margin-left: auto;

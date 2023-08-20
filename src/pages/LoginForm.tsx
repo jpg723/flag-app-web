@@ -198,17 +198,20 @@ function LoginForm() {
         userId: userId,
         password: password,
       };
-      axios
-        .post('/user/login', requestData, {
-          baseURL: 'http://localhost:8080',
-        })
-        .then(function (response) {
+      axios({
+        url: '/user/login',
+        method: 'GET',
+        data: {
+          email: requestData.userId,
+          password: requestData.password,
+        },
+      })
+        .then((response) => {
           console.log(response.data);
-          console.log('로그인 성공');
         })
-        .catch(function (error) {
-          console.error('Login error: ', error);
-          console.log('로그인 실패');
+        .catch((error) => {
+          console.error('AxiosError:', error);
+          error.preventDefault();
         });
       return <Link to="/promise-view" />;
     }

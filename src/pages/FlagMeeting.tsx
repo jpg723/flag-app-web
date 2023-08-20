@@ -1,34 +1,44 @@
 //import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { ReactComponent as Unsettled_icon } from '../contents/desktop/flag/Ic_전체약속뷰_Unsettled.svg';
 
 const Flag_Meeting_header = styled.div`
   margin-top: 44px;
   margin-left: 198px;
   margin-bottom: 9px;
-  font-size: 28px;
+  font-size: 25px;
   font-weight: 600;
+  
+  @media screen and (max-width: 500px) {
+    margin-left: 23px;
+  }
 `;
 
 const Flag_Meeting_content = styled.div`
   margin-top: 10px;
   margin-left: 198px;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 500;
+
+  @media screen and (max-width: 500px) {
+    margin-left: 23px;
+  }
 `;
 
+/*타임테이블+참여자박스*/
 const Flag_Meeting_main_box = styled.div`
-  width: 913px;
-  height: 591px;
-  margin-top: 59px;
-  margin-left: 243px;
+  width: 870px;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 33px;
   display: flex;
 `;
 
+/*타임테이블*/
 const TimeTable_box = styled.div`
   border: 1px solid black;
   width: 480px;
-  height: 591px;
 `;
 
 const Flag_Meeting_main_content = styled.div`
@@ -36,38 +46,53 @@ const Flag_Meeting_main_content = styled.div`
   margin-right: 0px;
 `;
 
+/*가능한 참여자*/
 const Flag_Meeting_participants_box = styled.div`
   width: 365px;
-  margin-top: 26px;
 `;
 
+/*불가능한 참여자*/
 const Flag_Meeting_non_participants_box = styled.div`
-  margin-top: 54px;
+  margin-top: 20px;
   width: 365px;
+`;
+
+/*미응답 참여자*/
+const Flag_Meeting_non_set_box = styled.div`
+  margin-top: 20px;
+  width: 365px;
+`;
+
+const Nonset_text = styled.div`
+  display: flex;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 3px;
+  margin-left: 6px;
 `;
 
 const Participants_box_header = styled.div`
   display: flex;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 500;
 `;
 
+/*초록공*/
 const Participants_box_icon1 = styled.div`
   border: none;
   background-color: #85ff72;
   width: 18px;
   height: 18px;
   border-radius: 20px;
-  margin-top: 4px;
 `;
 
+/*빨간공*/
 const Participants_box_icon2 = styled.div`
   border: none;
   background-color: #ff4b4b;
   width: 18px;
   height: 18px;
   border-radius: 20px;
-  margin-top: 4px;
 `;
 
 const Participants_box_content = styled.div`
@@ -106,12 +131,13 @@ const Participants_people_id = styled.div`
 
 const Flag_Meeting_edit_btn = styled.button`
   border: none;
-  margin-top: 89px;
+  display: flex;
+  margin: 47px auto 0 auto;
+  padding: 10px 45px;
   width: 208px;
   height: 49px;
   border-radius: 99px;
   background: #8e6fff;
-  text-align: center;
   font-size: 18px;
   font-weight: 600;
   color: var(--background-white, #fff);
@@ -165,7 +191,7 @@ function FlagMeeting() {
               <Participants_box_content>
                 12:00 - 14:00
               </Participants_box_content>
-              에 가능한 참여자
+              에 불가능한 참여자
             </Participants_box_header>
             <Participants_people_box>
               <Participants_people_content_box>
@@ -176,6 +202,21 @@ function FlagMeeting() {
               </Participants_people_content_box>
             </Participants_people_box>
           </Flag_Meeting_non_participants_box>
+          {/*미응답 참여자 */}
+          <Flag_Meeting_non_set_box>
+            <Participants_box_header>
+              <Unsettled_icon></Unsettled_icon>
+              <Nonset_text>아직 응답이 없어요!</Nonset_text>
+            </Participants_box_header>
+            <Participants_people_box>
+              <Participants_people_content_box>
+                <Participants_people_profile></Participants_people_profile>
+                <Participants_people_id>
+                  닉네임
+                </Participants_people_id>
+              </Participants_people_content_box>
+            </Participants_people_box>
+          </Flag_Meeting_non_set_box>
           {/*입력 수정하기 버튼 */}
           <Flag_Meeting_edit_btn>
             입력 수정하기

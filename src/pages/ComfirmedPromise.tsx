@@ -13,17 +13,29 @@ const Comfirmed_promise_main1_text = styled.text`
   font-size: 28px;
   font-weight: 600;
   margin-left: 198px;
+  
+  @media screen and (max-width: 500px) {
+    margin-left: 23px;
+  }
 `;
 
 const Comfirmed_promise_main2 = styled.div`
   margin-top: 7px;
+
+  @media screen and (max-width: 500px) {
+    margin-bottom: 50px;
+  }
 `;
 
 const Comfirmed_promise_main2_text = styled.text`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
   margin-left: 198px;
   color: #999;
+
+  @media screen and (max-width: 500px) {
+    margin-left: 23px;
+  }
 `;
 
 const Comfirmed_promise_footer = styled.div`
@@ -51,6 +63,10 @@ const Comfirmed_promise_btn = styled.button`
   color: white;
   margin-left: auto;
   margin-right: auto;
+
+  @media screen and (max-width: 500px) {
+    margin-bottom: 78px;
+  }
 `;
 
 function ComfirmedPromise() {
@@ -73,18 +89,14 @@ function ComfirmedPromise() {
           가능한 시간대를 스크롤해 입력해주세요.
         </Comfirmed_promise_main2_text>
       </Comfirmed_promise_main2>
-      {cycle === 'morning' ? (
-        <TimeTable cycle={'morning'} />
-      ) : null}
-      {cycle === 'afternoon' ? (
+      {cycle === 6 ? <TimeTable cycle={'morning'} /> : null}
+      {cycle === 12 ? (
         <TimeTable cycle={'afternoon'} />
       ) : null}
-      {cycle === 'evening' ? (
+      {cycle === 18 ? (
         <TimeTable cycle={'evening'} />
       ) : null}
-      {cycle === 'dawn' ? (
-        <TimeTable cycle={'dawn'} />
-      ) : null}
+      {cycle === 0 ? <TimeTable cycle={'dawn'} /> : null}
       <Comfirmed_promise_footer>
         <Comfirmed_promise_btn_box>
           <Link to="/makeFlagFinish">

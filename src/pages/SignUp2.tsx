@@ -21,13 +21,13 @@ const SignUp2Cover = styled.div`
     width: 360px;
   }
 `;
-const SignUpInputImgIc = styled.div<{img: string}>`
-border: 2px solid #000;
+const SignUpInputImgIc = styled.div<{ img: string }>`
+  border: 2px solid #000;
   width: 118px;
   height: 118px;
   flex-shrink: 0;
-  border-radius: 50%; 
-  background-image: URL(${(props) => (props.img)});
+  border-radius: 50%;
+  background-image: URL(${(props) => props.img});
   background-repeat: no-repeat;
   background-size: cover;
   margin: 159px 661px 0px;
@@ -38,7 +38,7 @@ border: 2px solid #000;
   }
 `;
 const SignUpInputImgIcPlus = styled.img`
-border: 2px solid #000;
+  border: 2px solid #000;
   width: 33px;
   height: 33px;
   flex-shrink: 0;
@@ -103,7 +103,8 @@ const SignUpCreateaccount = styled.img`
 `;
 
 function SignUp2() {
-  const [profileFile, setProfileFile] = useRecoilState(SignUpFileAtom);
+  const [profileFile, setProfileFile] =
+    useRecoilState(SignUpFileAtom);
   const [name, setName] = useRecoilState(SignUpNameAtom);
   const id = useRecoilValue(SignUpIdAtom);
   const password = useRecoilValue(SignUpPwAtom);
@@ -111,17 +112,21 @@ function SignUp2() {
   const [isName, setIsName] = useState(false);
   useEffect(() => {
     const nameRegExp = /^[a-z0-9가-힣]{2,5}$/;
-    if (name !== undefined) setIsName(nameRegExp.test(name));
+    if (name !== undefined)
+      setIsName(nameRegExp.test(name));
   }, [name]);
 
-  const updateName = ( e: React.ChangeEvent<HTMLInputElement> ) => {
-    setName(e.target.value)
+  const updateName = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setName(e.target.value);
   };
-  const updateProfile = ( e: React.ChangeEvent<HTMLInputElement> ) => {
+  const updateProfile = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     if (e.target.files && e.target.files[0]) {
       setProfileFile(e.target.files[0]);
-    }
-    else {
+    } else {
       setProfileFile(null);
     }
   };
@@ -136,42 +141,62 @@ function SignUp2() {
     }
     if (!isName) e.preventDefault();
     else {
-      console.log("유효성 통과");
-      axios(
-        {
-          url: '/user/join',
-          method: 'POST',
-          data: {
-            email: id,
-            name: name, 
-            password: password, 
-            profile: '',
-          } , 
-          //baseURL: 'http://ec2-3-36-64-117.ap-northeast-2.compute.amazonaws.com:8080',
-          //withCredentials: true,
-        }
-      ).then(response => {
-        console.log(response.data);
-        //URL.revokeObjectURL(profileFile)
-      }).catch(error => {
-        console.error('AxiosError:', error);
-        e.preventDefault();
-      });
-      console.log("백엔드 전달");
+      console.log('유효성 통과');
+      axios({
+        url: '/user/join',
+        method: 'POST',
+        data: {
+          name: name,
+          email: id,
+          password: password,
+          profile: '',
+        },
+        //baseURL: 'http://ec2-3-36-64-117.ap-northeast-2.compute.amazonaws.com:8080',
+        //withCredentials: true,
+      })
+        .then((response) => {
+          console.log(response.data);
+          //URL.revokeObjectURL(profileFile)
+        })
+        .catch((error) => {
+          console.error('AxiosError:', error);
+          e.preventDefault();
+        });
+      console.log('백엔드 전달');
     }
   };
-    
+
   return (
     <form method="post" encType="multipart/form-data">
       <SignUp2Cover>
-        <SignUpInputImgIc id="profileImg" img={profileFile ? URL.createObjectURL(profileFile) : profilepic} >
+        <SignUpInputImgIc
+          id="profileImg"
+          img={
+            profileFile
+              ? URL.createObjectURL(profileFile)
+              : profilepic
+          }
+        >
           <label htmlFor="profile">
             <SignUpInputImgIcPlus src={profilePlus} />
           </label>
         </SignUpInputImgIc>
-        <SignUpInputImg type="file" id="profile" accept="image/*" onChange={updateProfile} />
-        <SignUpInputName type="text" id="name" placeholder="닉네임" autoComplete="off" onChange={updateName} />
-        <SignUpInputHint>최소 2자 최대 5자 이내</SignUpInputHint>
+        <SignUpInputImg
+          type="file"
+          id="profile"
+          accept="image/*"
+          onChange={updateProfile}
+        />
+        <SignUpInputName
+          type="text"
+          id="name"
+          placeholder="닉네임"
+          autoComplete="off"
+          onChange={updateName}
+        />
+        <SignUpInputHint>
+          최소 2자 최대 5자 이내
+        </SignUpInputHint>
         <Link to="/SignUp3" onClick={signupHandler}>
           <SignUpCreateaccount src={createaccount} />
         </Link>
