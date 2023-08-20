@@ -11,6 +11,7 @@ import {
 } from 'recoil';
 import { makeFlagAtom } from '../recoil/Atoms';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Wrapper = styled.div`
   display: flex;
@@ -123,7 +124,10 @@ const MakeFlagFinish = () => {
   const {
     flagName,
     selectedDates,
+    selectedCell,
     flagPlace,
+    flagMemo,
+    minimumTime,
     checkedFriends,
   } = useRecoilValue(makeFlagAtom);
 
@@ -135,8 +139,28 @@ const MakeFlagFinish = () => {
   };
 
   const handleRecall = () => {
-    resetValue();
-    navigate('/', { replace: true });
+    axios({
+      url: '/asdfsafsdf',
+      method: 'post',
+      data: {
+        name: flagName,
+        //hostId: ,
+        //timeSlot: ,
+        minTime: minimumTime,
+        place: flagPlace.content,
+        memo: flagMemo.content,
+        //guestId: ,
+        date: selectedDates,
+        possibleDates: selectedCell,
+      },
+    })
+      .then(() => {
+        resetValue();
+        navigate('/', { replace: true });
+      })
+      .catch(() => {
+        console.log('error!!');
+      });
   };
   return (
     <Wrapper>

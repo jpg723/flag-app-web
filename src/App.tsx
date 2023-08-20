@@ -27,6 +27,7 @@ import SignUp3 from './pages/SignUp3';
 import MyPage from './pages/MyPage';
 import MyPageFriendsAdd from './pages/MyPageFriendsAdd';
 import MyPageFriendsDelete from './pages/MyPageFriendsDelete';
+import ScrollToTop from './ScrollToTop';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
       <GlobalStyle />
       <RecoilRoot>
         <Router>
+          <ScrollToTop />
           <Routes>
             {/* 헤더 있음 */}
             <Route element={<Header />}>

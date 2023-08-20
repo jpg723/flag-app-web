@@ -76,7 +76,7 @@ const FormSelectCycle = () => {
   const { cycle } = useRecoilValue(makeFlagAtom);
   const setValue = useSetRecoilState(makeFlagAtom);
 
-  const onClick = (value: string) => {
+  const onClick = (value: number) => {
     setValue((v) => ({
       ...v,
       cycle: value,
@@ -90,20 +90,20 @@ const FormSelectCycle = () => {
       </TitleWrapper>
       <SelectWrapper>
         <Select
-          isSelected={cycle === 'morning' ? true : false}
-          onClick={() => onClick('morning')}
+          isSelected={cycle === 6 ? true : false}
+          onClick={() => onClick(6)}
         >{`오전 (6:00 ~ 11:59)`}</Select>
         <Select
-          isSelected={cycle === 'afternoon' ? true : false}
-          onClick={() => onClick('afternoon')}
+          isSelected={cycle === 12 ? true : false}
+          onClick={() => onClick(12)}
         >{`오후 (12:00 ~ 17:59)`}</Select>
         <Select
-          isSelected={cycle === 'evening' ? true : false}
-          onClick={() => onClick('evening')}
+          isSelected={cycle === 18 ? true : false}
+          onClick={() => onClick(18)}
         >{`저녁 (18:00 ~ 23:59)`}</Select>
         <Select
-          isSelected={cycle === 'dawn' ? true : false}
-          onClick={() => onClick('dawn')}
+          isSelected={cycle === 0 ? true : false}
+          onClick={() => onClick(0)}
         >{`새벽 (24:00 ~ 5:59)`}</Select>
       </SelectWrapper>
     </Wrapper>

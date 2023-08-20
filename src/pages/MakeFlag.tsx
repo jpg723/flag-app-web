@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   @media screen and (max-width: 500px) {
     align-items: center;
   }
@@ -25,6 +26,7 @@ const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 50px;
+  align-items: start;
   @media screen and (max-width: 500px) {
     align-items: center;
   }
@@ -61,7 +63,7 @@ const MakeFlag = () => {
       flagName !== '' &&
       checkedFriends.length > 0 &&
       selectedDates.length > 0 &&
-      cycle !== ''
+      cycle > -1
     ) {
       navigate('/comfirmed-promise', { replace: true });
     } else console.log('필수 입력을 채워주세요');

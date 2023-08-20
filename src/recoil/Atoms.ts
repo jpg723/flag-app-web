@@ -27,12 +27,14 @@ export interface IOption {
 
 export interface IFlag {
   flagName: string;
+  hostId: number;
   checkedFriends: IFriendTypes[];
   selectedDates: string[];
-  cycle: string;
+  cycle: number;
   minimumTime: number;
   flagPlace: IOption;
   flagMemo: IOption;
+  guestId: number[];
   selectedCell: number[];
 }
 
@@ -55,23 +57,26 @@ export const friendListAtom = atom<IFriendTypes[]>({
 export const makeFlagAtom = atom<IFlag>({
   key: 'makeFlag',
   default: {
-    flagName: '',
-    checkedFriends: [],
-    selectedDates: [],
-    cycle: '',
-    minimumTime: 1,
+    flagName: '', //name
+    hostId: -1, // hostId
+    checkedFriends: [], //빠져야함
+    selectedDates: [], // dates
+    cycle: -1, // timeSlot
+    minimumTime: 1, // minTime
     flagPlace: {
+      // place - isChecked 검사해서 보낼때는 content 또는 '' 전달
       content: '',
       isChecked: false,
     },
     flagMemo: {
+      // memo - isChecked 검사해서 보낼때는 content 또는 '' 전달
       content: '',
       isChecked: false,
     },
-    selectedCell: [],
+    guestId: [], // guestId
+    selectedCell: [], // possibleDates
   },
 });
-
 
 export const addFriendAtom = atom<IFriendTypes>({
   key: 'addFriend',
@@ -183,5 +188,4 @@ export const timeTableAtom = atom<boolean[][]>({
       false,
     ],
   ],
-
 });
