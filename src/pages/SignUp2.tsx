@@ -18,11 +18,11 @@ const SignUp2Cover = styled.div`
   height: 910px;
   width: 1440px;
   @media screen and (max-width: 500px) {
-    width: 360px;
+    text-align: center;
+    width: 100%;
   }
 `;
 const SignUpInputImgIc = styled.div<{ img: string }>`
-  border: 2px solid #000;
   width: 118px;
   height: 118px;
   flex-shrink: 0;
@@ -34,24 +34,22 @@ const SignUpInputImgIc = styled.div<{ img: string }>`
   @media screen and (max-width: 500px) {
     width: 95px;
     height: 98px;
-    margin: 68px 132.5px 0px;
+    margin: 68px auto 0px;
   }
 `;
 const SignUpInputImgIcPlus = styled.img`
-  border: 2px solid #000;
   width: 33px;
   height: 33px;
   flex-shrink: 0;
   margin: 85px auto auto 85px;
   @media screen and (max-width: 500px) {
-    width: 95px;
-    height: 98px;
-    margin: 68px 132.5px 0px;
+    width: 26px;
+    height: 26px;
+    margin: 68px auto auto 68px;
   }
 `;
 const SignUpInputImg = styled.input`
   display: none;
-  border: 2px solid #000;
 `;
 const SignUpInputName = styled.input`
   border: none;
@@ -71,7 +69,7 @@ const SignUpInputName = styled.input`
     width: 212px;
     height: 43px;
     font-size: 13px;
-    margin: 23px auto 0px 74px;
+    margin: 23px auto 0px;
   }
 `;
 const SignUpInputHint = styled.div`
@@ -84,9 +82,10 @@ const SignUpInputHint = styled.div`
   line-height: normal;
   margin: 20px auto 0px 500px;
   @media screen and (max-width: 500px) {
-    width: 212px;
+    width: 200px;
+    text-align: left;
     font-size: 10px;
-    margin: 4px auto 0px 79px;
+    margin: 4px auto;
   }
 `;
 const SignUpCreateaccount = styled.img`
@@ -98,18 +97,19 @@ const SignUpCreateaccount = styled.img`
   @media screen and (max-width: 500px) {
     width: 285px;
     height: 38px;
-    margin: 25px auto 0px 37px;
+    margin: 25px auto 0px;
   }
 `;
 
 function SignUp2() {
-  const [profileFile, setProfileFile] =
-    useRecoilState(SignUpFileAtom);
+  const [profileFile, setProfileFile] = useRecoilState(SignUpFileAtom);
   const [name, setName] = useRecoilState(SignUpNameAtom);
   const id = useRecoilValue(SignUpIdAtom);
   const password = useRecoilValue(SignUpPwAtom);
   //유효성 검사
   const [isName, setIsName] = useState(false);
+
+
   useEffect(() => {
     const nameRegExp = /^[a-z0-9가-힣]{2,5}$/;
     if (name !== undefined)
@@ -126,6 +126,7 @@ function SignUp2() {
   ) => {
     if (e.target.files && e.target.files[0]) {
       setProfileFile(e.target.files[0]);
+
     } else {
       setProfileFile(null);
     }
@@ -134,6 +135,16 @@ function SignUp2() {
     console.log('id:' + id + ' pw:' + password);
     console.log('Profile:' + profileFile + ' Name:' + name);
     console.log(' isName:' + isName);
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", id);
+    formData.append("password", password);
+
+    if (profileFile !== null) {
+      formData.append("profile",  profileFile);
+    }
+    console.log('formData: ' + formData);
     if (!isName) {
       console.log('isName === false');
     } else {
@@ -145,23 +156,18 @@ function SignUp2() {
       axios({
         url: '/user/join',
         method: 'POST',
-        data: {
-          name: name,
-          email: id,
-          password: password,
-          profile: '',
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
         },
-        //baseURL: 'http://ec2-3-36-64-117.ap-northeast-2.compute.amazonaws.com:8080',
-        //withCredentials: true,
+      }).then((response) => {
+        console.log(response.data);
+        //URL.revokeObjectURL(profileFile)
       })
-        .then((response) => {
-          console.log(response.data);
-          //URL.revokeObjectURL(profileFile)
-        })
-        .catch((error) => {
-          console.error('AxiosError:', error);
-          e.preventDefault();
-        });
+      .catch((error) => {
+        console.error('AxiosError:', error);
+        e.preventDefault();
+      });
       console.log('백엔드 전달');
     }
   };

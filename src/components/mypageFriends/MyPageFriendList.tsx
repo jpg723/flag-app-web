@@ -1,12 +1,11 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import MyPageFriendItem from './MyPageFriendItem';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   delFriendAtom,
   friendListAtom,
   IFriendTypes,
-  makeFlagAtom,
 } from '../../recoil/Atoms';
 
 const Wrapper = styled.div`
