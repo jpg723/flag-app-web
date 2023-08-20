@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { userIdState } from '../recoil/Atoms';
+import { userIdState, emailState } from '../recoil/Atoms';
+import axios from 'axios';
 
 import logo from '../contents/Logo_플래그_Small_수정.svg';
 import nextButton from '../contents/desktop/sign/Btn_다음.svg';
@@ -28,15 +29,23 @@ const Wrapper = styled.div`
   }
 `;
 
+const TitleWrapper = styled.div`
+  width: 450px;
+  margin: 88px auto 0;
+
+  @media screen and (max-width: 500px) {
+    width: 300px;
+  }
+`;
+
 const FindEmailTitle = styled.h2`
   font-size: 20px;
   font-weight: 700;
   line-height: normal;
-  margin: 88px auto 0px 535px;
   font-family: Noto Sans KR;
+  text-align: left;
 
   @media screen and (max-width: 500px) {
-    margin: 99px auto 0 75px;
     font-size: 22px;
   }
 `;
@@ -56,7 +65,7 @@ const NameInput = styled.input`
   padding-left: 20px;
 
   @media screen and (max-width: 500px) {
-    width: 350px;
+    width: 300px;
     margin-top: 13px;
   }
 `;
@@ -67,12 +76,15 @@ const NextButton = styled.img`
   display: block;
 
   @media screen and (max-width: 500px) {
-    width: 350px;
+    width: 300px;
   }
 `;
 
 function FindEmail1() {
   const [userId, setUserId] = useRecoilState(userIdState);
+  const [email, setEmail] = useRecoilState(emailState);
+  //const [email, setEmail] = useState('');
+  const navigate = useNavigate();
 
   const handleUserIdChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -81,26 +93,47 @@ function FindEmail1() {
   };
 
   const handleNextButtonClick = () => {
-    setUserId(userId);
+    axios({
+      method: 'GET',
+      url: '/user/email-by-name',
+      params: { name: userId },
+    })
+      .then(function (response) {
+        console.log(response.data);
+        console.log('이메일 찾기 성공');
+        setEmail(response.data);
+        navigate('/find-email-complete', {
+          state: { userId, email },
+        });
+      })
+      .catch(function (error) {
+        console.error('Find email error: ', error);
+        console.log('이메일 찾기 실패');
+      });
+    console.log(email);
   };
 
   return (
     <>
       <Wrapper>
         <Logo src={logo} alt="로고" />
-        <FindEmailTitle>이메일 찾기</FindEmailTitle>
+        <TitleWrapper>
+          <FindEmailTitle>이메일 찾기</FindEmailTitle>
+        </TitleWrapper>
         <NameInput
           placeholder="닉네임"
           value={userId}
           onChange={handleUserIdChange}
         />
-        <Link to="/find-email-complete">
-          <NextButton
-            src={nextButton}
-            alt="다음 버튼"
-            onClick={handleNextButtonClick}
-          />
-        </Link>
+        {/* <Link
+          to={'/find-email-complete'} state={{userId: userId, email: email}}
+        > */}
+        <NextButton
+          src={nextButton}
+          alt="다음 버튼"
+          onClick={handleNextButtonClick}
+        />
+        {/* </Link> */}
       </Wrapper>
     </>
   );

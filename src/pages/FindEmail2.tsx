@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { userIdState } from '../recoil/Atoms';
+import { Link, useLocation } from 'react-router-dom';
+//import { userIdState } from '../recoil/Atoms';
 
 import logo from '../contents/Logo_플래그_Small_수정.svg';
 import loginButton from '../contents/desktop/sign/Btn_Login.svg';
@@ -36,10 +35,10 @@ const EmailMessage = styled.p`
   font-weight: 700;
   font-family: Inter;
   line-height: normal;
-  margin: 106px auto 0px;
+  margin: 106px auto 0;
 
   @media screen and (max-width: 500px) {
-    margin: 109px auto 0px;
+    margin: 109px auto 0;
     font-size: 22px;
   }
 `;
@@ -49,10 +48,10 @@ const EmailAddress = styled.p`
   line-height: normal;
   font-weight: 400;
   font-family: Inter;
-  margin: 24px auto 0px;
+  margin: 24px auto 0;
 
   @media screen and (max-width: 500px) {
-    margin: 31px auto 0px;
+    margin: 31px auto 0;
     font-size: 22px;
   }
 `;
@@ -65,20 +64,23 @@ const LoginButton = styled.img`
   margin: 34px auto 0;
 
   @media screen and (max-width: 500px) {
-    width: 350px;
-    margin: 30px auto 0px;
+    width: 300px;
+    margin: 30px auto 0;
   }
 `;
 
 function FindEmail2() {
-  const userId = useRecoilValue(userIdState);
+  //const userId = useRecoilValue(userIdState);
+  const location = useLocation();
+  const { userId, email } = location.state;
+  //console.log(location);
 
   return (
     <>
       <Wrapper>
         <Logo src={logo} alt="로고" />
         <EmailMessage>{userId} 님의 이메일</EmailMessage>
-        <EmailAddress>khr180253@gmail.com</EmailAddress>
+        <EmailAddress>{email}</EmailAddress>
         <Link to="/login">
           <LoginButton
             src={loginButton}

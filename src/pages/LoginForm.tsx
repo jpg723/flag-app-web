@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+import { useRecoilState } from 'recoil';
+import { isLoginAtom } from '../recoil/Atoms';
+
 import logo from '../contents/Logo_플래그_Small_수정.svg';
 import emailInput from '../contents/desktop/sign/Box_로그인_Email_Unentered.svg';
 import passwordInput from '../contents/desktop/sign/Box_로그인_Password_Unentered.svg';
@@ -59,7 +62,7 @@ const EmailInput = styled.input`
 
   @media screen and (max-width: 500px) {
     background-image: none;
-    width: 350px;
+    width: 300px;
     height: 35px;
     font-size: 14px;
     font-family: Noto Sans KR;
@@ -96,19 +99,17 @@ const LoginButton = styled.img`
   margin: 28px 41.5px 0;
 
   @media screen and (max-width: 500px) {
-    width: 340px;
+    width: 300px;
   }
 `;
 
 const FindSignUpWrapper = styled.div`
-  width: 395px;
   margin: 30px auto 0;
   display: flex;
   justify-content: center;
   align-items: center;
 
   @media screen and (max-width: 360px) {
-    width: 283px;
   }
 `;
 
@@ -121,8 +122,8 @@ const FindPassword = styled.a`
   margin-right: 76px;
   margin-top: 62px;
 
-  @media screen and (max-width: 360px) {
-    font-size: 12px;
+  @media screen and (max-width: 500px) {
+    font-size: 13px;
     margin-right: 40px;
   }
 `;
@@ -135,9 +136,8 @@ const SignupButton = styled.img`
   border: 0;
   margin: 0px;
 
-  @media screen and (max-width: 360px) {
+  @media screen and (max-width: 500px) {
     width: 75px;
-    height: 25px;
   }
 `;
 
@@ -146,6 +146,8 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [userIdError, setUserIdError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+
+  const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
 
   const emailValid = (email: string) => {
     const emailRegExp =
@@ -200,7 +202,7 @@ function LoginForm() {
       };
       axios({
         url: '/user/login',
-        method: 'GET',
+        method: 'POST',
         data: {
           email: requestData.userId,
           password: requestData.password,
@@ -208,6 +210,9 @@ function LoginForm() {
       })
         .then((response) => {
           console.log(response.data);
+          console.log("로그인 성공");
+          sessionStorage.setItem("token", response.data);  
+          setIsLogin(true);                 
         })
         .catch((error) => {
           console.error('AxiosError:', error);

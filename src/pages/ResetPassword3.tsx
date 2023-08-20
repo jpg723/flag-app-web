@@ -29,28 +29,35 @@ const Wrapper = styled.div`
   }
 `;
 
+const TitleWrapper = styled.div`
+  width: 450px;
+  text-align: left;
+  margin: 84px auto 0;
+
+  @media screen and (max-width: 500px) {
+    width: 300px;
+  }
+`;
+
 const ResetPasswordTitle = styled.h2`
-  margin: 52px auto 0 535px;
   font-size: 20px;
   font-weight: 700;
   font-family: Inter;
   line-height: normal;
 
   @media screen and (max-width: 500px) {
-    margin: 57px auto 0 75px;
     font-size: 20px;
   }
 `;
 
 const InputWrapper = styled.div`
-  margin: 0 auto 0 530px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   @media screen and (max-width: 500px) {
-    margin: 20px auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    margin: 10px auto;
   }
 `;
 
@@ -68,8 +75,16 @@ const NewPasswordInput = styled.input`
   border: 0;
 
   @media screen and (max-width: 500px) {
-    width: 350px;
+    width: 300px;
     font-size: 15px;
+  }
+`;
+
+const MessageWrapper = styled.div`
+  width: 450px;
+
+  @media screen and (max-width: 500px) {
+    width: 300px;
   }
 `;
 
@@ -95,7 +110,7 @@ const Message = styled.div`
   align-items: center;
 
   @media screen and (max-width: 500px) {
-    margin: 5px auto 0 75px;
+    margin: 5px auto 0 0;
     font-size: 12px;
   }
 `;
@@ -115,7 +130,7 @@ const ResetButton = styled.img`
 
   @media screen and (max-width: 500px) {
     margin-top: 35px;
-    width: 350px;
+    width: 300px;
   }
 `;
 
@@ -160,27 +175,31 @@ function ResetPassword3() {
     <>
       <Wrapper>
         <Logo src={logo} alt="로고" />
-        <ResetPasswordTitle>
-          비밀번호 재설정
-        </ResetPasswordTitle>
+        <TitleWrapper>
+          <ResetPasswordTitle>
+            비밀번호 재설정
+          </ResetPasswordTitle>
+        </TitleWrapper>
         <InputWrapper>
           <NewPasswordInput
             type="password"
             placeholder="새 비밀번호 입력"
             onChange={handleNewPasswordChange}
           />
-          {!passwordValid && (
-            <Message>
-              <ErrorIcon
-                src={errorIcon}
-                alt="에러 아이콘"
-              />
-              올바른 형식이 아닙니다.
-            </Message>
-          )}
-          {passwordValid && (
-            <Message>올바른 형식입니다.</Message>
-          )}
+          <MessageWrapper>
+            {!passwordValid && (
+              <Message>
+                <ErrorIcon
+                  src={errorIcon}
+                  alt="에러 아이콘"
+                />
+                올바른 형식이 아닙니다.
+              </Message>
+            )}
+            {passwordValid && (
+              <Message>올바른 형식입니다.</Message>
+            )}
+          </MessageWrapper>
         </InputWrapper>
         <InputWrapper>
           <NewPasswordCheckInput
@@ -188,18 +207,20 @@ function ResetPassword3() {
             placeholder="새 비밀번호 확인"
             onChange={handleConfirmPasswordChange}
           />
-          {!confirmPasswordValid && (
-            <Message>
-              <ErrorIcon
-                src={errorIcon}
-                alt="에러 아이콘"
-              />
-              동일한 비밀번호가 아닙니다.
-            </Message>
-          )}
-          {confirmPasswordValid && (
-            <Message>비밀번호가 동일합니다.</Message>
-          )}
+          <MessageWrapper>
+            {!confirmPasswordValid && (
+              <Message>
+                <ErrorIcon
+                  src={errorIcon}
+                  alt="에러 아이콘"
+                />
+                동일한 비밀번호가 아닙니다.
+              </Message>
+            )}
+            {confirmPasswordValid && (
+              <Message>비밀번호가 동일합니다.</Message>
+            )}
+          </MessageWrapper>
         </InputWrapper>
         <Link
           to={

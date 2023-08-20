@@ -6,7 +6,7 @@ import { emailState } from '../recoil/Atoms';
 
 import logo from '../contents/Logo_플래그_Small_수정.svg';
 import emailIcon from '../contents/desktop/sign/Ic_비밀번호변경이메일_Email.svg';
-import loginButton from '../contents/desktop/sign/Btn_Login.svg';
+import nextButton from '../contents/desktop/sign/Btn_다음.svg'; // 다음
 
 const Logo = styled.img`
   width: 253.662109375px;
@@ -55,7 +55,7 @@ const EmailAddress = styled.p`
   font-style: normal;
 
   @media screen and (max-width: 500px) {
-    width: 350px;
+    width: 300px;
     font-size: 18px;
   }
 `;
@@ -90,11 +90,11 @@ const LoginButton = styled.img`
   width: 355px;
   height: 41px;
   border: 0;
-  margin: 30px auto 0px;
+  margin: 30px auto 0;
 
   @media screen and (max-width: 500px) {
-    width: 350px;
-    margin: 38px auto 0px;
+    width: 300px;
+    margin: 38px auto 0;
   }
 `;
 
@@ -118,7 +118,7 @@ function ResetPassword2() {
         </ChangeEmail>
         <Link to="/new-password">
           <LoginButton
-            src={loginButton}
+            src={nextButton}
             onClick={handleEmailSentClick}
           />
         </Link>
