@@ -46,7 +46,7 @@ const FriendName = styled.span`
 const FriendAddBtn = styled.span<{isAdd: boolean}>`
   width: 27px;
   height: 27px;
-  background-image: url(${(props) => (props.isAdd? btnAddfriend1 : btnAddfriend2)}');
+  background-image: url('${(props) => (props.isAdd? btnAddfriend1 : btnAddfriend2)}');
   background-size: cover;
   font-size: 18px;
   font-weight: 400;

@@ -2,14 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import profilepic from '../contents/desktop/mypage/Img_마이페이지_Profilepic.svg';
-import profilepicEdit from '../contents/desktop/mypage/Ic_마이페이지_Edit.svg';
 import btnPwEdit from '../contents/desktop/mypage/Btn_마이페이지_Modifypassword.svg';
 import btnLogout from '../contents/desktop/mypage/Btn_마이페이지_Logout.svg';
 import btnWithdraw from '../contents/desktop/mypage/Btn_마이페이지_Withdraw.svg';
 import btnAddfriend from '../contents/desktop/mypage/Btn_마이페이지_Addfriend.svg';
 import MyPageFriendList from '../components/mypageFriends/MyPageFriendList';
-import { SignUpFileAtom } from '../recoil/SignUpState';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { Link } from 'react-router-dom';
 import { emailState, userNameState } from '../recoil/Atoms';
 import axios from 'axios';
@@ -63,17 +61,6 @@ const MyPageAccountImg = styled.div<{img: string}>`
     background-image: URL(${(props) => (props.img)});
     margin: 23px auto 0px;
   }
-`;
-const MyPageAccountImgEdit = styled.img`
-  margin: 74px 42px 0px;
-  @media screen and (max-width: 500px) {
-    width: 18px;
-    height: 18px;
-    margin: 44px auto 6px;
-  }
-`;
-const MyPageAccountImgInput = styled.input`
-  display: none;
 `;
 const MyPageName = styled.div`
   color: #000;
@@ -161,42 +148,11 @@ const MyPageFriendAdd = styled.img`
 function MyPage() {
   const name = useRecoilValue(userNameState);
   const email = useRecoilValue(emailState);
-  const [profileFile, setProfileFile] = useRecoilState(SignUpFileAtom);
 
   function addFriends() {
     window.open( '/MyPage_FriendsAdd', '_blank', 'width=835, height=375, toolbar=no' );
   }
 
-  const updateProfile = ( e: React.ChangeEvent<HTMLInputElement> ) => {
-    if (e.target.files && e.target.files[0]) {
-      //const newFileURL = URL.createObjectURL(e.target.files[0]);
-      setProfileFile(e.target.files[0]);
-      console.log('프로필 사진 교체');
-
-      const formData = new FormData();
-      formData.append("profile",  profileFile);
-
-      axios({
-        //url: '/user/' + + '/profile',
-        method: 'POST',
-        data: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }).then((response) => {
-        console.log(response.data);
-        //URL.revokeObjectURL(profileFile)
-      })
-      .catch((error) => {
-        console.error('AxiosError:', error);
-        e.preventDefault();
-      });
-      console.log('백엔드 전달');
-    }
-    else {
-      setProfileFile(null);
-    }
-  };
   const logout = (e: any) => {
     // eslint-disable-next-line no-restricted-globals
     const logoutResult = confirm('로그아웃 하시겠습니까?');
@@ -237,14 +193,7 @@ function MyPage() {
       <MyPageCover>
         <MyPageAccount>{name}님의 계정</MyPageAccount>
         <MyPageCover2>
-          <MyPageAccountImg img={profileFile ? URL.createObjectURL(profileFile) : profilepic} >
-            <form method="post" encType="multipart/form-data">
-              <label htmlFor="profileImg">
-                <MyPageAccountImgEdit src={profilepicEdit} />
-              </label>
-            </form>
-            <MyPageAccountImgInput type="file" id="profileImg" accept="image/*" onChange={updateProfile} />
-          </MyPageAccountImg>
+          <MyPageAccountImg img={ profilepic} />
           <MyPageName>{name}</MyPageName>
           <MyPageEmail>{email}</MyPageEmail>
           <Link to="/password-change" ><MyPageEdit src={btnPwEdit} /></Link>

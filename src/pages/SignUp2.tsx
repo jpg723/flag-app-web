@@ -3,10 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import profilePlus from '../contents/desktop/sign/Btn_Plus.svg';
-import profilepic from '../contents/desktop/sign/_Img_계정생성완료_Profilepic.svg';
 import createaccount from '../contents/desktop/sign/Btn_프로필생성_Createaccount.svg';
-import { SignUpFileAtom } from '../recoil/SignUpState';
 import { SignUpNameAtom } from '../recoil/SignUpState';
 import { SignUpIdAtom } from '../recoil/SignUpState';
 import { SignUpPwAtom } from '../recoil/SignUpState';
@@ -21,35 +18,6 @@ const SignUp2Cover = styled.div`
     text-align: center;
     width: 100%;
   }
-`;
-const SignUpInputImgIc = styled.div<{ img: string }>`
-  width: 118px;
-  height: 118px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background-image: URL(${(props) => props.img});
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin: 159px 661px 0px;
-  @media screen and (max-width: 500px) {
-    width: 95px;
-    height: 98px;
-    margin: 68px auto 0px;
-  }
-`;
-const SignUpInputImgIcPlus = styled.img`
-  width: 33px;
-  height: 33px;
-  flex-shrink: 0;
-  margin: 85px auto auto 85px;
-  @media screen and (max-width: 500px) {
-    width: 26px;
-    height: 26px;
-    margin: 68px auto auto 68px;
-  }
-`;
-const SignUpInputImg = styled.input`
-  display: none;
 `;
 const SignUpInputName = styled.input`
   border: none;
@@ -102,7 +70,6 @@ const SignUpCreateaccount = styled.img`
 `;
 
 function SignUp2() {
-  const [profileFile, setProfileFile] = useRecoilState(SignUpFileAtom);
   const [name, setName] = useRecoilState(SignUpNameAtom);
   const id = useRecoilValue(SignUpIdAtom);
   const password = useRecoilValue(SignUpPwAtom);
@@ -121,30 +88,12 @@ function SignUp2() {
   ) => {
     setName(e.target.value);
   };
-  const updateProfile = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    if (e.target.files && e.target.files[0]) {
-      setProfileFile(e.target.files[0]);
-
-    } else {
-      setProfileFile(null);
-    }
-  };
+  
   const signupHandler = (e: any) => {
     console.log('id:' + id + ' pw:' + password);
-    console.log('Profile:' + profileFile + ' Name:' + name);
+    console.log(' Name:' + name);
     console.log(' isName:' + isName);
 
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("email", id);
-    formData.append("password", password);
-
-    if (profileFile !== null) {
-      formData.append("profile",  profileFile);
-    }
-    console.log('formData: ' + formData);
     if (!isName) {
       console.log('isName === false');
     } else {
@@ -156,9 +105,10 @@ function SignUp2() {
       axios({
         url: '/user/join',
         method: 'POST',
-        data: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
+        data: {
+          name: name,
+          email: id,
+          password: password,
         },
       }).then((response) => {
         console.log(response.data);
@@ -175,24 +125,6 @@ function SignUp2() {
   return (
     <form method="post" encType="multipart/form-data">
       <SignUp2Cover>
-        <SignUpInputImgIc
-          id="profileImg"
-          img={
-            profileFile
-              ? URL.createObjectURL(profileFile)
-              : profilepic
-          }
-        >
-          <label htmlFor="profile">
-            <SignUpInputImgIcPlus src={profilePlus} />
-          </label>
-        </SignUpInputImgIc>
-        <SignUpInputImg
-          type="file"
-          id="profile"
-          accept="image/*"
-          onChange={updateProfile}
-        />
         <SignUpInputName
           type="text"
           id="name"
