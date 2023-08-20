@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
 import { useRecoilState } from 'recoil';
 import { isLoginAtom } from '../recoil/Atoms';
 
@@ -83,14 +82,22 @@ const PasswordInput = styled(EmailInput)`
   }
 `;
 
+const MessageWrapper = styled.div`
+  width: 450px;
+  text-align: left;
+  margin: 5px auto 0;
+
+  @media screen and (max-width: 500px) {
+    width: 300px;
+  }
+`;
+
 const ErrorMessage = styled.p`
   color: #999;
   font-size: 12px;
-  margin-top: 5px;
   text-align: left;
 
   @media screen and (max-width: 500px) {
-    margin-left: 50px;
   }
 `;
 
@@ -210,9 +217,9 @@ function LoginForm() {
       })
         .then((response) => {
           console.log(response.data);
-          console.log("로그인 성공");
-          sessionStorage.setItem("token", response.data);  
-          setIsLogin(true);                 
+          console.log('로그인 성공');
+          sessionStorage.setItem('token', response.data);
+          setIsLogin(true);
         })
         .catch((error) => {
           console.error('AxiosError:', error);
@@ -237,18 +244,22 @@ function LoginForm() {
             value={userId}
             onChange={handleUserIdChange}
           />
-          {userIdError && (
-            <ErrorMessage>{userIdError}</ErrorMessage>
-          )}
+          <MessageWrapper>
+            {userIdError && (
+              <ErrorMessage>{userIdError}</ErrorMessage>
+            )}
+          </MessageWrapper>
           <PasswordInput
             type="password"
             placeholder="비밀번호"
             value={password}
             onChange={handlePasswordChange}
           />
-          {passwordError && (
-            <ErrorMessage>{passwordError}</ErrorMessage>
-          )}
+          <MessageWrapper>
+            {passwordError && (
+              <ErrorMessage>{passwordError}</ErrorMessage>
+            )}
+          </MessageWrapper>
           <Link
             to={
               userId ||

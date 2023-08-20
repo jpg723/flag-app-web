@@ -99,10 +99,11 @@ const LoginButton = styled.img`
 `;
 
 function ResetPassword2() {
+  const email = useRecoilValue(emailState);
+
   const handleEmailSentClick = () => {
     console.log();
   };
-  const email = useRecoilValue(emailState);
 
   return (
     <>
