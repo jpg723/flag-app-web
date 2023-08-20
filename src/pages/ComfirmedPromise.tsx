@@ -73,18 +73,14 @@ function ComfirmedPromise() {
           가능한 시간대를 스크롤해 입력해주세요.
         </Comfirmed_promise_main2_text>
       </Comfirmed_promise_main2>
-      {cycle === 'morning' ? (
-        <TimeTable cycle={'morning'} />
-      ) : null}
-      {cycle === 'afternoon' ? (
+      {cycle === 6 ? <TimeTable cycle={'morning'} /> : null}
+      {cycle === 12 ? (
         <TimeTable cycle={'afternoon'} />
       ) : null}
-      {cycle === 'evening' ? (
+      {cycle === 18 ? (
         <TimeTable cycle={'evening'} />
       ) : null}
-      {cycle === 'dawn' ? (
-        <TimeTable cycle={'dawn'} />
-      ) : null}
+      {cycle === 0 ? <TimeTable cycle={'dawn'} /> : null}
       <Comfirmed_promise_footer>
         <Comfirmed_promise_btn_box>
           <Link to="/makeFlagFinish">
