@@ -8,6 +8,7 @@ import nextBtn from '../contents/desktop/sign/Btn_다음.svg';
 import errorImg from '../contents/desktop/sign/Ic_Error.svg';
 import { SignUpIdAtom } from '../recoil/SignUpState';
 import { SignUpPwAtom } from '../recoil/SignUpState';
+import axios from 'axios';
 
 const SignUpCover = styled.div`
   height: 910px;
@@ -218,11 +219,31 @@ function SignUp1() {
       console.log('isPw === false');
     } else if (!isPwCheck) {
       console.log('isPwCheck === false');
-    } else {
-      console.log('SignUp1 유효성 검사 통과~!');
-    }
+    } 
+    
     if (!(isId && isPw && isPwCheck)) {
       e.preventDefault();
+    }
+    else {
+      console.log('SignUp1 유효성 검사 통과~!');
+      axios(
+        {
+          url: '/user/check/emailDuplicate',
+          method: 'POST',
+          data: {
+            email: id
+          } , 
+          //baseURL: 'http://ec2-3-36-64-117.ap-northeast-2.compute.amazonaws.com:8080',
+          //withCredentials: true,
+        }
+      ).then(response => {
+        console.log(response.data);
+        //alert(''); 이메일 중복의 경우
+      }).catch(error => {
+        console.error('AxiosError:', error);
+        e.preventDefault();
+      });
+      console.log("백엔드 전달");
     }
   };
 

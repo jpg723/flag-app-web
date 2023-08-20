@@ -137,11 +137,13 @@ const SideMenuCover = styled.div`
   position: fixed;
   transition: 0.5s ease;
   &.open {
+    background-color: none;
     right: 0;
     transition: 0.5s ease;
   }
 `;
 const HeaderMobileSideMenuBtn = styled.button`
+  border: none;
   width: 29px;
   height: 29px; 
   text-align: right;
@@ -149,7 +151,7 @@ const HeaderMobileSideMenuBtn = styled.button`
   background-image: url(${mobileMenuBtn});
   background-color: transparent;
   background-repeat: no-repeat;
-  margin: 63px 23px 30px auto; 
+  margin: 55px 23px 30px auto; 
 `;
 const SideMenuItem = styled.li`
   color: #000;

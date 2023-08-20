@@ -10,6 +10,11 @@ export const userIdState = atom<string>({
   default: '',
 });
 
+export const userNameState = atom<string>({
+  key: 'userNameState',
+  default: '',
+});
+
 export const confirmPasswordValidState = atom({
   key: 'confirmPasswordValidState',
   default: false,
@@ -71,7 +76,6 @@ export const makeFlagAtom = atom<IFlag>({
     selectedCell: [],
   },
 });
-
 
 export const addFriendAtom = atom<IFriendTypes>({
   key: 'addFriend',

@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import searchIc from '../contents/desktop/mypage/Ic_마이페이지 - 친구추가_Search.svg';
-import btnEnd from '../contents/desktop/mypage/Btn_마이페이지 - 친구추가_Modifyemail.svg';
-import profilepic from '../contents/desktop/mypage/Img_마이페이지 - 친구추가_Profilepic.svg';
 import { addFriendAtom } from '../recoil/Atoms';
 import MyPageFriendAddItem from '../components/mypageFriends/MyPageFriendAddItem';
+import axios from 'axios';
 
 //display: none;
 //border: 2px solid #000;
@@ -53,13 +52,22 @@ function FriendsAdd() {
   
   useEffect(() => {
   }, [inputWord]);
-  function endFriendsAdd() {
-    window.close();
-  }
+
   const friendSearch = () => {
-    //찾는 친구 닉네임 백엔드로 전달
-    //친구 id, profile, name, 친구 여부 
-    //setAddFriend
+    //친구 조회, 닉네임 전달
+    console.log("친구 조회");
+      axios({
+        url: '/user/' + inputWord,
+        method: 'GET',
+        data: {} ,
+      }).then(response => {
+        console.log(response.data);
+        //친구 id, profile, name, 친구 여부 
+        //setAddFriend({id: , name: })
+      }).catch(error => {
+        console.error('AxiosError:', error);
+      });
+      console.log("백엔드 전달");
 
   }
   return (

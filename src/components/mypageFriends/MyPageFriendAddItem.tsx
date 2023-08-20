@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { userIdState, addFriendAtom } from '../../recoil/Atoms';
+import btnAddfriend1 from '../../contents/desktop/mypage/Btn_friendAdd.svg';
+import btnAddfriend2 from '../../contents/desktop/mypage/Btn_friendAdd2.svg';
 
 //const FriendFrame = styled.div<{ id: number, name: string }>`
 //display: ${(props) => (props.id === -1 ? 'none' : 'inline')};
@@ -42,7 +44,10 @@ const FriendName = styled.span`
 `;
 
 const FriendAddBtn = styled.span<{isAdd: boolean}>`
-  color: ${(props) => (props.isAdd? '#f00' : '#000')};
+  width: 27px;
+  height: 27px;
+  background-image: url(${(props) => (props.isAdd? btnAddfriend1 : btnAddfriend2)}');
+  background-size: cover;
   font-size: 18px;
   font-weight: 400;
   line-height: 17px;
@@ -63,8 +68,8 @@ const MyPageFriendAddItem = () => {
         data: {} ,
       }).then(response => {
         console.log(response.data);
-        // 친구 목록 반환 필요 -> 버튼 변화
-        setIsAdd(!isAdd);
+        // 친구 목록 반환 필요
+        setIsAdd(!isAdd); //버튼 변화
       }).catch(error => {
         console.error('AxiosError:', error);
         e.preventDefault();
@@ -97,7 +102,7 @@ const MyPageFriendAddItem = () => {
         : <FriendFrame>
             <FriendProfile />
             <FriendName>{addFriend.name}</FriendName>
-            <FriendAddBtn isAdd={isAdd} onClick={addFriendsList}>add+</FriendAddBtn>
+            <FriendAddBtn isAdd={isAdd} onClick={addFriendsList} />
           </FriendFrame>
       }
     </>
