@@ -35,8 +35,10 @@ const Flag_Meeting_main_box = styled.div`
   margin-bottom: 33px;
   display: flex;
   @media screen and (max-width: 500px) {
-    margin-left: 23px;
+    margin-left: auto;
+    margin-right: auto;
     flex-direction: column; 
+    width: 435px;
   }
 `;
 
@@ -45,12 +47,23 @@ const TimeTable_box = styled.div`
   border: 1px solid red;
   width: 480px;
   height: 417.33px;
+
+  @media screen and (max-width: 500px) {
+    width: 435px;
+  }
 `;
 
+/*참여자 박스*/
 const Flag_Meeting_main_content = styled.div`
-  border: 1px solid red;
+  border: 1px solid black;
   margin-left: auto;
   margin-right: 0px;
+
+  @media screen and (max-width: 500px) {
+    margin-top: 20px;
+    margin-left: 0px;
+    flex-direction: column; 
+  }
 `;
 
 /*가능한 참여자*/
@@ -136,6 +149,7 @@ const Participants_people_id = styled.div`
   margin-top: 11px;
 `;
 
+/*입력 수정하기 버튼*/
 const Flag_Meeting_edit_btn = styled.button`
   border: none;
   display: flex;
@@ -148,6 +162,11 @@ const Flag_Meeting_edit_btn = styled.button`
   font-size: 18px;
   font-weight: 600;
   color: var(--background-white, #fff);
+
+  @media screen and (max-width: 500px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
 `;
 
 function FlagMeeting() {
