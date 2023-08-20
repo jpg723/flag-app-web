@@ -168,7 +168,7 @@ function PromiseView() {
   //약속 만들기 버튼 클릭 시
   const makeFlagButton = () => {
 
-    if (sessionStorage.getItem("token") === null) {
+    if (isLogin === false) {
       navigate('/login');
     } else {
       // sessionStorage 에 name 라는 key 값으로 저장된 값이 있다면
