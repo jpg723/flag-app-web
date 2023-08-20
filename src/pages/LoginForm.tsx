@@ -197,7 +197,7 @@ function LoginForm() {
       };
       axios({
         url: '/user/login',
-        method: 'GET',
+        method: 'POST',
         data: {
           email: requestData.userId,
           password: requestData.password,
@@ -205,6 +205,8 @@ function LoginForm() {
       })
         .then((response) => {
           console.log(response.data);
+          console.log("로그인 성공");
+          sessionStorage.setItem("token", response.data);         
         })
         .catch((error) => {
           console.error('AxiosError:', error);
