@@ -87,6 +87,7 @@ export const delFriendAtom = atom<IFriendTypes>({
     id: -1,
     name: '',
   },
+});
 
 export const timeTableAtom = atom<boolean[][]>({
   key: 'timeTable',
