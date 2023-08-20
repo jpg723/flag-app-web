@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
 //import { userIdState } from '../recoil/Atoms';
 
@@ -74,22 +73,8 @@ function FindEmail2() {
   //const userId = useRecoilValue(userIdState);
   const location = useLocation();
   const { userId, email } = location.state;
-  console.log(location);
+  //console.log(location);
 
-  axios({
-    method: 'get',
-    url: '/',
-    data: { email: email },
-    baseURL: 'http://localhost:8080',
-  })
-    .then(function (response) {
-      console.log(response.data);
-      console.log('이메일 찾기 성공');
-    })
-    .catch(function (error) {
-      console.error('Find email error: ', error);
-      console.log('이메일 찾기 실패');
-    });
   return (
     <>
       <Wrapper>

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { confirmPasswordValidState } from '../recoil/Atoms';
+import axios from 'axios';
 
 import errorIcon from '../contents/desktop/sign/Ic_Error.svg';
 import passwordChangeButton from '../contents/desktop/mypage/Btn_마이페이지_Modifypassword.svg';
@@ -142,7 +143,7 @@ function PasswordChange() {
     setNewPassword(newPasswordValue);
 
     const newPasswordRegExp =
-      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+      /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*?[#?!@$%^&*-]).{8,25}$/;
     setPasswordValid(
       newPasswordRegExp.test(newPasswordValue),
     );
@@ -160,6 +161,23 @@ function PasswordChange() {
 
   const handlePasswordChangeButtonClick = () => {
     if (passwordValid && confirmPasswordValid) {
+      const requestData = {
+        newPassword: newPassword,
+      };
+      axios({
+        url: '/user/password/change',
+        method: 'PATCH',
+        data: {
+          newPassword: requestData.newPassword,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error('AxiosError:', error);
+          console.log('비밀번호 변경 실패');
+        });
       return <Link to="/password-change-complete" />;
     } else {
       window.alert('비밀번호 재설정을 완료해주세요.');
@@ -183,11 +201,11 @@ function PasswordChange() {
           <MessageWrapper>
             {!passwordValid && (
               <Message>
-                <ErrorIcon
+                {/* <ErrorIcon
                   src={errorIcon}
                   alt="에러 아이콘"
-                />
-                올바른 형식이 아닙니다.
+                /> */}
+                영문/숫자/특수문자 조합, 최소 8자 이상
               </Message>
             )}
             {passwordValid && (
