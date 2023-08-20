@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+import { isLoginAtom } from '../recoil/Atoms';
 import { Link } from 'react-router-dom';
 import logo from '../contents/Logo_플래그_Small_수정.svg';
 import menuBtn from '../contents/desktop/sign/Ic_Menu.svg';
@@ -166,9 +168,27 @@ const SideMenuItem = styled.li`
 
  
 function Header() {
-  const [isLogin, setIsLogin] = useState(true); //로그인 상태 점검
+  const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
   const [menu, setMenu] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("token") === null) {
+      // sessionStorage 에 name 라는 key 값으로 저장된 값이 없다면
+      console.log("isLogin ?? :: ", isLogin);
+    } else {
+      // sessionStorage 에 name 라는 key 값으로 저장된 값이 있다면
+      // 로그인 상태 변경
+      console.log("isLogin ?? :: ", isLogin);
+    }
+  }, []);
+
+  const onLogout = () => {
+    console.log("로그아웃");
+    sessionStorage.removeItem("token");
+    setIsLogin(false);
+  }
+
   return (
     <>
       <HeaderCover>
@@ -182,7 +202,7 @@ function Header() {
                 <MenuCover>
                   <MenuItem><Link to="/MyPage">마이페이지</Link></MenuItem>
                   <MenuItem>이용약관</MenuItem>
-                  <MenuItem onClick={() => setIsLogin(!isLogin)}>로그아웃</MenuItem>
+                  <MenuItem onClick={onLogout}>로그아웃</MenuItem>
                 </MenuCover>
               )}
             </HeaderMenuLine>

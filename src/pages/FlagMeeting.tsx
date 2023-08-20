@@ -27,21 +27,28 @@ const Flag_Meeting_content = styled.div`
 
 /*타임테이블+참여자박스*/
 const Flag_Meeting_main_box = styled.div`
+  border: 1px solid black;
   width: 870px;
   margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 33px;
   display: flex;
+  @media screen and (max-width: 500px) {
+    margin-left: 23px;
+    flex-direction: column; 
+  }
 `;
 
 /*타임테이블*/
 const TimeTable_box = styled.div`
-  border: 1px solid black;
+  border: 1px solid red;
   width: 480px;
+  height: 417.33px;
 `;
 
 const Flag_Meeting_main_content = styled.div`
+  border: 1px solid red;
   margin-left: auto;
   margin-right: 0px;
 `;

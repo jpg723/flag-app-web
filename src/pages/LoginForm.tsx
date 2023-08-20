@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+import { useRecoilState } from 'recoil';
+import { isLoginAtom } from '../recoil/Atoms';
+
 import logo from '../contents/Logo_플래그_Small_수정.svg';
 import emailInput from '../contents/desktop/sign/Box_로그인_Email_Unentered.svg';
 import passwordInput from '../contents/desktop/sign/Box_로그인_Password_Unentered.svg';
@@ -144,6 +147,8 @@ function LoginForm() {
   const [userIdError, setUserIdError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
+  const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
+
   const emailValid = (email: string) => {
     const emailRegExp =
       /^[0-9a-zA-Z]+@[0-9a-zA-Z]+(\.[a-zA-Z]{2,3})+$/;
@@ -206,7 +211,8 @@ function LoginForm() {
         .then((response) => {
           console.log(response.data);
           console.log("로그인 성공");
-          sessionStorage.setItem("token", response.data);         
+          sessionStorage.setItem("token", response.data);  
+          setIsLogin(true);                 
         })
         .catch((error) => {
           console.error('AxiosError:', error);
