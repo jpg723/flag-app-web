@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { userIdState } from '../recoil/Atoms';
 
@@ -28,15 +28,23 @@ const Wrapper = styled.div`
   }
 `;
 
+const TitleWrapper = styled.div`
+  width: 450px;
+  margin: 88px auto 0;
+
+  @media screen and (max-width: 500px) {
+    width: 300px;
+  }
+`;
+
 const FindEmailTitle = styled.h2`
   font-size: 20px;
   font-weight: 700;
   line-height: normal;
-  margin: 88px auto 0px 535px;
   font-family: Noto Sans KR;
+  text-align: left;
 
   @media screen and (max-width: 500px) {
-    margin: 99px auto 0 75px;
     font-size: 22px;
   }
 `;
@@ -56,7 +64,7 @@ const NameInput = styled.input`
   padding-left: 20px;
 
   @media screen and (max-width: 500px) {
-    width: 350px;
+    width: 300px;
     margin-top: 13px;
   }
 `;
@@ -67,12 +75,13 @@ const NextButton = styled.img`
   display: block;
 
   @media screen and (max-width: 500px) {
-    width: 350px;
+    width: 300px;
   }
 `;
 
 function FindEmail1() {
   const [userId, setUserId] = useRecoilState(userIdState);
+  const [email, setEmail] = useState('tyfyf');
 
   const handleUserIdChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -80,27 +89,35 @@ function FindEmail1() {
     setUserId(e.target.value);
   };
 
+  const navigate = useNavigate();
+
   const handleNextButtonClick = () => {
-    setUserId(userId);
+    navigate('/find-email-complete', {
+      state: { userId, email },
+    });
   };
 
   return (
     <>
       <Wrapper>
         <Logo src={logo} alt="로고" />
-        <FindEmailTitle>이메일 찾기</FindEmailTitle>
+        <TitleWrapper>
+          <FindEmailTitle>이메일 찾기</FindEmailTitle>
+        </TitleWrapper>
         <NameInput
           placeholder="닉네임"
           value={userId}
           onChange={handleUserIdChange}
         />
-        <Link to="/find-email-complete">
-          <NextButton
-            src={nextButton}
-            alt="다음 버튼"
-            onClick={handleNextButtonClick}
-          />
-        </Link>
+        {/* <Link
+          to={'/find-email-complete'} state={{userId: userId, email: email}}
+        > */}
+        <NextButton
+          src={nextButton}
+          alt="다음 버튼"
+          onClick={handleNextButtonClick}
+        />
+        {/* </Link> */}
       </Wrapper>
     </>
   );

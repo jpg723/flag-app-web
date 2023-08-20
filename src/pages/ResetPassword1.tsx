@@ -28,8 +28,18 @@ const Wrapper = styled.div`
   }
 `;
 
+const TitleWrapper = styled.div`
+  width: 450px;
+  margin: 84px auto 0;
+  text-align: left;
+
+  @media screen and (max-width: 500px) {
+    width: 300px;
+    margin-top: 92px;
+  }
+`;
+
 const ResetPasswordTitle = styled.h2`
-  margin: 88px auto 0 535px;
   font-size: 20px;
   font-weight: 700;
   line-height: normal;
@@ -37,7 +47,6 @@ const ResetPasswordTitle = styled.h2`
 
   @media screen and (max-width: 500px) {
     font-size: 22px;
-    margin: 97px auto 0 75px;
   }
 `;
 
@@ -67,7 +76,7 @@ const EmailInput = styled.input`
   display: inline;
 
   @media screen and (max-width: 500px) {
-    width: 350px;
+    width: 300px;
     font-size: 15px;
     margin: 15px auto 0px;
   }
@@ -85,8 +94,7 @@ const NextButton = styled.img`
   margin: 34px auto 0;
 
   @media screen and (max-width: 500px) {
-    width: 350px;
-    margin: 34px auto 0;
+    width: 300px;
   }
 `;
 
@@ -97,6 +105,7 @@ const FindEmailWrapper = styled.div`
   justify-content: center;
 
   @media screen and (max-width: 360px) {
+    margin-top: 20px;
   }
 `;
 
@@ -148,9 +157,11 @@ function ResetPassword1() {
     <>
       <Wrapper>
         <Logo src={logo} alt="로고" />
-        <ResetPasswordTitle>
-          비밀번호 찾기
-        </ResetPasswordTitle>
+        <TitleWrapper>
+          <ResetPasswordTitle>
+            비밀번호 찾기
+          </ResetPasswordTitle>
+        </TitleWrapper>
         <InputWrapper>
           <EmailInput
             type="email"

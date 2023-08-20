@@ -16,15 +16,24 @@ const Wrapper = styled.div`
   }
 `;
 
+const TitleWrapper = styled.div`
+  width: 492px;
+  text-align: left;
+  margin: 95px auto 0 216px;
+
+  @media screen and (max-width: 500px) {
+    width: 300px;
+    margin: 57px auto 0;
+  }
+`;
+
 const PasswordChangeTitle = styled.h2`
   font-size: 30px;
   font-weight: 600;
   line-height: normal;
-  margin: 95px auto 0px 216px;
   font-family: Inter;
 
   @media screen and (max-width: 500px) {
-    margin: 57px auto 0 75px;
     font-size: 22px;
   }
 `;
@@ -54,7 +63,7 @@ const NewPasswordInput = styled.input`
   margin-top: 88px;
 
   @media screen and (max-width: 500px) {
-    width: 350px;
+    width: 300px;
     font-size: 15px;
     margin: 50px auto 0;
   }
@@ -68,6 +77,14 @@ const ErrorIcon = styled.img`
   @media screen and (max-width: 500px) {
     width: 20px;
     height: 20px;
+  }
+`;
+
+const MessageWrapper = styled.div`
+  width: 492px;
+
+  @media screen and (max-width: 500px) {
+    width: 300px;
   }
 `;
 
@@ -152,27 +169,31 @@ function PasswordChange() {
   return (
     <>
       <Wrapper>
-        <PasswordChangeTitle>
-          비밀번호 변경
-        </PasswordChangeTitle>
+        <TitleWrapper>
+          <PasswordChangeTitle>
+            비밀번호 변경
+          </PasswordChangeTitle>
+        </TitleWrapper>
         <InputWrapper>
           <NewPasswordInput
             type="password"
             placeholder="새 비밀번호"
             onChange={handleNewPasswordChange}
           />
-          {!passwordValid && (
-            <Message>
-              <ErrorIcon
-                src={errorIcon}
-                alt="에러 아이콘"
-              />
-              올바른 형식이 아닙니다.
-            </Message>
-          )}
-          {passwordValid && (
-            <Message>올바른 형식입니다.</Message>
-          )}
+          <MessageWrapper>
+            {!passwordValid && (
+              <Message>
+                <ErrorIcon
+                  src={errorIcon}
+                  alt="에러 아이콘"
+                />
+                올바른 형식이 아닙니다.
+              </Message>
+            )}
+            {passwordValid && (
+              <Message>올바른 형식입니다.</Message>
+            )}
+          </MessageWrapper>
         </InputWrapper>
         <InputWrapper>
           <ConfirmPasswordInput
@@ -180,18 +201,20 @@ function PasswordChange() {
             placeholder="새 비밀번호 재입력"
             onChange={handleConfirmPasswordChange}
           />
-          {!confirmPasswordValid && (
-            <Message>
-              <ErrorIcon
-                src={errorIcon}
-                alt="에러 아이콘"
-              />
-              동일한 비밀번호가 아닙니다.
-            </Message>
-          )}
-          {confirmPasswordValid && (
-            <Message>비밀번호가 동일합니다.</Message>
-          )}
+          <MessageWrapper>
+            {!confirmPasswordValid && (
+              <Message>
+                <ErrorIcon
+                  src={errorIcon}
+                  alt="에러 아이콘"
+                />
+                동일한 비밀번호가 아닙니다.
+              </Message>
+            )}
+            {confirmPasswordValid && (
+              <Message>비밀번호가 동일합니다.</Message>
+            )}
+          </MessageWrapper>
         </InputWrapper>
         <ButtonWrapper>
           <Link
