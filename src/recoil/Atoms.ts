@@ -21,7 +21,6 @@ export const confirmPasswordValidState = atom({
 });
 
 export interface IFriendTypes {
-  id: number;
   name: string;
 }
 
@@ -32,39 +31,25 @@ export interface IOption {
 
 export interface IFlag {
   flagName: string;
-  hostId: number;
   checkedFriends: IFriendTypes[];
   selectedDates: string[];
   cycle: number;
   minimumTime: number;
   flagPlace: IOption;
   flagMemo: IOption;
-  guestId: number[];
   selectedCell: number[];
 }
 
 export const friendListAtom = atom<IFriendTypes[]>({
   key: 'friendList',
-  default: [
-    { id: 0, name: '노키' },
-    { id: 1, name: '차차' },
-    { id: 2, name: '마크' },
-    { id: 3, name: '다다' },
-    { id: 4, name: '제이피지' },
-    { id: 5, name: '룰루' },
-    { id: 6, name: '랄라' },
-    { id: 7, name: '롤롤' },
-    { id: 8, name: '루루' },
-    { id: 9, name: '리리' },
-  ],
+  default: [],
 });
 
 export const makeFlagAtom = atom<IFlag>({
   key: 'makeFlag',
   default: {
     flagName: '', //name
-    hostId: -1, // hostId
-    checkedFriends: [], //빠져야함
+    checkedFriends: [],
     selectedDates: [], // dates
     cycle: -1, // timeSlot
     minimumTime: 1, // minTime
@@ -78,7 +63,6 @@ export const makeFlagAtom = atom<IFlag>({
       content: '',
       isChecked: false,
     },
-    guestId: [], // guestId
     selectedCell: [], // possibleDates
   },
 });
@@ -86,7 +70,6 @@ export const makeFlagAtom = atom<IFlag>({
 export const addFriendAtom = atom<IFriendTypes>({
   key: 'addFriend',
   default: {
-    id: -1,
     name: '',
   },
 });
@@ -94,7 +77,6 @@ export const addFriendAtom = atom<IFriendTypes>({
 export const delFriendAtom = atom<IFriendTypes>({
   key: 'delFriend',
   default: {
-    id: -1,
     name: '',
   },
 });
