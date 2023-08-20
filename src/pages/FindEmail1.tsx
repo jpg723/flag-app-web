@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { userIdState } from '../recoil/Atoms';
+import { userIdState, emailState } from '../recoil/Atoms';
+import axios from 'axios';
 
 import logo from '../contents/Logo_플래그_Small_수정.svg';
 import nextButton from '../contents/desktop/sign/Btn_다음.svg';
@@ -81,7 +82,9 @@ const NextButton = styled.img`
 
 function FindEmail1() {
   const [userId, setUserId] = useRecoilState(userIdState);
-  const [email, setEmail] = useState('tyfyf');
+  const [email, setEmail] = useRecoilState(emailState);
+  //const [email, setEmail] = useState('');
+  const navigate = useNavigate();
 
   const handleUserIdChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -89,12 +92,25 @@ function FindEmail1() {
     setUserId(e.target.value);
   };
 
-  const navigate = useNavigate();
-
   const handleNextButtonClick = () => {
-    navigate('/find-email-complete', {
-      state: { userId, email },
-    });
+    axios({
+      method: 'GET',
+      url: '/user/email-by-name',
+      params: { name: userId },
+    })
+      .then(function (response) {
+        console.log(response.data);
+        console.log('이메일 찾기 성공');
+        setEmail(response.data);
+        navigate('/find-email-complete', {
+          state: { userId, email },
+        });
+      })
+      .catch(function (error) {
+        console.error('Find email error: ', error);
+        console.log('이메일 찾기 실패');
+      });
+    console.log(email);
   };
 
   return (
