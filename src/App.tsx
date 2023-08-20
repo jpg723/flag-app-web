@@ -10,8 +10,6 @@ import FlagMeeting from './pages/FlagMeeting';
 import Login from './pages/LoginForm';
 import FindEmail1 from './pages/FindEmail1';
 import FindEmail2 from './pages/FindEmail2';
-import EmailChange1 from './pages/EmailChange1';
-import EmailChange2 from './pages/EmailChange2';
 import PasswordChange from './pages/PasswordChange';
 import ResetPassword1 from './pages/ResetPassword1';
 import ResetPassword2 from './pages/ResetPassword2';
@@ -51,10 +49,6 @@ function App() {
               <Route
                 path="/comfirmed-promise"
                 element={<ComfirmedPromise />}
-              />
-              <Route
-                path="/email-change"
-                element={<EmailChange1 />}
               />
               <Route
                 path="/password-change"
@@ -111,10 +105,6 @@ function App() {
             <Route
               path="/reset-password-complete"
               element={<ResetPassword4 />}
-            />
-            <Route
-              path="/email-change-complete"
-              element={<EmailChange2 />}
             />
             <Route
               path="/MyPage_FriendsAdd"

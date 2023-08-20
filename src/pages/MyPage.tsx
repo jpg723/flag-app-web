@@ -106,7 +106,6 @@ const MyPageEdit = styled.img`
   border: 0;
   background-color: transparent;
   padding: 0px;
-  align: center;
   margin: 0px auto 14px;
   @media screen and (max-width: 500px) {
     width: 248px;
@@ -118,7 +117,6 @@ const MyPageLine = styled.hr`
   width: 355px;
   background: rgba(0, 0, 0, 0.29);
   margin: 2px auto 16px;
-  align: center;
   @media screen and (max-width: 500px) {
     width: 285px;
     background: rgba(0, 0, 0, 0.18);
