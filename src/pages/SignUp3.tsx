@@ -73,7 +73,7 @@ function SignUp3() {
       <SignUpInputImgIc src={profileFile ? URL.createObjectURL(profileFile) : profilepic} />
       <SignUpAccount>{name}</SignUpAccount>
       <SignUpAccountText>계정이 생성되었습니다.</SignUpAccountText>
-      <Link to="/">
+      <Link to="/login">
         <SignUpBtnLogin src={btnLogin} />
       </Link>
     </SignUp3Cover>

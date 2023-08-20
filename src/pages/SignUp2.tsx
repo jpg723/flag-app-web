@@ -142,7 +142,10 @@ function SignUp2() {
           url: '/user/join',
           method: 'POST',
           data: {
-            data1:name, data2:id, data3:password
+            email: id,
+            name: name, 
+            password: password, 
+            profile: '',
           } , 
           //baseURL: 'http://ec2-3-36-64-117.ap-northeast-2.compute.amazonaws.com:8080',
           //withCredentials: true,

@@ -190,7 +190,7 @@ function SignUp1() {
   }, [id]);
   useEffect(() => {
     setPw(inputPw)
-    const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*?[#?!@$%^&*-]).{8,25}$/;
+    const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[#?!@$%^&*-]).{8,25}$/;
     if (pw !== undefined) setIsPw(pwRegExp.test(pw)); 
   }, [inputPw]);
   useEffect(() => {
