@@ -60,17 +60,17 @@ const ProfileDel = styled.span`
 `;
 
 interface IFriendItemProps {
-  id: number;
   name: string;
-  handleCheck: (
-    id: number,
-    name: string,
-  ) => void;
+  handleCheck: (name: string) => void;
 }
 
-const MyPageFriendItem = ({id,name, handleCheck}: IFriendItemProps) => {
-  const onClick = (e: any) => 
-    { handleCheck(id, name); };
+const MyPageFriendItem = ({
+  name,
+  handleCheck,
+}: IFriendItemProps) => {
+  const onClick = (e: any) => {
+    handleCheck(name);
+  };
   return (
     <Wrapper>
       <ProfileWrapper>
