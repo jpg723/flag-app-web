@@ -58,6 +58,7 @@ export const makeFlagAtom = atom<IFlag>({
     selectedDates: [], // dates
     cycle: -1, // timeSlot
     minimumTime: 1, // minTime
+    
     flagPlace: {
       // place - isChecked 검사해서 보낼때는 content 또는 '' 전달
       content: '',

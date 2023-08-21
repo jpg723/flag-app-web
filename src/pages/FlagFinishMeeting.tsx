@@ -1,6 +1,7 @@
 //import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as Unsettled_icon } from '../contents/desktop/flag/Ic_전체약속뷰_Unsettled.svg';
+import { useNavigate } from 'react-router-dom';
 
 const Flag_Meeting_header = styled.div`
   margin-top: 44px;
@@ -146,6 +147,12 @@ const Flag_Meeting_edit_btn = styled.button`
 `;
 
 function FlagFinishMeeting() {
+
+  const navigate = useNavigate();
+  const handleSubmit = () => {
+    navigate('/finish-flag-update');
+  };
+  
   return (
     <div>
       <Flag_Meeting_header>FLAG 미팅</Flag_Meeting_header>
@@ -180,7 +187,7 @@ function FlagFinishMeeting() {
             </Participants_people_box>
           </Flag_Meeting_participants_box>
           {/*입력 수정하기 버튼 */}
-          <Flag_Meeting_edit_btn>
+          <Flag_Meeting_edit_btn onClick={handleSubmit}>
             입력 수정하기
           </Flag_Meeting_edit_btn>
         </Flag_Meeting_main_content>
