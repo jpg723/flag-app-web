@@ -8,10 +8,7 @@ const Flag_Meeting_header = styled.div`
   margin-bottom: 9px;
   font-size: 25px;
   font-weight: 600;
-  
-  @media screen and (max-width: 500px) {
-    margin-left: 23px;
-  }
+
 `;
 
 const Flag_Meeting_content = styled.div`
@@ -20,26 +17,16 @@ const Flag_Meeting_content = styled.div`
   font-size: 15px;
   font-weight: 500;
 
-  @media screen and (max-width: 500px) {
-    margin-left: 23px;
-  }
 `;
 
 /*타임테이블+참여자박스*/
 const Flag_Meeting_main_box = styled.div`
-  border: 1px solid black;
   width: 870px;
   margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 33px;
   display: flex;
-  @media screen and (max-width: 500px) {
-    margin-left: auto;
-    margin-right: auto;
-    flex-direction: column; 
-    width: 435px;
-  }
 `;
 
 /*타임테이블*/
@@ -47,23 +34,12 @@ const TimeTable_box = styled.div`
   border: 1px solid red;
   width: 480px;
   height: 417.33px;
-
-  @media screen and (max-width: 500px) {
-    width: 435px;
-  }
 `;
 
 /*참여자 박스*/
 const Flag_Meeting_main_content = styled.div`
-  border: 1px solid black;
   margin-left: auto;
   margin-right: 0px;
-
-  @media screen and (max-width: 500px) {
-    margin-top: 20px;
-    margin-left: 0px;
-    flex-direction: column; 
-  }
 `;
 
 /*가능한 참여자*/
@@ -174,13 +150,16 @@ function FlagFinishMeeting() {
     <div>
       <Flag_Meeting_header>FLAG 미팅</Flag_Meeting_header>
       <Flag_Meeting_content>
-        2023년 7월 15일 - 2023년 7월 22일
+        - 2023년 7월 15일
       </Flag_Meeting_content>
       <Flag_Meeting_content>
-        09:00 ~ 22:00
+        - 09:00 ~ 22:00
       </Flag_Meeting_content>
       <Flag_Meeting_content>
-        역삼역 워크토크
+        - 역삼역 워크토크
+      </Flag_Meeting_content>
+      <Flag_Meeting_content>
+        - 메모: 
       </Flag_Meeting_content>
       <Flag_Meeting_main_box>
         <TimeTable_box></TimeTable_box>
@@ -188,13 +167,7 @@ function FlagFinishMeeting() {
           {/*가능한 참여자 */}
           <Flag_Meeting_participants_box>
             <Participants_box_header>
-              <Participants_box_content>
-                7월 20일
-              </Participants_box_content>
-              <Participants_box_content>
-                12:00 - 14:00
-              </Participants_box_content>
-              에 가능한 참여자
+            - 참여 인원 프로필 명단
             </Participants_box_header>
             <Participants_people_box>
               {/*참여자 정보*/}
