@@ -1,13 +1,13 @@
 //import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import profilepic from '../contents/desktop/mypage/Img_마이페이지_Profilepic.svg';
+import profilepic from '../contents/desktop/sign/_Img_계정생성완료_Profilepic.svg';
 import btnPwEdit from '../contents/desktop/mypage/Btn_마이페이지_Modifypassword.svg';
 import btnLogout from '../contents/desktop/mypage/Btn_마이페이지_Logout.svg';
 import btnWithdraw from '../contents/desktop/mypage/Btn_마이페이지_Withdraw.svg';
 import btnAddfriend from '../contents/desktop/mypage/Btn_마이페이지_Addfriend.svg';
 import MyPageFriendList from '../components/mypageFriends/MyPageFriendList';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Link } from 'react-router-dom';
 import { emailState, userNameState } from '../recoil/Atoms';
 import axios from 'axios';
@@ -47,18 +47,18 @@ const MyPageCover2 = styled.div`
     margin: 0px;
   }
 `;
-const MyPageAccountImg = styled.div<{img: string}>`
+const MyPageAccountImg = styled.div`
   width: 112px;
   height: 112px;
   border-radius: 50%;
-  background-image: URL(${(props) => (props.img)});
+  background-image: URL(${profilepic});
   background-repeat: no-repeat;
   background-size: cover;
   margin: 50px auto 0px;
   @media screen and (max-width: 500px) {
     width: 68px;
     height: 68px;
-    background-image: URL(${(props) => (props.img)});
+    background-image: URL(${profilepic});
     margin: 23px auto 0px;
   }
 `;
@@ -96,6 +96,7 @@ const MyPageEdit = styled.img`
   padding: 0px;
   margin: 0px auto 14px;
   @media screen and (max-width: 500px) {
+    display: block;
     width: 248px;
     font-size: 12px;
     margin: 0px auto 13px;
@@ -146,10 +147,34 @@ const MyPageFriendAdd = styled.img`
 `;
 
 function MyPage() {
-  const name = useRecoilValue(userNameState);
-  const email = useRecoilValue(emailState);
+  const [name, setName] = useRecoilState(userNameState);
+  const [email, setEmail] = useRecoilState(emailState);
 
-  function addFriends() {
+  useEffect(()=> {
+    //마이페이지 axios
+    console.log('마이페이지 접속');
+    /*
+    const token = sessionStorage.getItem('token');
+    axios({
+      url: '/user/mypage',
+      method: 'GET',
+      headers: {
+        Authorization: token,
+      },
+    }).then((response) => {
+      console.log('마이페이지 접속');
+      console.log(response.data);
+      setName(response.data.name);
+      setEmail(response.data.email);
+      //친구 목록 처리 코드
+    })
+    .catch((error) => {
+      console.error('AxiosError:', error);
+    });
+    */
+  },[]);
+
+  const addFriends = () => {
     window.open( '/MyPage_FriendsAdd', '_blank', 'width=835, height=375, toolbar=no' );
   }
 
@@ -193,7 +218,7 @@ function MyPage() {
       <MyPageCover>
         <MyPageAccount>{name}님의 계정</MyPageAccount>
         <MyPageCover2>
-          <MyPageAccountImg img={ profilepic} />
+          <MyPageAccountImg />
           <MyPageName>{name}</MyPageName>
           <MyPageEmail>{email}</MyPageEmail>
           <Link to="/password-change" ><MyPageEdit src={btnPwEdit} /></Link>

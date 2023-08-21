@@ -6,7 +6,7 @@ import profile from '../contents/desktop/sign/Ic_회원가입_Profile.svg';
 import spread from '../contents/desktop/sign/Ic_회원가입_Spread.svg';
 import nextBtn from '../contents/desktop/sign/Btn_다음.svg';
 import errorImg from '../contents/desktop/sign/Ic_Error.svg';
-import { SignUpIdAtom } from '../recoil/SignUpState';
+import { SignUpIdAtom, SignUpNameAtom } from '../recoil/SignUpState';
 import { SignUpPwAtom } from '../recoil/SignUpState';
 import axios from 'axios';
 
@@ -46,7 +46,7 @@ const SignUpCover2 = styled.div`
     margin: 0px auto 0px 45px;
   }
 `;
-const SignUpInputEmailCover = styled.span`
+const InputEmailCover = styled.span`
   display: inline;
   white-space: nowrap;
   margin: 0px;
@@ -54,15 +54,15 @@ const SignUpInputEmailCover = styled.span`
 const InputLine = styled.hr`
   border: 1.5px solid #000;
   width: 603px;
-  margin: 0px auto auto 0px;
+  margin: 2px auto auto 0px;
   @media screen and (max-width: 500px) {
     border: 1px solid #000;
     width: 281px;
   }
 `;
-const SignUpInputEmail = styled.input`
+const InputEmail = styled.input`
   border: none;
-  width: 483px;
+  width: 353px;
   outline: none;
   color: #000;
   font-family: Noto Sans KR;
@@ -75,7 +75,7 @@ const SignUpInputEmail = styled.input`
     font-size: 15px;
   }
 `;
-const SignUpInputEmailAdd = styled.select`
+const InputEmailAdd = styled.select`
   border: none;
   outline: none;
   width: 120px;
@@ -95,7 +95,11 @@ const SignUpInputEmailAdd = styled.select`
     font-size: 15px;
   }
 `;
-const SignUpInput = styled.input`
+const EmailBtn = styled.button`
+  width: 100px;
+  margin-left: 30px
+`
+const InputPw = styled.input`
   border: none;
   width: 603px;
   outline: none;
@@ -111,7 +115,7 @@ const SignUpInput = styled.input`
     font-size: 15px;
   }
 `;
-const SignUpHintImg = styled.img`
+const HintImg = styled.img`
   display: none;
   width: 28px;
   height: 28px;
@@ -123,7 +127,7 @@ const SignUpHintImg = styled.img`
     margin-right: 3px;
   }
 `;
-const SignUpHintText = styled.div`
+const HintText = styled.div`
   width: 503px;
   height: 28px;
   color: #999;
@@ -141,6 +145,32 @@ const SignUpHintText = styled.div`
     margin: 5px auto 24px 0px;
   }
 `;
+const InputNameCover = styled.span`
+  display: inline;
+  white-space: nowrap;
+  margin: 0px;
+`;
+const InputName = styled.input`
+  border: none;
+  width: 473px;
+  outline: none;
+  color: #000;
+  font-family: Noto Sans KR;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  white-space: normal;
+  margin: 0px;
+  @media screen and (max-width: 500px) {
+    font-size: 15px;
+  }
+`;
+const NameBtn = styled.button`
+  width: 100px;
+  margin-left: 30px
+`
+
 const SignUpNext = styled.img`
   width: 355px;
   height: 41px;
@@ -152,9 +182,12 @@ const SignUpNext = styled.img`
   }
 `;
 
+
+
 function SignUp1() {
   const [id, setId] = useRecoilState(SignUpIdAtom);
   const [pw, setPw] = useRecoilState(SignUpPwAtom);
+  const [name, setName] = useRecoilState(SignUpNameAtom);
 
   //유효성 검사
   const [inputId, setInputId] = useState('');
@@ -164,6 +197,7 @@ function SignUp1() {
   const [isPw, setIsPw] = useState(false);
   const [inputPwCheck, setInputPwCheck] = useState('');
   const [isPwCheck, setIsPwCheck] = useState(false);
+  const [isName, setIsName] = useState(false);
 
   useEffect(() => {
     setId(inputId + inputEmail);
@@ -218,6 +252,11 @@ function SignUp1() {
       }
     }
   }, [inputPwCheck]);
+  useEffect(() => {
+    const nameRegExp = /^[a-z0-9가-힣]{2,5}$/;
+    if (name !== undefined)
+      setIsName(nameRegExp.test(name));
+  }, [name]);
 
   const nextHandler = (e: any) => {
     console.log('id:' + id + ' pw:' + pw);
@@ -238,14 +277,14 @@ function SignUp1() {
       e.preventDefault();
     } else {
       console.log('SignUp1 유효성 검사 통과~!');
+      //이메일 중복 검사
+      /*
       axios({
         url: '/user/check/emailDuplicate',
         method: 'POST',
         data: {
           email: id,
         },
-        //baseURL: 'http://ec2-3-36-64-117.ap-northeast-2.compute.amazonaws.com:8080',
-        //withCredentials: true,
       })
         .then((response) => {
           console.log(response.data);
@@ -256,83 +295,89 @@ function SignUp1() {
           e.preventDefault();
         });
       console.log('백엔드 전달');
+      */
     }
   };
+
+  /* 
+    const signupHandler = (e: any) => {
+    console.log('id:' + id + ' pw:' + password);
+    console.log(' Name:' + name);
+    console.log(' isName:' + isName);
+
+    if (!isName) {
+      console.log('isName === false');
+    } else {
+      console.log('SignUp2 유효성 검사 통과~!');
+    }
+    if (!isName) e.preventDefault();
+    else {
+      console.log('유효성 통과');
+      axios({
+        url: '/user/join',
+        method: 'POST',
+        data: {
+          name: name,
+          email: id,
+          password: password,
+        },
+      }).then((response) => {
+        console.log(response.data);
+        //URL.revokeObjectURL(profileFile)
+      })
+      .catch((error) => {
+        console.error('AxiosError:', error);
+        e.preventDefault();
+      });
+      console.log('백엔드 전달');
+    }
+  };
+  */
 
   return (
     <SignUpCover>
       <SignUpImgText>
-        {' '}
         <img src={profile} alt="img..." /> 회원가입
       </SignUpImgText>
       <SignUpCover2>
-        <SignUpInputEmailCover>
-          <SignUpInputEmail
-            type="text"
-            id="id"
-            placeholder="이메일"
-            autoComplete="off"
-            onChange={(
-              e: React.ChangeEvent<HTMLInputElement>,
-            ) => {
-              setInputId(e.target.value);
-            }}
-          />
-          <SignUpInputEmailAdd
-            id="email"
-            onChange={(
-              e: React.ChangeEvent<HTMLSelectElement>,
-            ) => {
-              setInputEmail(e.target.value);
-            }}
-          >
+        <InputEmailCover>
+          <InputEmail type="text" id="id" placeholder="이메일" autoComplete="off"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setInputId(e.target.value); }} />
+          <InputEmailAdd id="email"
+            onChange={( e: React.ChangeEvent<HTMLSelectElement>) => { setInputEmail(e.target.value); }} >
             <option value="">직접 입력</option>
             <option value="@gmail.com">@gmail.com</option>
             <option value="@naver.com">@naver.com</option>
             <option value="@daum.net">@daum.net</option>
-          </SignUpInputEmailAdd>
-        </SignUpInputEmailCover>
+          </InputEmailAdd>
+          <EmailBtn>중복확인</EmailBtn>
+        </InputEmailCover>
         <InputLine />
-        <SignUpHintText id="checkIdText">
-          {' '}
-          ex) abc123@email.com{' '}
-        </SignUpHintText>
-        <SignUpInput
-          type="password"
-          id="pw"
-          name="pw"
-          placeholder="비밀번호"
-          onChange={(
-            e: React.ChangeEvent<HTMLInputElement>,
-          ) => {
-            setInputPw(e.target.value);
-          }}
-        />
+        <HintText id="checkIdText">
+          {' '}ex) abc123@email.com{' '}
+        </HintText>
+        <InputPw type="password" id="pw" name="pw" placeholder="비밀번호"
+          onChange={( e: React.ChangeEvent<HTMLInputElement> ) => { setInputPw(e.target.value); }} />
         <InputLine />
-        <SignUpHintText id="pwText">
-          {' '}
-          영문/숫자/특수문자 조합, 최소 8자 이상{' '}
-        </SignUpHintText>
-        <SignUpInput
-          type="password"
-          id="checkPw"
-          name="checkPw"
-          placeholder="비밀번호 재입력"
-          onChange={(
-            e: React.ChangeEvent<HTMLInputElement>,
-          ) => {
-            setInputPwCheck(e.target.value);
-          }}
-        />
+        <HintText id="pwText">
+          {' '}영문/숫자/특수문자 조합, 최소 8자 이상{' '}
+        </HintText>
+        <InputPw type="password" id="checkPw" name="checkPw" placeholder="비밀번호 재입력"
+          onChange={( e: React.ChangeEvent<HTMLInputElement> ) => { setInputPwCheck(e.target.value); }} />
         <InputLine />
-        <SignUpHintText>
-          <SignUpHintImg id="checkPwImg" src={errorImg} />
+        <HintText>
+          <HintImg id="checkPwImg" src={errorImg} />
           <span id="checkPwText">
             비밀번호를 한 번 더 입력하세요
           </span>
-        </SignUpHintText>
+        </HintText>
+        <InputName type="text" id="name" placeholder="닉네임" autoComplete="off" 
+          onChange={( e: React.ChangeEvent<HTMLInputElement> ) => { setName(e.target.value); }} />
+        <NameBtn>중복확인</NameBtn>
+        <InputLine />
+        <HintText>최소 2자 최대 5자 이내</HintText>
       </SignUpCover2>
-      <Link to="/SignUp2" onClick={nextHandler}>
+      <Link to="/SignUp3" onClick={nextHandler}>
         <SignUpNext src={nextBtn} />
       </Link>
     </SignUpCover>

@@ -124,7 +124,7 @@ function FriendsAdd() {
         data: {} ,
       }).then(response => {
         console.log(response.data);
-        //친구 id, profile, name, 친구 여부 
+        //친구 name, 친구 여부 (true, false) 
         //setAddFriend({id: , name: })
       }).catch(error => {
         console.error('AxiosError:', error);

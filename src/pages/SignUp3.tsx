@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import profilepic from '../contents/desktop/sign/_Img_계정생성완료_Profilepic.svg';
+import profilepic from '../contents/desktop/sign/Btn_프로필생성_Profilepic.svg';
 import btnLogin from '../contents/desktop/sign/Btn_Login.svg';
 import { SignUpNameAtom } from '../recoil/SignUpState';
 //display: none;

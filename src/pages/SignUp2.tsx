@@ -70,9 +70,10 @@ const SignUpCreateaccount = styled.img`
 `;
 
 function SignUp2() {
-  const [name, setName] = useRecoilState(SignUpNameAtom);
   const id = useRecoilValue(SignUpIdAtom);
   const password = useRecoilValue(SignUpPwAtom);
+  const [name, setName] = useRecoilState(SignUpNameAtom);
+
   //유효성 검사
   const [isName, setIsName] = useState(false);
 
