@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
 import { useRecoilState } from 'recoil';
 import { isLoginAtom } from '../recoil/Atoms';
 
@@ -83,14 +82,23 @@ const PasswordInput = styled(EmailInput)`
   }
 `;
 
+const MessageWrapper = styled.div`
+  width: 450px;
+  text-align: left;
+  margin: 5px auto 0;
+
+  @media screen and (max-width: 500px) {
+    width: 300px;
+  }
+`;
+
 const ErrorMessage = styled.p`
   color: #999;
-  font-size: 12px;
-  margin-top: 5px;
+  font-size: 14px;
   text-align: left;
 
   @media screen and (max-width: 500px) {
-    margin-left: 50px;
+    font-size: 12px;
   }
 `;
 
@@ -155,6 +163,12 @@ function LoginForm() {
     return emailRegExp.test(email);
   };
 
+  const passwordValid = (password: string) => {
+    const passwordRegExp =
+      /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*?[#?!@$%^&*-]).{8,25}$/;
+    return passwordRegExp.test(password);
+  };
+
   const handleUserIdChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -178,9 +192,9 @@ function LoginForm() {
 
     if (newPassword === '') {
       setPasswordError('비밀번호를 입력해주세요.');
-    } else if (newPassword.length < 8) {
+    } else if (!passwordValid(newPassword)) {
       setPasswordError(
-        '비밀번호는 영문, 숫자 조합 최소 8자 이상이어야 합니다.',
+        '비밀번호는 영문, 숫자, 특수문자 조합 최소 8자 이상이어야 합니다.',
       );
     } else {
       setPasswordError('');
@@ -237,18 +251,22 @@ function LoginForm() {
             value={userId}
             onChange={handleUserIdChange}
           />
-          {userIdError && (
-            <ErrorMessage>{userIdError}</ErrorMessage>
-          )}
+          <MessageWrapper>
+            {userIdError && (
+              <ErrorMessage>{userIdError}</ErrorMessage>
+            )}
+          </MessageWrapper>
           <PasswordInput
             type="password"
             placeholder="비밀번호"
             value={password}
             onChange={handlePasswordChange}
           />
-          {passwordError && (
-            <ErrorMessage>{passwordError}</ErrorMessage>
-          )}
+          <MessageWrapper>
+            {passwordError && (
+              <ErrorMessage>{passwordError}</ErrorMessage>
+            )}
+          </MessageWrapper>
           <Link
             to={
               userId ||

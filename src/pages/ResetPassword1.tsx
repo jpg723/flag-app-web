@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { emailState } from '../recoil/Atoms';
+import axios from 'axios';
 
 import logo from '../contents/Logo_플래그_Small_수정.svg';
 import nextButton from '../contents/desktop/sign/Btn_다음.svg'; // 다음
@@ -146,7 +147,23 @@ function ResetPassword1() {
   };
 
   const handleNextButtonClick = () => {
-    console.log();
+    const requestData = {
+      email: email,
+    };
+    axios({
+      method: 'POST',
+      url: '/user/reset-password',
+      data: {
+        email: requestData.email,
+      },
+    })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error('AxiosError:', error);
+        console.log('인증번호 실패');
+      });
   };
 
   const handleFindEmailClick = () => {
@@ -165,7 +182,7 @@ function ResetPassword1() {
         <InputWrapper>
           <EmailInput
             type="email"
-            placeholder="이메일"
+            placeholder="이메일을 입력해주세요"
             value={email}
             onChange={handleEmailInputChange}
           />
@@ -173,7 +190,7 @@ function ResetPassword1() {
         <ButtonWrapper>
           <Link
             to="/password-change-email"
-            state={{ email }}
+            state={{ email: email }}
           >
             <NextButton
               src={nextButton}
