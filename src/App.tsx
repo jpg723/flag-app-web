@@ -26,6 +26,8 @@ import MyPage from './pages/MyPage';
 import MyPageFriendsAdd from './pages/MyPageFriendsAdd';
 import MyPageFriendsDelete from './pages/MyPageFriendsDelete';
 import FlagFinishMeeting from './pages/FlagFinishMeeting';
+import FinishFlagUpdate from './pages/FinishFlagUpdate';
+import FlagPeopleView from './pages/FlagPeopleView';
 import ScrollToTop from './ScrollToTop';
 
 function App() {
@@ -82,6 +84,8 @@ function App() {
               
               <Route path="/MyPage" element={<MyPage />} />
               <Route path="/flag-finish-meeting" element={<FlagFinishMeeting />} />
+              <Route path="/finish-flag-update" element={<FinishFlagUpdate />} />
+              <Route path="/flag-people-view" element={<FlagPeopleView />} />
             </Route>
             {/* 헤더 없음 */}
             <Route path="/login" element={<Login />} />
