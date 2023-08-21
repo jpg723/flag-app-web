@@ -52,7 +52,15 @@ const Flag_box2 = styled.div`
   margin: auto 10px auto auto;
 `;
 
-function FlagBox1() {
+interface IProps {
+  name: string,
+  place: string,
+  dates: string[],
+  userCount: number,
+  id: number
+}
+
+function FlagBox1({name, place, dates, userCount, id} : IProps) {
   return (
     <Flag_box>
       <Flag_box1>
