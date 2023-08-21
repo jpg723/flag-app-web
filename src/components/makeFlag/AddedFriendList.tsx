@@ -17,8 +17,8 @@ const AddedFriendList = () => {
   const { checkedFriends } = useRecoilValue(makeFlagAtom);
   return (
     <Wrapper>
-      {checkedFriends.map((item) => (
-        <AddedFriendItem key={item.id} name={item.name} />
+      {checkedFriends.map((item, index) => (
+        <AddedFriendItem key={index} name={item.name} />
       ))}
     </Wrapper>
   );

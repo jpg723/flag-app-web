@@ -57,21 +57,34 @@ const Flag_box_people_count = styled.div`
   font-weight: 500;
 `;
 
-function FlagBox1() {
+interface IUser {
+  id: number,
+
+}
+
+interface IProps {
+  name: string,
+  place: string,
+  dates: string[],
+  userCount: number,
+  id: number
+}
+
+function FlagBox1({name, place, dates, userCount, id} : IProps) {
   return (
     <Flag_box>
         <Flag_box_header>
             <Flag></Flag>
             <Flag_box_title>
-            플래그 2차 회의
+            {name}
             </Flag_box_title>
             <Flag_box_dday>D-DAY</Flag_box_dday>
         </Flag_box_header>
         <Flag_box_content>
-            2023년 7월 15일
+        {place}
         </Flag_box_content>
         <Flag_box_people_count>
-            참여인원 12명
+            참여인원 {userCount}명
         </Flag_box_people_count>
     </Flag_box>
   );

@@ -135,6 +135,7 @@ function PasswordChange() {
   const [passwordValid, setPasswordValid] = useState(false);
   const [confirmPasswordValid, setConfirmPasswordValid] =
     useRecoilState(confirmPasswordValidState);
+  const token = sessionStorage.getItem('token');
 
   const handleNewPasswordChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -167,6 +168,9 @@ function PasswordChange() {
       axios({
         url: '/user/password/change',
         method: 'PATCH',
+        headers: {
+          Authorization: token,
+        },
         data: {
           newPassword: requestData.newPassword,
         },

@@ -129,37 +129,51 @@ const MakeFlagFinish = () => {
     flagMemo,
     minimumTime,
     checkedFriends,
+    cycle,
   } = useRecoilValue(makeFlagAtom);
+
+  const value = useRecoilValue(makeFlagAtom);
 
   const navigate = useNavigate();
   const resetValue = useResetRecoilState(makeFlagAtom);
-
+  const token = sessionStorage.getItem('token');
   const handleModify = () => {
     navigate('/makeFlag', { replace: true });
   };
 
+  const guestNames: string[] = [];
+  checkedFriends.map((friend) => {
+    guestNames.push(friend.name);
+  });
+
   const handleRecall = () => {
+    console.log(guestNames);
+    console.log(value);
+    console.log(token);
     axios({
-      url: '/asdfsafsdf',
+      url: '/flag/add',
       method: 'post',
+      headers: {
+        Authorization: token,
+      },
       data: {
         name: flagName,
-        //hostId: ,
-        //timeSlot: ,
+        timeSlot: cycle,
         minTime: minimumTime,
         place: flagPlace.content,
         memo: flagMemo.content,
-        //guestId: ,
-        date: selectedDates,
+        guestNames: guestNames,
+        dates: selectedDates,
         possibleDates: selectedCell,
       },
     })
-      .then(() => {
+      .then((response) => {
+        console.log(response);
         resetValue();
         navigate('/', { replace: true });
       })
-      .catch(() => {
-        console.log('error!!');
+      .catch((error) => {
+        console.log(error);
       });
   };
   return (

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { confirmPasswordValidState } from '../recoil/Atoms';
+import axios from 'axios';
 
 import logo from '../contents/Logo_플래그_Small_수정.svg';
 import errorIcon from '../contents/desktop/sign/Ic_Error.svg';
@@ -139,6 +140,7 @@ function ResetPassword3() {
   const [passwordValid, setPasswordValid] = useState(false);
   const [confirmPasswordValid, setConfirmPasswordValid] =
     useRecoilState(confirmPasswordValidState);
+  const token = sessionStorage.getItem('token');
 
   const handleNewPasswordChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -147,7 +149,7 @@ function ResetPassword3() {
     setNewPassword(newPasswordValue);
 
     const newPasswordRegExp =
-      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+      /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*?[#?!@$%^&*-]).{8,25}$/;
     setPasswordValid(
       newPasswordRegExp.test(newPasswordValue),
     );
@@ -165,6 +167,26 @@ function ResetPassword3() {
 
   const handleResetPasswordButtonClick = () => {
     if (passwordValid && confirmPasswordValid) {
+      const requestData = {
+        newPassword: newPassword,
+      };
+      axios({
+        url: '/user/{userId}/password2',
+        method: 'PATCH',
+        headers: {
+          Authorization: token,
+        },
+        data: {
+          newPassword: requestData.newPassword,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error('AxiosError:', error);
+          console.log('비밀번호 재설정 실패');
+        });
       return <Link to="/password-change-complete" />;
     } else {
       window.alert('비밀번호 재설정을 완료해주세요.');
