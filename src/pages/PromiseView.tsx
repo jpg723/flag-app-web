@@ -21,8 +21,7 @@ const PromiseView_main = styled.div`
 `;
 
 /*플래그*/
-const PromiseView_flag_main = styled.div`
-`;
+const PromiseView_flag_main = styled.div``;
 /*플래그 제목*/
 const PromiseView_title1 = styled.div`
   margin-top: 40px;
@@ -41,7 +40,7 @@ const PromiseView_flag_box = styled.div`
 
   @media screen and (max-width: 500px) {
     margin-top: 20px;
-}
+  }
 `;
 /*가운데 구분선*/
 const PromiseView_line = styled.div`
@@ -58,7 +57,6 @@ const PromiseView_line = styled.div`
 `;
 /*알림 박스*/
 const PromiseView_promise_main = styled.div`
-
   @media screen and (max-width: 500px) {
     margin-bottom: 50px;
   }
@@ -111,12 +109,11 @@ const Promise_make_btn2 = styled.div`
   @media screen and (max-width: 500px) {
     display: flex;
   }
-`
-const Promise_make_btn2_text = styled.div` 
-
+`;
+const Promise_make_btn2_text = styled.div`
   @media screen and (max-width: 500px) {
     display: flex;
-    color: var(--primary-light, #A98AFF);
+    color: var(--primary-light, #a98aff);
     font-size: 15px;
     margin-left: 135px;
     margin-top: 17px;
@@ -124,19 +121,19 @@ const Promise_make_btn2_text = styled.div`
   }
 `;
 
-const Arrow2_icon = styled.div` 
+const Arrow2_icon = styled.div`
   @media screen and (max-width: 500px) {
     display: flex;
     margin-top: 15px;
   }
 `;
 
-const Promise_none = styled.div` 
+const Promise_none = styled.div`
   color: #999;
   font-family: Inter;
   font-size: 20px;
   width: 458.33px;
-  line-height:130%;
+  line-height: 130%;
 
   @media screen and (max-width: 500px) {
     display: flex;
@@ -145,13 +142,12 @@ const Promise_none = styled.div`
   }
 `;
 
-
 function PromiseView() {
-
   const promise_count = 1; //확정된 약속
   const promising_count = 1; //진행중 약속
   const my_promising_count = 3; //내가 만든 진행중 약속
-  const promising_total_count = promising_count + my_promising_count; //총 진행중 약속
+  const promising_total_count =
+    promising_count + my_promising_count; //총 진행중 약속
   const [users, setUsers] = useState([]);
   const token = sessionStorage.getItem('token');
 
@@ -164,45 +160,52 @@ function PromiseView() {
       },
     })
       .then((response) => {
-        console.log(response.data);                 
+        console.log(response.data);
       })
       .catch((error) => {
         console.error('AxiosError:', error);
-        error.preventDefault();
+        //error.preventDefault();
       });
   }, []);
-
-  
 
   const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
   const navigate = useNavigate();
 
   //약속 만들기 버튼 클릭 시
   const makeFlagButton = () => {
-
     if (isLogin === false) {
       navigate('/login');
     } else {
       // sessionStorage 에 name 라는 key 값으로 저장된 값이 있다면
       navigate('/makeFlag');
-      }
+    }
   };
 
   return (
     <PromiseView_main>
       <PromiseView_flag_main>
-        <PromiseView_title1>확정된 약속
+        <PromiseView_title1>
+          확정된 약속
           <Promise_make_btn2 onClick={makeFlagButton}>
-            <Promise_make_btn2_text>약속만들기</Promise_make_btn2_text>
-            <Arrow2_icon><Arrow2></Arrow2></Arrow2_icon>
+            <Promise_make_btn2_text>
+              약속만들기
+            </Promise_make_btn2_text>
+            <Arrow2_icon>
+              <Arrow2></Arrow2>
+            </Arrow2_icon>
           </Promise_make_btn2>
         </PromiseView_title1>
         <PromiseView_flag_box>
           {/*약속 확정 박스*/}
-          {(promise_count > 0 ? <Link to="/flag-meeting"><FlagBox1></FlagBox1></Link>:
-          <Promise_none>
-            확정된 약속이 없습니다.
-          </Promise_none>)}
+          {promise_count > 0 ? (
+            <Link to="/flag-meeting">
+              <FlagBox1></FlagBox1>
+            </Link>
+          ) : (
+            <Promise_none>
+              확정된 약속이 없습니다.
+            </Promise_none>
+          )}
         </PromiseView_flag_box>
       </PromiseView_flag_main>
       {/*구분선*/}
@@ -211,7 +214,9 @@ function PromiseView() {
         <PromiseView_title2>
           진행 중 약속
           <PromiseView_make_promise_box>
-            <PromiseView_make_promise_btn onClick={makeFlagButton}>
+            <PromiseView_make_promise_btn
+              onClick={makeFlagButton}
+            >
               약속 만들기
               <Arrow1_icon>
                 <Arrow1></Arrow1>
@@ -221,11 +226,27 @@ function PromiseView() {
         </PromiseView_title2>
         <PromiseView_flag_box>
           {/*약속 진행중 박스*/}
-          {(promising_count > 0 ? <Link to="/flag-meeting"><FlagBox1></FlagBox1></Link>: '')}
-          {(my_promising_count > 0 ? <FlagBox2></FlagBox2>: '')}
-          {(promising_total_count > 0 ? '': <Promise_none>
-            현재 확정된 약속이 없어요!<br/>지금 바로 약속 신청 어때요?
-          </Promise_none>)}
+          {promising_count > 0 ? (
+            <Link to="/flag-meeting">
+              <FlagBox1></FlagBox1>
+            </Link>
+          ) : (
+            ''
+          )}
+          {my_promising_count > 0 ? (
+            <FlagBox2></FlagBox2>
+          ) : (
+            ''
+          )}
+          {promising_total_count > 0 ? (
+            ''
+          ) : (
+            <Promise_none>
+              현재 확정된 약속이 없어요!
+              <br />
+              지금 바로 약속 신청 어때요?
+            </Promise_none>
+          )}
         </PromiseView_flag_box>
       </PromiseView_promise_main>
     </PromiseView_main>
