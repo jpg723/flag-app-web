@@ -1,6 +1,9 @@
 import axios from 'axios';
 import styled from 'styled-components';
-import { delFriendAtom, userIdState } from '../recoil/Atoms';
+import {
+  delFriendAtom,
+  userIdState,
+} from '../recoil/Atoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
 //display: none;
 //border: 2px solid #000;
@@ -38,7 +41,7 @@ const ReturnBtn = styled.button`
   align-items: center;
   border-radius: 8px;
   border: none;
-  background: #FFF;
+  background: #fff;
   box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.25);
   color: #000;
   font-family: Inter;
@@ -58,8 +61,8 @@ const DeleteBtn = styled.button`
   gap: 8px;
   border-radius: 8px;
   border: none;
-  background: #E13333;
-  color: #FFF;
+  background: #e13333;
+  color: #fff;
   font-family: Inter;
   font-size: 18px;
   font-style: normal;
@@ -69,34 +72,44 @@ const DeleteBtn = styled.button`
 `;
 
 function FriendsDelete() {
-  const [delFriend, setDelFriend] = useRecoilState(delFriendAtom);
+  const [delFriend, setDelFriend] =
+    useRecoilState(delFriendAtom);
   const user = useRecoilValue(userIdState);
   function delHandler() {
-    console.log("친구 삭제");
-      axios({
-        url: '/user/'+ user +'/friends/'+ delFriend.id,
-        method: 'DELETE',
-        data: {} ,
-      }).then(response => {
+    console.log('친구 삭제');
+    axios({
+      url: '/user/' + user + '/friends/' + delFriend.name,
+      method: 'DELETE',
+      data: {},
+    })
+      .then((response) => {
         console.log(response.data);
         // 친구 목록 반환 필요 -> 친구 목록 변화
         // setDelFriend({id: -1, name: ''});
         // window.close();
-      }).catch(error => {
+      })
+      .catch((error) => {
         console.error('AxiosError:', error);
       });
-      console.log("백엔드 전달")
+    console.log('백엔드 전달');
     window.close();
   }
   return (
-    <Cover >
+    <Cover>
       <MainText>친구 삭제</MainText>
       <SubText>
-        삭제한 친구는 복구되지 않습니다. <br /> 삭제하시겠습니까?
+        삭제한 친구는 복구되지 않습니다. <br />{' '}
+        삭제하시겠습니까?
       </SubText>
-      <ReturnBtn onClick={ () => {window.close();} } >취소하기</ReturnBtn>
-      <DeleteBtn onClick={delHandler} >삭제하기</DeleteBtn>
-    </Cover >
+      <ReturnBtn
+        onClick={() => {
+          window.close();
+        }}
+      >
+        취소하기
+      </ReturnBtn>
+      <DeleteBtn onClick={delHandler}>삭제하기</DeleteBtn>
+    </Cover>
   );
 }
 export default FriendsDelete;

@@ -57,18 +57,12 @@ const ProfileName = styled.span`
 `;
 
 interface IFriendItemProps {
-  id: number;
   name: string;
   checked: boolean;
-  handleCheck: (
-    checked: boolean,
-    id: number,
-    name: string,
-  ) => void;
+  handleCheck: (checked: boolean, name: string) => void;
 }
 
 const FriendItem = ({
-  id,
   name,
   checked,
   handleCheck,
@@ -76,7 +70,7 @@ const FriendItem = ({
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    handleCheck(e.target.checked, id, name);
+    handleCheck(e.target.checked, name);
   };
   return (
     <Wrapper>

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import FriendItem from './FriendItem';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -7,6 +7,7 @@ import {
   IFriendTypes,
   makeFlagAtom,
 } from '../../recoil/Atoms';
+import axios from 'axios';
 
 const Wrapper = styled.div`
   width: 336px;
@@ -45,26 +46,43 @@ interface IFriendListProps {
   searchName: string;
 }
 
-const MyPageFriendList = ({
-  searchName,
-}: IFriendListProps) => {
+const FriendList = ({ searchName }: IFriendListProps) => {
   const friendList = useRecoilValue(friendListAtom);
   const { checkedFriends } = useRecoilValue(makeFlagAtom);
   const setValue = useSetRecoilState(makeFlagAtom);
+  const setFriendList = useSetRecoilState(friendListAtom);
+  const token = sessionStorage.getItem('token');
+
+  useEffect(() => {
+    axios({
+      url: '/friends/friendList',
+      method: 'get',
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((response) => {
+        console.log('친구 목록 불러오기 성공');
+        setFriendList(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const handleCheck = useCallback(
-    (checked: boolean, id: number, name: string) => {
+    (checked: boolean, name: string) => {
       if (checked) {
         setValue((v) => {
           const copied = [...v.checkedFriends];
-          const newList = [...copied, { id, name }];
+          const newList = [...copied, { name }];
           return { ...v, checkedFriends: newList };
         });
       } else {
         setValue((v) => {
           const copied = [...v.checkedFriends];
           const newList = copied.filter(
-            (item) => item.id !== id,
+            (item) => item.name !== name,
           );
           return { ...v, checkedFriends: newList };
         });
@@ -77,14 +95,13 @@ const MyPageFriendList = ({
     <Wrapper>
       <FriendsListFrame>
         {searchName === ''
-          ? friendList.map((item: IFriendTypes) => (
+          ? friendList.map((item: IFriendTypes, index) => (
               <FriendItem
-                key={item.id}
-                id={item.id}
+                key={index}
                 name={item.name}
                 checked={
                   checkedFriends.find(
-                    (it) => it.id === item.id,
+                    (it) => it.name === item.name,
                   )
                     ? true
                     : false
@@ -96,14 +113,13 @@ const MyPageFriendList = ({
               .filter((item) =>
                 item.name.includes(searchName),
               )
-              .map((item: IFriendTypes) => (
+              .map((item: IFriendTypes, index) => (
                 <FriendItem
-                  key={item.id}
-                  id={item.id}
+                  key={index}
                   name={item.name}
                   checked={
                     checkedFriends.find(
-                      (it) => it.id === item.id,
+                      (it) => it.name === item.name,
                     )
                       ? true
                       : false
@@ -116,4 +132,4 @@ const MyPageFriendList = ({
   );
 };
 
-export default MyPageFriendList;
+export default FriendList;

@@ -230,7 +230,7 @@ function LoginForm() {
         })
         .catch((error) => {
           console.error('AxiosError:', error);
-          error.preventDefault();
+          //error.preventDefault();
         });
       return <Link to="/promise-view" />;
     }
