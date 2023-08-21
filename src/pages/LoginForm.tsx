@@ -210,13 +210,13 @@ function LoginForm() {
       })
         .then((response) => {
           console.log(response.data);
-          console.log("로그인 성공");
-          sessionStorage.setItem("token", response.data);  
-          setIsLogin(true);                 
+          console.log('로그인 성공');
+          sessionStorage.setItem('token', response.data);
+          setIsLogin(true);
         })
         .catch((error) => {
           console.error('AxiosError:', error);
-          error.preventDefault();
+          //error.preventDefault();
         });
       return <Link to="/promise-view" />;
     }
