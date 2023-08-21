@@ -5,6 +5,9 @@ import TimeTable from '../components/TimeTable/TimeTable';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { SelectedDatesAtom } from '../recoil/Atoms';
+import GuestTimeTable from '../components/TimeTable/GuestTimeTable';
 
 const Flag_Meeting_header = styled.div`
   margin-top: 44px;
@@ -50,13 +53,13 @@ const Flag_Meeting_main_box = styled.div`
 /*타임테이블*/
 const TimeTable_box = styled.div`
   display: flex;
+  justify-content: center;
   border: 1px solid red;
   width: 480px;
   height: 417.33px;
 
   @media screen and (max-width: 500px) {
     width: 350px;
-    //justify-content: center;
   }
 `;
 
@@ -178,9 +181,21 @@ const Flag_Meeting_edit_btn = styled.button`
 function FlagMeeting() {
   const location = useLocation();
   const flagId = location.state.id;
-  const [cycle, setCycle] = useState(-1);
-  const [dates, setDates] = useState([]);
+  const flagName = location.state.name;
+  const flagPlace = location.state.place;
   const token = sessionStorage.getItem('token');
+
+  const [ableCells, setAbleCells] = useState<number[]>([]); // 가능한 셀들 번호 중복 허용해서
+  const [acceptUser, setAcceptUser] = useState<string[]>(
+    [],
+  );
+  const [dates, setDates] = useRecoilState(
+    SelectedDatesAtom,
+  );
+  const [noneResponseUsers, setNoneResponseUsers] =
+    useState<string[]>([]);
+  const [timeSlot, setTimeSlot] = useState(-1);
+  const [userTotalCount, setUserTotalCount] = useState(-1);
 
   useEffect(() => {
     axios({
@@ -192,38 +207,51 @@ function FlagMeeting() {
     })
       .then((response) => {
         console.log(response.data);
-        setCycle(response.data.timeSlot);
+        setAbleCells(response.data.ableCells);
+        setAcceptUser(response.data.acceptUsers);
         setDates(response.data.dates);
+        setNoneResponseUsers(
+          response.data.nonResponseUsers,
+        );
+        setTimeSlot(response.data.timeSlot);
+        setUserTotalCount(response.data.userTotalCount);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
   return (
     <div>
-      <Flag_Meeting_header>FLAG 미팅</Flag_Meeting_header>
+      <Flag_Meeting_header>{flagName}</Flag_Meeting_header>
       <Flag_Meeting_content>
-        2023년 7월 15일 - 2023년 7월 22일
-      </Flag_Meeting_content>
-      <Flag_Meeting_content>
-        09:00 ~ 22:00
-      </Flag_Meeting_content>
-      <Flag_Meeting_content>
-        역삼역 워크토크
+        {flagPlace}
       </Flag_Meeting_content>
       <Flag_Meeting_main_box>
         <TimeTable_box>
-          {cycle === 6 ? (
-            <TimeTable cycle={'morning'} />
+          {timeSlot === 6 ? (
+            <GuestTimeTable
+              ableCells={ableCells}
+              cycle={'morning'}
+            />
           ) : null}
-          {cycle === 12 ? (
-            <TimeTable cycle={'afternoon'} />
+          {timeSlot === 12 ? (
+            <GuestTimeTable
+              ableCells={ableCells}
+              cycle={'afternoon'}
+            />
           ) : null}
-          {cycle === 18 ? (
-            <TimeTable cycle={'evening'} />
+          {timeSlot === 18 ? (
+            <GuestTimeTable
+              ableCells={ableCells}
+              cycle={'evening'}
+            />
           ) : null}
-          {cycle === 0 ? (
-            <TimeTable cycle={'dawn'} />
+          {timeSlot === 0 ? (
+            <GuestTimeTable
+              ableCells={ableCells}
+              cycle={'dawn'}
+            />
           ) : null}
         </TimeTable_box>
         <Flag_Meeting_main_content>
@@ -231,13 +259,7 @@ function FlagMeeting() {
           <Flag_Meeting_participants_box>
             <Participants_box_header>
               <Participants_box_icon1></Participants_box_icon1>
-              <Participants_box_content>
-                7월 20일
-              </Participants_box_content>
-              <Participants_box_content>
-                12:00 - 14:00
-              </Participants_box_content>
-              에 가능한 참여자
+              응답한 참여자
             </Participants_box_header>
             <Participants_people_box>
               {/*참여자 정보*/}
@@ -249,27 +271,6 @@ function FlagMeeting() {
               </Participants_people_content_box>
             </Participants_people_box>
           </Flag_Meeting_participants_box>
-          {/*불가능한 참여자 */}
-          <Flag_Meeting_non_participants_box>
-            <Participants_box_header>
-              <Participants_box_icon2></Participants_box_icon2>
-              <Participants_box_content>
-                7월 20일
-              </Participants_box_content>
-              <Participants_box_content>
-                12:00 - 14:00
-              </Participants_box_content>
-              에 불가능한 참여자
-            </Participants_box_header>
-            <Participants_people_box>
-              <Participants_people_content_box>
-                <Participants_people_profile></Participants_people_profile>
-                <Participants_people_id>
-                  닉네임
-                </Participants_people_id>
-              </Participants_people_content_box>
-            </Participants_people_box>
-          </Flag_Meeting_non_participants_box>
           {/*미응답 참여자 */}
           <Flag_Meeting_non_set_box>
             <Participants_box_header>
