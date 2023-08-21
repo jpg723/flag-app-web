@@ -20,6 +20,11 @@ export const confirmPasswordValidState = atom({
   default: false,
 });
 
+export const isLoginAtom = atom({
+  key: 'isLogin',
+  default: false,
+});
+
 export interface IFriendTypes {
   name: string;
 }

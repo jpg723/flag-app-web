@@ -5,6 +5,11 @@ import { ReactComponent as Arrow2 } from '../contents/mobile/flag/모바일_Ic_�
 import { Link } from 'react-router-dom';
 import FlagBox1 from '../components/FlagBox/FlagBox1';
 import FlagBox2 from '../components/FlagBox/FlagBox2';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import { isLoginAtom } from '../recoil/Atoms';
+import { useNavigate } from 'react-router-dom';
 
 const PromiseView_main = styled.div`
   display: flex;
@@ -147,17 +152,50 @@ function PromiseView() {
   const promising_count = 1; //진행중 약속
   const my_promising_count = 3; //내가 만든 진행중 약속
   const promising_total_count = promising_count + my_promising_count; //총 진행중 약속
+  const [users, setUsers] = useState([]);
+  const token = sessionStorage.getItem('token');
+
+  useEffect(() => {
+    axios({
+      url: '/flag/progresslist',
+      method: 'GET',
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((response) => {
+        console.log(response.data);                 
+      })
+      .catch((error) => {
+        console.error('AxiosError:', error);
+        error.preventDefault();
+      });
+  }, []);
+
+  
+
+  const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
+  const navigate = useNavigate();
+
+  //약속 만들기 버튼 클릭 시
+  const makeFlagButton = () => {
+
+    if (isLogin === false) {
+      navigate('/login');
+    } else {
+      // sessionStorage 에 name 라는 key 값으로 저장된 값이 있다면
+      navigate('/makeFlag');
+      }
+  };
 
   return (
     <PromiseView_main>
       <PromiseView_flag_main>
         <PromiseView_title1>확정된 약속
-        <Link to="/makeFlag">
-          <Promise_make_btn2>
+          <Promise_make_btn2 onClick={makeFlagButton}>
             <Promise_make_btn2_text>약속만들기</Promise_make_btn2_text>
             <Arrow2_icon><Arrow2></Arrow2></Arrow2_icon>
           </Promise_make_btn2>
-        </Link>
         </PromiseView_title1>
         <PromiseView_flag_box>
           {/*약속 확정 박스*/}
@@ -173,14 +211,12 @@ function PromiseView() {
         <PromiseView_title2>
           진행 중 약속
           <PromiseView_make_promise_box>
-            <Link to="/makeFlag">
-              <PromiseView_make_promise_btn>
-                약속 만들기
-                <Arrow1_icon>
-                  <Arrow1></Arrow1>
-                </Arrow1_icon>
-              </PromiseView_make_promise_btn>
-            </Link>
+            <PromiseView_make_promise_btn onClick={makeFlagButton}>
+              약속 만들기
+              <Arrow1_icon>
+                <Arrow1></Arrow1>
+              </Arrow1_icon>
+            </PromiseView_make_promise_btn>
           </PromiseView_make_promise_box>
         </PromiseView_title2>
         <PromiseView_flag_box>
