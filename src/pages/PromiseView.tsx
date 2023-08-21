@@ -148,8 +148,16 @@ function PromiseView() {
   const my_promising_count = 3; //내가 만든 진행중 약속
   const promising_total_count =
     promising_count + my_promising_count; //총 진행중 약속
-  const [list , SetList] = useState([]);
+  const [list , SetList] = useState<IList[]>([]);
   const token = sessionStorage.getItem('token');
+
+  interface IList {
+    name: string,
+    place: string,
+    dates: string[],
+    userCount: number,
+    id: number
+  }
 
   useEffect(() => {
     axios({
@@ -197,16 +205,17 @@ function PromiseView() {
           </Promise_make_btn2>
         </PromiseView_title1>
         <PromiseView_flag_box>
-          {/*약속 확정 박스*/}
-          {promise_count > 0 ? (
-            <Link to="/flag-meeting">
-              <FlagBox1></FlagBox1>
+          {/*약속 확정 박스*/}   
+          {list.map((item, index) => (
+            (
+            <Link to={`/flag-meeting`} state={{id: item.id}}>
+              <FlagBox1 name={item.name} place={item.place} dates={item.dates} userCount={item.userCount} id={item.id} ></FlagBox1>
             </Link>
-          ) : (
-            <Promise_none>
-              확정된 약속이 없습니다.
-            </Promise_none>
-          )}
+            )
+          ))}                   
+          <Promise_none>
+            확정된 약속이 없습니다.
+          </Promise_none>
         </PromiseView_flag_box>
       </PromiseView_flag_main>
       {/*구분선*/}
@@ -227,13 +236,6 @@ function PromiseView() {
         </PromiseView_title2>
         <PromiseView_flag_box>
           {/*약속 진행중 박스*/}
-          {promising_count > 0 ? (
-            <Link to="/flag-meeting">
-              <FlagBox1></FlagBox1>
-            </Link>
-          ) : (
-            ''
-          )}
           {my_promising_count > 0 ? (
             <FlagBox2></FlagBox2>
           ) : (
