@@ -67,11 +67,11 @@ function FlagBox1({name, place, dates, userCount, id} : IProps) {
         <Flag_box_header>
             <Flag></Flag>
             <Flag_box_title>
-            플래그 2차 회의
+            {name}
             </Flag_box_title>
         </Flag_box_header>
         <Flag_box_content>
-            2023년 7월 15일
+          참여인원 {userCount}명
         </Flag_box_content>
         <Flag_box_content2>
             FLAG를 진행할까요?

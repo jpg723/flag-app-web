@@ -49,7 +49,7 @@ const MyPageFriendList = () => {
 
   const handleCheck = (name: string) => {
     //console.log('id? ' + id);
-    setDelFriend({ name: name });
+    setDelFriend(name);
     window.open(
       '/MyPage_FriendsDelete',
       '_blank',

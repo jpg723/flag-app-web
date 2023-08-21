@@ -58,6 +58,7 @@ export const makeFlagAtom = atom<IFlag>({
     selectedDates: [], // dates
     cycle: -1, // timeSlot
     minimumTime: 1, // minTime
+    
     flagPlace: {
       // place - isChecked 검사해서 보낼때는 content 또는 '' 전달
       content: '',
@@ -72,18 +73,14 @@ export const makeFlagAtom = atom<IFlag>({
   },
 });
 
-export const addFriendAtom = atom<IFriendTypes>({
+export const addFriendAtom = atom<string>({
   key: 'addFriend',
-  default: {
-    name: '',
-  },
+  default: '',
 });
 
-export const delFriendAtom = atom<IFriendTypes>({
+export const delFriendAtom = atom<string>({
   key: 'delFriend',
-  default: {
-    name: '',
-  },
+  default: '',
 });
 
 export const timeTableAtom = atom<boolean[][]>({

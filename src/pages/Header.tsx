@@ -126,7 +126,6 @@ const MenuCover = styled.div`
   @media screen and (max-width: 500px) {
   }
 `;
-
 const SideMenuCover = styled.div`
   width: 250px;
   height: 800px;
@@ -165,7 +164,6 @@ const SideMenuItem = styled.li`
   margin-bottom: 23px;
   margin-right: 23px;
 `;
-
  
 function Header() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
@@ -176,10 +174,12 @@ function Header() {
     if (sessionStorage.getItem("token") === null) {
       // sessionStorage 에 name 라는 key 값으로 저장된 값이 없다면
       console.log("isLogin ?? :: ", isLogin);
+      setIsLogin(false);
     } else {
       // sessionStorage 에 name 라는 key 값으로 저장된 값이 있다면
       // 로그인 상태 변경
       console.log("isLogin ?? :: ", isLogin);
+      setIsLogin(true);
     }
   }, []);
 
@@ -215,12 +215,13 @@ function Header() {
               <ul>
                 <SideMenuItem><Link to="/serviceInfo" onClick={() => setMobileMenu(!mobileMenu)}>서비스 안내</Link></SideMenuItem>
                 <SideMenuItem><Link to="/promise-view" onClick={() => setMobileMenu(!mobileMenu)}>플래그</Link></SideMenuItem>
-                <SideMenuItem><Link to="/MyPage" onClick={() => setMobileMenu(!mobileMenu)}>마이페이지</Link></SideMenuItem>
+                
                 { isLogin ? 
-                  (<SideMenuItem onClick={() => {
-                    setIsLogin(!isLogin);
+                  (<><SideMenuItem><Link to="/MyPage" onClick={() => setMobileMenu(!mobileMenu)}>마이페이지</Link></SideMenuItem>
+                  <SideMenuItem onClick={() => {
+                    onLogout();
                     setMobileMenu(!mobileMenu);
-                  }}>로그아웃</SideMenuItem>)
+                  }}>로그아웃</SideMenuItem></>)
                   : (<SideMenuItem><Link to="/login">로그인/회원가입</Link></SideMenuItem>)
                 }
                   

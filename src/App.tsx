@@ -20,12 +20,13 @@ import ServiceInfo from './pages/ServiceInfo';
 import MakeFlag from './pages/MakeFlag';
 import MakeFlagFinish from './pages/MakeFlagFinish';
 import SignUp1 from './pages/SignUp1';
-import SignUp2 from './pages/SignUp2';
 import SignUp3 from './pages/SignUp3';
 import MyPage from './pages/MyPage';
 import MyPageFriendsAdd from './pages/MyPageFriendsAdd';
 import MyPageFriendsDelete from './pages/MyPageFriendsDelete';
 import FlagFinishMeeting from './pages/FlagFinishMeeting';
+import FinishFlagUpdate from './pages/FinishFlagUpdate';
+import FlagPeopleView from './pages/FlagPeopleView';
 import ScrollToTop from './ScrollToTop';
 
 function App() {
@@ -72,16 +73,14 @@ function App() {
                 element={<SignUp1 />}
               />
               <Route
-                path="/SignUp2"
-                element={<SignUp2 />}
-              />
-              <Route
                 path="/SignUp3"
                 element={<SignUp3 />}
               />
               
               <Route path="/MyPage" element={<MyPage />} />
               <Route path="/flag-finish-meeting" element={<FlagFinishMeeting />} />
+              <Route path="/finish-flag-update" element={<FinishFlagUpdate />} />
+              <Route path="/flag-people-view" element={<FlagPeopleView />} />
             </Route>
             {/* 헤더 없음 */}
             <Route path="/login" element={<Login />} />
