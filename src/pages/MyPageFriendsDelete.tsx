@@ -72,25 +72,28 @@ const DeleteBtn = styled.button`
 `;
 
 function FriendsDelete() {
-  const [delFriend, setDelFriend] =
-    useRecoilState(delFriendAtom);
-  const user = useRecoilValue(userIdState);
+  const [delFriend, setDelFriend] = useRecoilState(delFriendAtom);
+
   function delHandler() {
     console.log('친구 삭제');
+    const token = sessionStorage.getItem('token');
     axios({
-      url: '/user/' + user + '/friends/' + delFriend.name,
+      url: '/friends/delete',
       method: 'DELETE',
-      data: {},
-    })
-      .then((response) => {
-        console.log(response.data);
-        // 친구 목록 반환 필요 -> 친구 목록 변화
-        // setDelFriend({id: -1, name: ''});
-        // window.close();
-      })
-      .catch((error) => {
-        console.error('AxiosError:', error);
-      });
+      headers: {
+        Authorization: token,
+      },
+      data: {
+        name: delFriend,
+      } ,
+    }).then((response) => {
+      console.log(response.data);
+      // 친구 목록 변화
+      // setDelFriend('');
+      // window.close();
+    }).catch((error) => {
+      console.error('AxiosError:', error);
+    });
     console.log('백엔드 전달');
     window.close();
   }
@@ -101,11 +104,7 @@ function FriendsDelete() {
         삭제한 친구는 복구되지 않습니다. <br />{' '}
         삭제하시겠습니까?
       </SubText>
-      <ReturnBtn
-        onClick={() => {
-          window.close();
-        }}
-      >
+      <ReturnBtn onClick={() => {window.close();}}>
         취소하기
       </ReturnBtn>
       <DeleteBtn onClick={delHandler}>삭제하기</DeleteBtn>

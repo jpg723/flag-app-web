@@ -9,7 +9,7 @@ import btnAddfriend from '../contents/desktop/mypage/Btn_마이페이지_Addfrie
 import MyPageFriendList from '../components/mypageFriends/MyPageFriendList';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Link } from 'react-router-dom';
-import { emailState, userNameState } from '../recoil/Atoms';
+import { emailState, friendListAtom, isLoginAtom, userNameState } from '../recoil/Atoms';
 import axios from 'axios';
 //display: none;
 //border: 2px solid #000;
@@ -147,13 +147,14 @@ const MyPageFriendAdd = styled.img`
 `;
 
 function MyPage() {
+  const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
   const [name, setName] = useRecoilState(userNameState);
   const [email, setEmail] = useRecoilState(emailState);
+  const [friendList, setFriendList] = useRecoilState(friendListAtom);
 
   useEffect(()=> {
     //마이페이지 axios
     console.log('마이페이지 접속');
-    /*
     const token = sessionStorage.getItem('token');
     axios({
       url: '/user/mypage',
@@ -166,12 +167,11 @@ function MyPage() {
       console.log(response.data);
       setName(response.data.name);
       setEmail(response.data.email);
-      //친구 목록 처리 코드
+      setFriendList(response.data.friends);
     })
     .catch((error) => {
       console.error('AxiosError:', error);
     });
-    */
   },[]);
 
   const addFriends = () => {
@@ -183,6 +183,7 @@ function MyPage() {
     const logoutResult = confirm('로그아웃 하시겠습니까?');
     if ( logoutResult ) {
       sessionStorage.removeItem('token');
+      setIsLogin(false);
     }
     else {
       e.preventDefault();
@@ -193,10 +194,9 @@ function MyPage() {
     const delUserResult = confirm('계정을 삭제 하시겠습니까?');
     if ( delUserResult ) {
       axios({
-        //url: '/user/' + + '/profile',
-        method: 'POST',
+        url: '/user/delete',
+        method: 'DELETE',
         data: {
-
         },
       }).then((response) => {
         console.log(response.data);

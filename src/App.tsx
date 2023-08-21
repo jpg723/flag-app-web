@@ -20,7 +20,6 @@ import ServiceInfo from './pages/ServiceInfo';
 import MakeFlag from './pages/MakeFlag';
 import MakeFlagFinish from './pages/MakeFlagFinish';
 import SignUp1 from './pages/SignUp1';
-import SignUp2 from './pages/SignUp2';
 import SignUp3 from './pages/SignUp3';
 import MyPage from './pages/MyPage';
 import MyPageFriendsAdd from './pages/MyPageFriendsAdd';
@@ -70,10 +69,6 @@ function App() {
               <Route
                 path="/SignUp1"
                 element={<SignUp1 />}
-              />
-              <Route
-                path="/SignUp2"
-                element={<SignUp2 />}
               />
               <Route
                 path="/SignUp3"

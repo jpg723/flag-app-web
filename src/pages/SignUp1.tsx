@@ -189,9 +189,11 @@ function SignUp1() {
   const [inputPwCheck, setInputPwCheck] = useState('');
 
   const [isId, setIsId] = useState(false);
+  const [isIdCheck, setIsIdCheck] = useState(false);
   const [isPw, setIsPw] = useState(false);
   const [isPwCheck, setIsPwCheck] = useState(false);
   const [isName, setIsName] = useState(false);
+  const [isNameCheck, setIsNameCheck] = useState(false);
 
   useEffect(() => {
     setId(inputId + inputEmail);
@@ -210,12 +212,9 @@ function SignUp1() {
     const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[#?!@$%^&*-]).{8,25}$/;
     if (pw !== undefined) setIsPw(pwRegExp.test(pw)); 
   }, [inputPw]);
+
   useEffect(() => {
-    if (pw !== inputPwCheck) {
-      setIsPwCheck(false);
-    } else {
-      setIsPwCheck(true);
-    }
+    setIsPwCheck(pw === inputPwCheck);
   }, [inputPwCheck]);
 
   useEffect(() => {
@@ -225,101 +224,67 @@ function SignUp1() {
   }, [name]);
 
   const idCheck = () => {
-    console.log('id: ' + id);
-    const emailRegExp = /^[0-9a-zA-Z]+@[0-9a-zA-Z]+(\.[a-zA-Z]{2,3})+$/;
-    console.log('id: ' + id + '  check!!!!!!!');
-    if (id !== undefined) {
-      setIsId(emailRegExp.test(id));
-    }
+    console.log('id: ' + id + ', isId: ' + isId);
     if (isId === true) {
       //이메일 중복확인 
-      /*
       axios({
-        url: '/user/check/emailDuplicate',
+        url: '/user/checkEmail',
         method: 'GET',
-        params: {
+        data: {
           email: id,
         },
-      })
-        .then((response) => {
-          console.log(response.data);
-          //alert(''); 이메일 중복의 경우
-          //
-        })
-        .catch((error) => {
-          console.error('AxiosError:', error);
-          e.preventDefault();
-        });
-      console.log('백엔드 전달');
-      */
-    }
-  };
-  const nameCheck = () => {
-    console.log('name: ' + name);
-    axios({
-      url: '/user/checkName',
-      method: 'GET',
-      params: {
-        name: name,
-      },
-    }).then((response) => {
+      }).then((response) => {
         console.log(response.data);
         //alert(''); 이메일 중복의 경우
-      })
-      .catch((error) => {
+        //setIsIdCheck(true)
+      }).catch((error) => {
         console.error('AxiosError:', error);
       });
+      console.log('백엔드 전달');
+    }
+  };
+
+  const nameCheck = () => {
+    console.log('name: ' + name + ', isName: ' + isName);
+    if (isName === true) {
+      axios({
+        url: '/user/checkName',
+        method: 'GET',
+        data: {
+          name: name,
+        },
+      }).then((response) => {
+        console.log(response.data);
+        //alert(''); 이메일 중복의 경우
+        //setIsNameCheck(true)
+      }).catch((error) => {
+        console.error('AxiosError:', error);
+      });
+    }
+    
     console.log('백엔드 전달');
   };
 
 
   const nextHandler = (e: any) => {
-    console.log('id:' + id + ' pw:' + pw);
-    console.log('isId:' + isId + ' isPw:' + isPw);
-    console.log('isPwCheck: ' + isPwCheck);
-    const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[#?!@$%^&*-]).{8,25}$/;
-    if (pw !== undefined) setIsPw(pwRegExp.test(pw)); 
+    console.log('아이디:' + id + ', 비밀번호:' + pw + ', 비밀번호 재확인: ' + isPwCheck + ', 닉네임:' + name);
+    console.log('유효성 아이디:' + isId + ', 비밀번호:' + isPw + ', 닉네임:' + isName);
+    console.log('중복확인 아이디: ' + isIdCheck + ', 닉네임' + isNameCheck);
 
-    if (!isId) {
-      console.log('isId === false');
-    } else if (!isPw) {
-      console.log('isPw === false');
-    } else if (!isPwCheck) {
-      console.log('isPwCheck === false');
-    }
-
-    if (!(isId && isPw && isPwCheck)) {
+    if (!(isId && isPw && isPwCheck && isName)) {
       e.preventDefault();
     } else {
-      console.log('SignUp1 유효성 검사 통과~!');
-    }
-  };
-
-  /* 
-    const signupHandler = (e: any) => {
-    console.log('id:' + id + ' pw:' + password);
-    console.log(' Name:' + name);
-    console.log(' isName:' + isName);
-
-    if (!isName) {
-      console.log('isName === false');
-    } else {
-      console.log('SignUp2 유효성 검사 통과~!');
-    }
-    if (!isName) e.preventDefault();
-    else {
-      console.log('유효성 통과');
+      console.log('유효성 검사 통과~!');
       axios({
         url: '/user/join',
         method: 'POST',
         data: {
           name: name,
           email: id,
-          password: password,
+          password: pw,
         },
       }).then((response) => {
         console.log(response.data);
-        //URL.revokeObjectURL(profileFile)
       })
       .catch((error) => {
         console.error('AxiosError:', error);
@@ -328,7 +293,6 @@ function SignUp1() {
       console.log('백엔드 전달');
     }
   };
-  */
 
   return (
     <SignUpCover>
