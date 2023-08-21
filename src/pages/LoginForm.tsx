@@ -225,7 +225,7 @@ function LoginForm() {
         .then((response) => {
           console.log(response.data);
           console.log('로그인 성공');
-          sessionStorage.setItem('token', response.data);
+          sessionStorage.setItem('token', response.data.result);
           setIsLogin(true);
         })
         .catch((error) => {

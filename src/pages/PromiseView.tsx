@@ -148,7 +148,7 @@ function PromiseView() {
   const my_promising_count = 3; //내가 만든 진행중 약속
   const promising_total_count =
     promising_count + my_promising_count; //총 진행중 약속
-  const [users, setUsers] = useState([]);
+  const [list , SetList] = useState([]);
   const token = sessionStorage.getItem('token');
 
   useEffect(() => {
@@ -163,6 +163,7 @@ function PromiseView() {
         console.log(response.data);
       })
       .catch((error) => {
+        console.error("실패");
         console.error('AxiosError:', error);
         //error.preventDefault();
       });
