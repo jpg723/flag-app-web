@@ -169,6 +169,7 @@ function PromiseView() {
     })
       .then((response) => {
         console.log(response.data);
+        SetList(response.data);
       })
       .catch((error) => {
         console.error("실패");
@@ -205,14 +206,7 @@ function PromiseView() {
           </Promise_make_btn2>
         </PromiseView_title1>
         <PromiseView_flag_box>
-          {/*약속 확정 박스*/}   
-          {list.map((item, index) => (
-            (
-            <Link to={`/flag-meeting`} state={{id: item.id}}>
-              <FlagBox1 name={item.name} place={item.place} dates={item.dates} userCount={item.userCount} id={item.id} ></FlagBox1>
-            </Link>
-            )
-          ))}                   
+          {/*약속 확정 박스*/}                     
           <Promise_none>
             확정된 약속이 없습니다.
           </Promise_none>
@@ -236,6 +230,13 @@ function PromiseView() {
         </PromiseView_title2>
         <PromiseView_flag_box>
           {/*약속 진행중 박스*/}
+          {list.map((item, index) => (
+            (
+            <Link to={`/flag-meeting`} state={{id: item.id, name: item.name, place: item.place}}>
+              <FlagBox1 name={item.name} place={item.place} dates={item.dates} userCount={item.userCount} id={item.id} ></FlagBox1>
+            </Link>
+            )
+          ))} 
           {my_promising_count > 0 ? (
             <FlagBox2></FlagBox2>
           ) : (
