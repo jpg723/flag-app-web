@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import profilepic from '../contents/desktop/sign/_Img_계정생성완료_Profilepic.svg';
 import btnLogin from '../contents/desktop/sign/Btn_Login.svg';
-import { SignUpFileAtom, SignUpNameAtom } from '../recoil/SignUpState';
+import { SignUpNameAtom } from '../recoil/SignUpState';
 //display: none;
 //border: 2px solid #000;
 //@media screen and (max-width: 500px) {}
@@ -68,10 +68,9 @@ const SignUpBtnLogin = styled.img`
 
 function SignUp3() {
   const name = useRecoilValue(SignUpNameAtom);
-  const profileFile = useRecoilValue(SignUpFileAtom);
   return (
     <SignUp3Cover>
-      <SignUpInputImgIc src={profileFile ? URL.createObjectURL(profileFile) : profilepic} />
+      <SignUpInputImgIc src={profilepic} />
       <SignUpAccount>{name}</SignUpAccount>
       <SignUpAccountText>계정이 생성되었습니다.</SignUpAccountText>
       <Link to="/login">

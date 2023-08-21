@@ -118,19 +118,25 @@ function FriendsAdd() {
   const friendSearch = () => {
     //친구 조회, 닉네임 전달
     console.log("친구 조회");
-      axios({
-        url: '/user/' + inputWord,
-        method: 'GET',
-        data: {} ,
-      }).then(response => {
-        console.log(response.data);
-        //친구 id, profile, name, 친구 여부 
-        //setAddFriend({id: , name: })
-      }).catch(error => {
-        console.error('AxiosError:', error);
-      });
-      console.log("백엔드 전달");
-
+    console.log("친구이름" + inputWord);
+    const token = sessionStorage.getItem('token');
+    axios({
+      url: '/friends/List',
+      method: 'POST',
+      headers: {
+        Authorization: token,
+      },
+      data: {
+        name: inputWord,
+      },
+    }).then(response => {
+      console.log(response.data);
+      //친구 name, 친구 여부 (true, false) 
+      //setAddFriend(response.data.name)
+    }).catch(error => {
+      console.error('AxiosError:', error);
+    });
+    console.log("백엔드 전달");
   }
   return (
     <>

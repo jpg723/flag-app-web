@@ -49,9 +49,7 @@ const FriendName = styled.span`
 const FriendAddBtn = styled.span<{ isAdd: boolean }>`
   width: 27px;
   height: 27px;
-  /*
-  background-image: url('${(props) =>
-    props.isAdd ? btnAddfriend1 : btnAddfriend2}');*/
+  background-image: url(${(props) => (props.isAdd? btnAddfriend1 : btnAddfriend2)});
   background-size: cover;
   font-size: 18px;
   font-weight: 400;
@@ -65,29 +63,38 @@ const MyPageFriendAddItem = () => {
   const addFriend = useRecoilValue(addFriendAtom);
 
   const addFriendsList = (e: any) => {
+    const token = sessionStorage.getItem('token');
     if (isAdd === true) {
       console.log('친구 추가');
       axios({
-        url: '/user/' + user + '/friends/' + addFriend.name,
+        url: '/friends/add',
         method: 'POST',
-        data: {},
-      })
-        .then((response) => {
-          console.log(response.data);
-          // 친구 목록 반환 필요
-          setIsAdd(!isAdd); //버튼 변화
-        })
-        .catch((error) => {
-          console.error('AxiosError:', error);
-          e.preventDefault();
-        });
+        headers: {
+          Authorization: token,
+        },
+        data: {
+          name: addFriend,
+        },
+      }).then((response) => {
+        console.log(response.data);
+        // 친구 목록 반환 필요
+        setIsAdd(!isAdd); //버튼 변화
+      }).catch((error) => {
+        console.error('AxiosError:', error);
+        e.preventDefault();
+      });
       console.log('백엔드 전달');
     } else {
       console.log('친구 삭제');
       axios({
-        url: '/user/' + user + '/friends/' + addFriend.name,
+        url: '/friends/delete',
         method: 'DELETE',
-        data: {},
+        headers: {
+          Authorization: token,
+        },
+        data: {
+          name: addFriend,
+        },
       })
         .then((response) => {
           console.log(response.data);
@@ -104,12 +111,12 @@ const MyPageFriendAddItem = () => {
 
   return (
     <>
-      {addFriend.name === '' ? (
+      {addFriend === '' ? (
         <FriendFrame />
       ) : (
         <FriendFrame>
           <FriendProfile />
-          <FriendName>{addFriend.name}</FriendName>
+          <FriendName>{addFriend}</FriendName>
           <FriendAddBtn
             isAdd={isAdd}
             onClick={addFriendsList}
