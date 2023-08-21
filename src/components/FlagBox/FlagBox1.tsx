@@ -58,34 +58,35 @@ const Flag_box_people_count = styled.div`
 `;
 
 interface IUser {
-  id: number,
-
+  id: number;
 }
 
 interface IProps {
-  name: string,
-  place: string,
-  dates: string[],
-  userCount: number,
-  id: number
+  name: string;
+  place: string;
+  dates: string[];
+  userCount: number;
+  id: number;
 }
 
-function FlagBox1({name, place, dates, userCount, id} : IProps) {
+function FlagBox1({
+  name,
+  place,
+  dates,
+  userCount,
+  id,
+}: IProps) {
   return (
     <Flag_box>
-        <Flag_box_header>
-            <Flag></Flag>
-            <Flag_box_title>
-            {name}
-            </Flag_box_title>
-            <Flag_box_dday>D-DAY</Flag_box_dday>
-        </Flag_box_header>
-        <Flag_box_content>
-        {place}
-        </Flag_box_content>
-        <Flag_box_people_count>
-            참여인원 {userCount}명
-        </Flag_box_people_count>
+      <Flag_box_header>
+        <Flag></Flag>
+        <Flag_box_title>{name}</Flag_box_title>
+        <Flag_box_dday>D-DAY</Flag_box_dday>
+      </Flag_box_header>
+      <Flag_box_content>{place}</Flag_box_content>
+      <Flag_box_people_count>
+        참여인원 {userCount}명
+      </Flag_box_people_count>
     </Flag_box>
   );
 }
