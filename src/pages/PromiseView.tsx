@@ -143,12 +143,13 @@ const Promise_none = styled.div`
 `;
 
 function PromiseView() {
-  const promise_count = 1; //확정된 약속
-  const promising_count = 1; //진행중 약속
   const my_promising_count = 3; //내가 만든 진행중 약속
+  const [promiselist , SetpromiseList] = useState<IList[]>([]); //진행 중 약속 리스트
+  const [progresslist , SetprogressList] = useState<IList[]>([]); //진행 중 약속 리스트
+  const promise_count = promiselist.length; //확정된 약속 개수
+  const progress_count = progresslist.length; //진행중 약속 개수
   const promising_total_count =
-    promising_count + my_promising_count; //총 진행중 약속
-  const [list , SetList] = useState<IList[]>([]);
+    progress_count + my_promising_count; //총 진행중 약속
   const token = sessionStorage.getItem('token');
 
   interface IList {
@@ -156,9 +157,11 @@ function PromiseView() {
     place: string,
     dates: string[],
     userCount: number,
-    id: number
+    id: number,
+    state: boolean
   }
 
+  /*진행중 약속 값 받아오기*/
   useEffect(() => {
     axios({
       url: '/flag/progresslist',
@@ -169,7 +172,26 @@ function PromiseView() {
     })
       .then((response) => {
         console.log(response.data);
-        SetList(response.data);
+        SetprogressList(response.data);
+      })
+      .catch((error) => {
+        console.error("실패");
+        console.error('AxiosError:', error);
+        //error.preventDefault();
+      });
+  }, []);
+
+  useEffect(() => {
+    axios({
+      url: '/flag/fixedlist',
+      method: 'GET',
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((response) => {
+        console.log(response.data);
+        SetpromiseList(response.data);
       })
       .catch((error) => {
         console.error("실패");
@@ -207,9 +229,20 @@ function PromiseView() {
         </PromiseView_title1>
         <PromiseView_flag_box>
           {/*약속 확정 박스*/}                     
-          <Promise_none>
-            확정된 약속이 없습니다.
-          </Promise_none>
+          {promiselist.map((item, index) => (
+            (
+            <Link to={`/flag-meeting`} state={{id: item.id, name: item.name, place: item.place}}>
+              <FlagBox1 name={item.name} place={item.place} dates={item.dates} userCount={item.userCount} id={item.id} ></FlagBox1>
+            </Link>
+            )
+          ))} 
+          {promise_count > 0 ? (
+            ''
+          ) : (
+            <Promise_none>
+              확정된 약속이 없습니다.
+            </Promise_none>
+          )}
         </PromiseView_flag_box>
       </PromiseView_flag_main>
       {/*구분선*/}
@@ -230,19 +263,15 @@ function PromiseView() {
         </PromiseView_title2>
         <PromiseView_flag_box>
           {/*약속 진행중 박스*/}
-          {list.map((item, index) => (
-            (
+          {progresslist.map((item, index) => (
+            item.state === true ?
+            (<FlagBox2 name={item.name} place={item.place} dates={item.dates} userCount={item.userCount} id={item.id}></FlagBox2>):(
             <Link to={`/flag-meeting`} state={{id: item.id, name: item.name, place: item.place}}>
               <FlagBox1 name={item.name} place={item.place} dates={item.dates} userCount={item.userCount} id={item.id} ></FlagBox1>
             </Link>
             )
           ))} 
-          {my_promising_count > 0 ? (
-            <FlagBox2></FlagBox2>
-          ) : (
-            ''
-          )}
-          {promising_total_count > 0 ? (
+          {progress_count > 0 ? (
             ''
           ) : (
             <Promise_none>
