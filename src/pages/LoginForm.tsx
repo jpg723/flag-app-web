@@ -94,10 +94,11 @@ const MessageWrapper = styled.div`
 
 const ErrorMessage = styled.p`
   color: #999;
-  font-size: 12px;
+  font-size: 14px;
   text-align: left;
 
   @media screen and (max-width: 500px) {
+    font-size: 12px;
   }
 `;
 
@@ -162,6 +163,12 @@ function LoginForm() {
     return emailRegExp.test(email);
   };
 
+  const passwordValid = (password: string) => {
+    const passwordRegExp =
+      /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*?[#?!@$%^&*-]).{8,25}$/;
+    return passwordRegExp.test(password);
+  };
+
   const handleUserIdChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -185,9 +192,9 @@ function LoginForm() {
 
     if (newPassword === '') {
       setPasswordError('비밀번호를 입력해주세요.');
-    } else if (newPassword.length < 8) {
+    } else if (!passwordValid(newPassword)) {
       setPasswordError(
-        '비밀번호는 영문, 숫자 조합 최소 8자 이상이어야 합니다.',
+        '비밀번호는 영문, 숫자, 특수문자 조합 최소 8자 이상이어야 합니다.',
       );
     } else {
       setPasswordError('');
