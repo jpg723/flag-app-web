@@ -54,13 +54,12 @@ const Flag_box2 = styled.div`
 
 interface IProps {
   name: string,
-  place: string,
-  dates: string[],
-  userCount: number,
-  id: number
+  host: string
+  count: number,
+
 }
 
-function FlagBox1({name, place, dates, userCount, id} : IProps) {
+function FlagBox2({name, host, count} : IProps) {
   return (
     <Flag_box>
       <Flag_box1>
@@ -71,7 +70,7 @@ function FlagBox1({name, place, dates, userCount, id} : IProps) {
             </Flag_box_title>
         </Flag_box_header>
         <Flag_box_content>
-          참여인원 {userCount}명
+          {host}외 {count}명
         </Flag_box_content>
         <Flag_box_content2>
             FLAG를 진행할까요?
@@ -83,4 +82,4 @@ function FlagBox1({name, place, dates, userCount, id} : IProps) {
     </Flag_box>
   );
 }
-export default FlagBox1;
+export default FlagBox2;

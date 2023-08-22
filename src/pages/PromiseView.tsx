@@ -160,9 +160,10 @@ function PromiseView() {
     name: string;
     place: string;
     dates: string[];
-    userCount: number;
     id: number;
     state: boolean;
+    host: string,
+    count: number;
   }
 
   /*진행중 약속 값 받아오기*/
@@ -177,6 +178,7 @@ function PromiseView() {
       .then((response) => {
         //console.log(response.data);
         SetprogressList(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         console.error('실패');
@@ -245,9 +247,8 @@ function PromiseView() {
               <FlagBox1
                 name={item.name}
                 place={item.place}
-                dates={item.dates}
-                userCount={item.userCount}
-                id={item.id}
+                host={item.host}
+                count={item.count}
               ></FlagBox1>
             </Link>
           ))}
@@ -281,11 +282,9 @@ function PromiseView() {
           {progresslist.map((item, index) =>
             item.state === true ? (
               <FlagBox2
-                name={item.name}
-                place={item.place}
-                dates={item.dates}
-                userCount={item.userCount}
-                id={item.id}
+              name={item.name}
+              host={item.host}
+              count={item.count}
               ></FlagBox2>
             ) : (
               <Link
@@ -298,9 +297,8 @@ function PromiseView() {
                 <FlagBox1
                   name={item.name}
                   place={item.place}
-                  dates={item.dates}
-                  userCount={item.userCount}
-                  id={item.id}
+                  host={item.host}
+                  count={item.count}
                 ></FlagBox1>
               </Link>
             ),

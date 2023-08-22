@@ -64,17 +64,15 @@ interface IUser {
 interface IProps {
   name: string;
   place: string;
-  dates: string[];
-  userCount: number;
-  id: number;
+  host: string;
+  count: number;
 }
 
 function FlagBox1({
   name,
   place,
-  dates,
-  userCount,
-  id,
+  host,
+  count
 }: IProps) {
   return (
     <Flag_box>
@@ -85,7 +83,7 @@ function FlagBox1({
       </Flag_box_header>
       <Flag_box_content>{place}</Flag_box_content>
       <Flag_box_people_count>
-        참여인원 {userCount}명
+        {host}외 {count}명
       </Flag_box_people_count>
     </Flag_box>
   );
