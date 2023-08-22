@@ -144,8 +144,12 @@ const Promise_none = styled.div`
 
 function PromiseView() {
   const my_promising_count = 3; //내가 만든 진행중 약속
-  const [promiselist , SetpromiseList] = useState<IList[]>([]); //진행 중 약속 리스트
-  const [progresslist , SetprogressList] = useState<IList[]>([]); //진행 중 약속 리스트
+  const [promiselist, SetpromiseList] = useState<IList[]>(
+    [],
+  ); //진행 중 약속 리스트
+  const [progresslist, SetprogressList] = useState<IList[]>(
+    [],
+  ); //진행 중 약속 리스트
   const promise_count = promiselist.length; //확정된 약속 개수
   const progress_count = progresslist.length; //진행중 약속 개수
   const promising_total_count =
@@ -153,12 +157,12 @@ function PromiseView() {
   const token = sessionStorage.getItem('token');
 
   interface IList {
-    name: string,
-    place: string,
-    dates: string[],
-    userCount: number,
-    id: number,
-    state: boolean
+    name: string;
+    place: string;
+    dates: string[];
+    userCount: number;
+    id: number;
+    state: boolean;
   }
 
   /*진행중 약속 값 받아오기*/
@@ -171,11 +175,11 @@ function PromiseView() {
       },
     })
       .then((response) => {
-        console.log(response.data);
+        //console.log(response.data);
         SetprogressList(response.data);
       })
       .catch((error) => {
-        console.error("실패");
+        console.error('실패');
         console.error('AxiosError:', error);
         //error.preventDefault();
       });
@@ -190,11 +194,11 @@ function PromiseView() {
       },
     })
       .then((response) => {
-        console.log(response.data);
+        //console.log(response.data);
         SetpromiseList(response.data);
       })
       .catch((error) => {
-        console.error("실패");
+        console.error('실패');
         console.error('AxiosError:', error);
         //error.preventDefault();
       });
@@ -228,14 +232,25 @@ function PromiseView() {
           </Promise_make_btn2>
         </PromiseView_title1>
         <PromiseView_flag_box>
-          {/*약속 확정 박스*/}                     
+          {/*약속 확정 박스*/}
           {promiselist.map((item, index) => (
-            (
-            <Link to={`/flag-meeting`} state={{id: item.id, name: item.name, place: item.place}}>
-              <FlagBox1 name={item.name} place={item.place} dates={item.dates} userCount={item.userCount} id={item.id} ></FlagBox1>
+            <Link
+              to={`/flag-meeting`}
+              state={{
+                id: item.id,
+                name: item.name,
+                place: item.place,
+              }}
+            >
+              <FlagBox1
+                name={item.name}
+                place={item.place}
+                dates={item.dates}
+                userCount={item.userCount}
+                id={item.id}
+              ></FlagBox1>
             </Link>
-            )
-          ))} 
+          ))}
           {promise_count > 0 ? (
             ''
           ) : (
@@ -263,14 +278,33 @@ function PromiseView() {
         </PromiseView_title2>
         <PromiseView_flag_box>
           {/*약속 진행중 박스*/}
-          {progresslist.map((item, index) => (
-            item.state === true ?
-            (<FlagBox2 name={item.name} place={item.place} dates={item.dates} userCount={item.userCount} id={item.id}></FlagBox2>):(
-            <Link to={`/flag-meeting`} state={{id: item.id, name: item.name, place: item.place}}>
-              <FlagBox1 name={item.name} place={item.place} dates={item.dates} userCount={item.userCount} id={item.id} ></FlagBox1>
-            </Link>
-            )
-          ))} 
+          {progresslist.map((item, index) =>
+            item.state === true ? (
+              <FlagBox2
+                name={item.name}
+                place={item.place}
+                dates={item.dates}
+                userCount={item.userCount}
+                id={item.id}
+              ></FlagBox2>
+            ) : (
+              <Link
+                to={`/flag-meeting/${item.id}`}
+                state={{
+                  name: item.name,
+                  place: item.place,
+                }}
+              >
+                <FlagBox1
+                  name={item.name}
+                  place={item.place}
+                  dates={item.dates}
+                  userCount={item.userCount}
+                  id={item.id}
+                ></FlagBox1>
+              </Link>
+            ),
+          )}
           {progress_count > 0 ? (
             ''
           ) : (
