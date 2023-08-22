@@ -1,15 +1,11 @@
 import styled from 'styled-components';
-import {
-  useRecoilValue,
-  useSetRecoilState,
-  useResetRecoilState,
-} from 'recoil';
-import {
-  GuestTimeTableAtom,
-  SelectedDatesAtom,
-} from '../../recoil/Atoms';
 import moment from 'moment';
-import { useEffect } from 'react';
+import {
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
+import { CellStyle } from '../../enums';
 
 const Timetable_day = styled.div`
   height: 18px;
@@ -66,7 +62,9 @@ const TimeTable_container_col = styled.div`
   }
 `;
 
-const TimeTable_container_row = styled.span`
+const TimeTable_container_row = styled.span<{
+  cellStyle: CellStyle;
+}>`
   width: 100%;
   height: 100%;
   text-align: center;
@@ -76,11 +74,19 @@ const TimeTable_container_row = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
 
-  &.active {
-    background-color: #c7b9ff;
-  }
+  background-color: ${(props) =>
+    props.cellStyle === CellStyle.RARE
+      ? '#ddd4ff'
+      : props.cellStyle === CellStyle.SOME
+      ? '#bdabff'
+      : props.cellStyle === CellStyle.OFTEN
+      ? '#997dff'
+      : props.cellStyle === CellStyle.USUALLY
+      ? '#7955FE'
+      : props.cellStyle === CellStyle.ALWAYS
+      ? '#6439ff'
+      : 'white'};
 `;
 
 const TimeTable_box = styled.div``;
@@ -88,24 +94,99 @@ const TimeTable_box = styled.div``;
 interface IProps {
   cycle: string;
   ableCells: number[];
+  userTotalCount: number;
+  selectedDates: string[];
+  //flagId: string | undefined;
 }
 
-function GuestTimeTable({ cycle, ableCells }: IProps) {
-  const selectedDates = useRecoilValue(SelectedDatesAtom);
-  const resetTimeTable = useResetRecoilState(
-    GuestTimeTableAtom,
-  );
+function GuestTimeTable({
+  cycle,
+  ableCells,
+  userTotalCount,
+  selectedDates,
+}: IProps) {
+  const [cellStyleTable, setCellStyleTable] = useState<
+    CellStyle[][]
+  >([
+    [
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+    ],
+    [
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+    ],
+    [
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+    ],
+    [
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+    ],
+    [
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+      CellStyle.NEVER,
+    ],
+  ]);
+  console.log(cellStyleTable);
+
   let selectedDates_copy = [...selectedDates];
   selectedDates_copy.sort();
 
   const copyDates: string[] = [];
   const copyDays: string[] = [];
   const day = ['일', '월', '화', '수', '목', '금', '토'];
-
-  const GuestTimeTable = useRecoilValue(GuestTimeTableAtom);
-  const setGuestTimeTable = useSetRecoilState(
-    GuestTimeTableAtom,
-  );
 
   selectedDates_copy.forEach((date, index) => {
     let m = moment(date, 'YYYY-MM-DD');
@@ -117,21 +198,6 @@ function GuestTimeTable({ cycle, ableCells }: IProps) {
 
   const row = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const time: number[] = [];
-
-  useEffect(() => {
-    resetTimeTable();
-    const timeTable = JSON.parse(
-      JSON.stringify(GuestTimeTable),
-    );
-
-    ableCells.forEach((cell) => {
-      const unit = selectedDates.length;
-      const c_index = cell % unit;
-      const r_index = Math.floor(cell / unit);
-      timeTable[c_index][r_index - 1]++;
-    });
-    console.log(timeTable);
-  }, []);
 
   switch (cycle) {
     case 'morning': {
@@ -159,6 +225,58 @@ function GuestTimeTable({ cycle, ableCells }: IProps) {
       break;
     }
   }
+
+  const [guestTimeTable, setGuestTimeTable] = useState<
+    number[][]
+  >([
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ]);
+
+  const paintCells = async () => {
+    const timeTable = JSON.parse(
+      JSON.stringify(guestTimeTable),
+    );
+
+    ableCells.forEach((cell) => {
+      const unit = selectedDates.length;
+      const c_index = cell % unit;
+      const r_index = Math.floor(cell / unit);
+      timeTable[c_index][r_index - 1]++;
+    });
+
+    setGuestTimeTable(timeTable);
+
+    const copiedCellStyleTable = JSON.parse(
+      JSON.stringify(cellStyleTable),
+    );
+
+    for (let c = 0; c < copiedCellStyleTable.length; c++) {
+      for (let r = 0; r < 12; r++) {
+        const ratio = timeTable[c][r] / userTotalCount;
+        if (ratio >= 0.81) {
+          copiedCellStyleTable[c][r] = CellStyle.ALWAYS;
+        } else if (ratio >= 0.61) {
+          copiedCellStyleTable[c][r] = CellStyle.USUALLY;
+        } else if (ratio >= 0.41) {
+          copiedCellStyleTable[c][r] = CellStyle.OFTEN;
+        } else if (ratio >= 0.21) {
+          copiedCellStyleTable[c][r] = CellStyle.SOME;
+        } else if (ratio >= 0.01) {
+          copiedCellStyleTable[c][r] = CellStyle.RARE;
+        }
+      }
+    }
+
+    setCellStyleTable(copiedCellStyleTable);
+  };
+
+  useLayoutEffect(() => {
+    paintCells();
+  }, []);
 
   return (
     <div>
@@ -195,6 +313,7 @@ function GuestTimeTable({ cycle, ableCells }: IProps) {
               <TimeTable_container_row
                 key={'1 ' + time_row}
                 id={'1 ' + time_row}
+                cellStyle={cellStyleTable[0][time_row - 1]}
                 className={
                   'TimeTable_container_row' + `${time_row}`
                 }
@@ -211,6 +330,7 @@ function GuestTimeTable({ cycle, ableCells }: IProps) {
               <TimeTable_container_row
                 key={'2 ' + time_row}
                 id={'2 ' + time_row}
+                cellStyle={cellStyleTable[1][time_row - 1]}
                 className={
                   'TimeTable_container_row' + `${time_row}`
                 }
@@ -227,6 +347,7 @@ function GuestTimeTable({ cycle, ableCells }: IProps) {
               <TimeTable_container_row
                 key={'3 ' + time_row}
                 id={'3 ' + time_row}
+                cellStyle={cellStyleTable[2][time_row - 1]}
                 className={
                   'TimeTable_container_row' + `${time_row}`
                 }
@@ -243,6 +364,7 @@ function GuestTimeTable({ cycle, ableCells }: IProps) {
               <TimeTable_container_row
                 key={'4 ' + time_row}
                 id={'4 ' + time_row}
+                cellStyle={cellStyleTable[3][time_row - 1]}
                 className={
                   'TimeTable_container_row' + `${time_row}`
                 }
@@ -259,6 +381,7 @@ function GuestTimeTable({ cycle, ableCells }: IProps) {
               <TimeTable_container_row
                 key={'5 ' + time_row}
                 id={'5 ' + time_row}
+                cellStyle={cellStyleTable[4][time_row - 1]}
                 className={
                   'TimeTable_container_row' + `${time_row}`
                 }
