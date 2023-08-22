@@ -211,7 +211,9 @@ function FlagMeeting() {
   const navigate = useNavigate();
 
   const onEdit = () => {
-    navigate(`/flag-meeting/${flagId}/guestTimeInput`);
+    navigate(`/flag-meeting/${flagId}/guestTimeInput`, {
+      state: { flagName, timeSlot, dates },
+    });
   };
 
   return (
