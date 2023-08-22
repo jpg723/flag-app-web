@@ -206,7 +206,6 @@ function PromiseView() {
       .then((response) => {
         //console.log(response.data);
         SetpromiseList(response.data);
-        stateList.push(response.data.id);
       })
       .catch((error) => {
         console.error('AxiosError:', error);
