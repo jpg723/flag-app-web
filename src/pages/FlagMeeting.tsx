@@ -1,13 +1,22 @@
-//import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as Unsettled_icon } from '../contents/desktop/flag/Ic_전체약속뷰_Unsettled.svg';
 import TimeTable from '../components/TimeTable/TimeTable';
-import { useEffect, useState } from 'react';
+import {
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { SelectedDatesAtom } from '../recoil/Atoms';
+import { useLocation, useParams } from 'react-router-dom';
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from 'recoil';
+
 import GuestTimeTable from '../components/TimeTable/GuestTimeTable';
+import { CellStyle } from '../enums';
 
 const Flag_Meeting_header = styled.div`
   margin-top: 44px;
@@ -82,12 +91,6 @@ const Flag_Meeting_participants_box = styled.div`
   width: 365px;
 `;
 
-/*불가능한 참여자*/
-const Flag_Meeting_non_participants_box = styled.div`
-  margin-top: 20px;
-  width: 365px;
-`;
-
 /*미응답 참여자*/
 const Flag_Meeting_non_set_box = styled.div`
   margin-top: 20px;
@@ -112,15 +115,6 @@ const Participants_box_header = styled.div`
 const Participants_box_icon1 = styled.div`
   border: none;
   background-color: #85ff72;
-  width: 18px;
-  height: 18px;
-  border-radius: 20px;
-`;
-
-/*빨간공*/
-const Participants_box_icon2 = styled.div`
-  border: none;
-  background-color: #ff4b4b;
   width: 18px;
   height: 18px;
   border-radius: 20px;
@@ -180,46 +174,45 @@ const Flag_Meeting_edit_btn = styled.button`
 
 function FlagMeeting() {
   const location = useLocation();
-  const flagId = location.state.id;
+  const { flagId } = useParams();
   const flagName = location.state.name;
   const flagPlace = location.state.place;
   const token = sessionStorage.getItem('token');
+  const [isLoading, setIsLoading] = useState(true);
 
   const [ableCells, setAbleCells] = useState<number[]>([]); // 가능한 셀들 번호 중복 허용해서
   const [acceptUser, setAcceptUser] = useState<string[]>(
     [],
   );
-  const [dates, setDates] = useRecoilState(
-    SelectedDatesAtom,
-  );
+  const [dates, setDates] = useState<string[]>([]);
   const [noneResponseUsers, setNoneResponseUsers] =
     useState<string[]>([]);
   const [timeSlot, setTimeSlot] = useState(-1);
   const [userTotalCount, setUserTotalCount] = useState(-1);
 
-  useEffect(() => {
-    axios({
+  const getData = async () => {
+    await axios({
       url: `/flag/${flagId}/show`,
       method: 'get',
       headers: {
         Authorization: token,
       },
-    })
-      .then((response) => {
-        console.log(response.data);
-        setAbleCells(response.data.ableCells);
-        setAcceptUser(response.data.acceptUsers);
-        setDates(response.data.dates);
-        setNoneResponseUsers(
-          response.data.nonResponseUsers,
-        );
-        setTimeSlot(response.data.timeSlot);
-        setUserTotalCount(response.data.userTotalCount);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    }).then((response) => {
+      console.log(response.data);
+      setAbleCells(response.data.ableCells);
+      setAcceptUser(response.data.acceptUsers);
+      setDates(response.data.dates);
+      setNoneResponseUsers(response.data.nonResponseUsers);
+      setTimeSlot(response.data.timeSlot);
+      setUserTotalCount(response.data.userTotalCount);
+    });
+
+    setIsLoading(true);
+  };
+
+  useLayoutEffect(() => {
+    getData();
+  }, [flagId]);
 
   return (
     <div>
@@ -229,28 +222,36 @@ function FlagMeeting() {
       </Flag_Meeting_content>
       <Flag_Meeting_main_box>
         <TimeTable_box>
-          {timeSlot === 6 ? (
+          {timeSlot === 6 && isLoading ? (
             <GuestTimeTable
               ableCells={ableCells}
+              userTotalCount={userTotalCount}
               cycle={'morning'}
+              selectedDates={dates}
             />
           ) : null}
-          {timeSlot === 12 ? (
+          {timeSlot === 12 && isLoading ? (
             <GuestTimeTable
               ableCells={ableCells}
+              userTotalCount={userTotalCount}
               cycle={'afternoon'}
+              selectedDates={dates}
             />
           ) : null}
-          {timeSlot === 18 ? (
+          {timeSlot === 18 && isLoading ? (
             <GuestTimeTable
               ableCells={ableCells}
+              userTotalCount={userTotalCount}
               cycle={'evening'}
+              selectedDates={dates}
             />
           ) : null}
-          {timeSlot === 0 ? (
+          {timeSlot === 0 && isLoading ? (
             <GuestTimeTable
               ableCells={ableCells}
+              userTotalCount={userTotalCount}
               cycle={'dawn'}
+              selectedDates={dates}
             />
           ) : null}
         </TimeTable_box>
@@ -263,12 +264,14 @@ function FlagMeeting() {
             </Participants_box_header>
             <Participants_people_box>
               {/*참여자 정보*/}
-              <Participants_people_content_box>
-                <Participants_people_profile></Participants_people_profile>
-                <Participants_people_id>
-                  닉네임
-                </Participants_people_id>
-              </Participants_people_content_box>
+              {acceptUser.map((name) => (
+                <Participants_people_content_box>
+                  <Participants_people_profile></Participants_people_profile>
+                  <Participants_people_id>
+                    {name}
+                  </Participants_people_id>
+                </Participants_people_content_box>
+              ))}
             </Participants_people_box>
           </Flag_Meeting_participants_box>
           {/*미응답 참여자 */}
@@ -278,12 +281,14 @@ function FlagMeeting() {
               <Nonset_text>아직 응답이 없어요!</Nonset_text>
             </Participants_box_header>
             <Participants_people_box>
-              <Participants_people_content_box>
-                <Participants_people_profile></Participants_people_profile>
-                <Participants_people_id>
-                  닉네임
-                </Participants_people_id>
-              </Participants_people_content_box>
+              {noneResponseUsers.map((name) => (
+                <Participants_people_content_box>
+                  <Participants_people_profile></Participants_people_profile>
+                  <Participants_people_id>
+                    {name}
+                  </Participants_people_id>
+                </Participants_people_content_box>
+              ))}
             </Participants_people_box>
           </Flag_Meeting_non_set_box>
           {/*입력 수정하기 버튼 */}
