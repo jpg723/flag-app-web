@@ -2,6 +2,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import {
   delFriendAtom,
+  friendListAtom,
   userIdState,
 } from '../recoil/Atoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -73,8 +74,9 @@ const DeleteBtn = styled.button`
 
 function FriendsDelete() {
   const [delFriend, setDelFriend] = useRecoilState(delFriendAtom);
+  const [friendList, setFriendList] = useRecoilState(friendListAtom);
 
-  function delHandler() {
+  const delHandler = () => {
     console.log('친구 삭제');
     const token = sessionStorage.getItem('token');
     axios({
@@ -88,15 +90,35 @@ function FriendsDelete() {
       } ,
     }).then((response) => {
       console.log(response.data);
-      // 친구 목록 변화
-      // setDelFriend('');
-      // window.close();
+      if (response.data.isSuccess){
+        window.close();
+        setDelFriend('');
+        changeFriends();
+      }
+      else {
+        alert(response.data.message);
+      }
     }).catch((error) => {
       console.error('AxiosError:', error);
     });
-    console.log('백엔드 전달');
-    window.close();
   }
+
+  const changeFriends = () => {
+    console.log('친구목록 업데이트');
+    const token = sessionStorage.getItem('token');
+    axios({
+      url: '/friends/friendList',
+      method: 'get',
+      headers: {
+        Authorization: token,
+      },
+    }).then((response) => {
+      setFriendList(response.data);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
   return (
     <Cover>
       <MainText>친구 삭제</MainText>

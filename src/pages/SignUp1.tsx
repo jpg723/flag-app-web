@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import profile from '../contents/desktop/sign/Ic_회원가입_Profile.svg';
 import spread from '../contents/desktop/sign/Ic_회원가입_Spread.svg';
 import nextBtn from '../contents/desktop/sign/Btn_다음.svg';
+import checkBtn from '../contents/desktop/sign/Btn_중복확인.svg';
 import errorImg from '../contents/desktop/sign/Ic_Error.svg';
 import { SignUpIdAtom, SignUpNameAtom } from '../recoil/SignUpState';
 import { SignUpPwAtom } from '../recoil/SignUpState';
@@ -62,7 +63,7 @@ const InputLine = styled.hr`
 `;
 const InputEmail = styled.input`
   border: none;
-  width: 353px;
+  width: 483px;
   outline: none;
   color: #000;
   font-family: Noto Sans KR;
@@ -95,9 +96,17 @@ const InputEmailAdd = styled.select`
     font-size: 15px;
   }
 `;
-const EmailBtn = styled.button`
-  width: 100px;
-  margin-left: 30px
+const EmailBtn = styled.img`
+  text-align: right;
+  border: none;
+  width: 85px;
+  height: 30px;
+  margin: auto 0px auto auto;
+  @media screen and (max-width: 500px) {
+    width: 60px;
+    height: 20px;
+    margin: 0px 0px auto auto;
+  }
 `
 const InputPw = styled.input`
   border: none;
@@ -128,7 +137,7 @@ const HintImg = styled.img<{isShow: boolean}>`
   }
 `;
 const HintText = styled.div`
-  width: 503px;
+  width: 603px;
   height: 28px;
   color: #999;
   font-family: Noto Sans KR;
@@ -138,7 +147,6 @@ const HintText = styled.div`
   line-height: normal;
   margin: 8px auto 59px 0px;
   display: flex;
-  align-items: center;
   @media screen and (max-width: 500px) {
     width: 281px;
     font-size: 10px;
@@ -161,9 +169,17 @@ const InputName = styled.input`
     font-size: 15px;
   }
 `;
-const NameBtn = styled.button`
-  width: 100px;
-  margin-left: 30px
+const NameBtn = styled.img`
+  text-align: right;
+  border: none;
+  width: 85px;
+  height: 30px;
+  margin: auto 0px auto auto;
+  @media screen and (max-width: 500px) {
+    width: 60px;
+    height: 20px;
+    margin: 0px 0px auto auto;
+  }
 `
 const SignUpNext = styled.img`
   width: 355px;
@@ -178,6 +194,8 @@ const SignUpNext = styled.img`
 
 
 function SignUp1() {
+  const navigate = useNavigate();
+
   const [id, setId] = useRecoilState(SignUpIdAtom);
   const [pw, setPw] = useRecoilState(SignUpPwAtom);
   const [name, setName] = useRecoilState(SignUpNameAtom);
@@ -185,7 +203,6 @@ function SignUp1() {
   //유효성 검사
   const [inputId, setInputId] = useState('');
   const [inputEmail, setInputEmail] = useState('');
-  const [inputPw, setInputPw] = useState('');
   const [inputPwCheck, setInputPwCheck] = useState('');
 
   const [isId, setIsId] = useState(false);
@@ -201,17 +218,15 @@ function SignUp1() {
 
   useEffect(() => {
     const emailRegExp = /^[0-9a-zA-Z]+@[0-9a-zA-Z]+(\.[a-zA-Z]{2,3})+$/;
-    console.log('id: ' + id + '  check!!!!!!!');
     if (id !== undefined) {
       setIsId(emailRegExp.test(id));
     }
   }, [id]);
 
   useEffect(() => {
-    setPw(inputPw)
-    const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[#?!@$%^&*-]).{8,25}$/;
+    const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[#?!@$%^&*-])(?=.*[0-9]).{8,25}$/;
     if (pw !== undefined) setIsPw(pwRegExp.test(pw)); 
-  }, [inputPw]);
+  }, [pw]);
 
   useEffect(() => {
     setIsPwCheck(pw === inputPwCheck);
@@ -226,21 +241,19 @@ function SignUp1() {
   const idCheck = () => {
     console.log('id: ' + id + ', isId: ' + isId);
     if (isId === true) {
-      //이메일 중복확인 
       axios({
         url: '/user/checkEmail',
         method: 'POST',
-        data: {
-          email: id,
-        },
+        data: { email: id, },
       }).then((response) => {
         console.log(response.data);
-        //alert(''); 이메일 중복의 경우
-        //setIsIdCheck(true)
+        alert(response.data.message); 
+        setIsIdCheck(response.data.isSuccess)
       }).catch((error) => {
         console.error('AxiosError:', error);
       });
-      console.log('백엔드 전달');
+    } else {
+      alert('형식에 맞게 이메일을 작성해주세요.');
     }
   };
 
@@ -250,31 +263,29 @@ function SignUp1() {
       axios({
         url: '/user/checkName',
         method: 'POST',
-        data: {
-          name: name,
-        },
+        data: { name: name, },
       }).then((response) => {
         console.log(response.data);
-        //alert(''); 이메일 중복의 경우
-        //setIsNameCheck(true)
+        alert(response.data.message); 
+        setIsNameCheck(response.data.isSuccess)
       }).catch((error) => {
         console.error('AxiosError:', error);
       });
+    } else {
+      alert('형식에 맞게 닉네임을 작성해주세요.');
     }
-    
-    console.log('백엔드 전달');
   };
-
 
   const nextHandler = (e: any) => {
     console.log('아이디:' + id + ', 비밀번호:' + pw + ', 비밀번호 재확인: ' + isPwCheck + ', 닉네임:' + name);
+    console.log('비밀번호:' + pw + ', 비밀번호 재확인: ' + isPwCheck);
+    console.log('닉네임:' + name);
     console.log('유효성 아이디:' + isId + ', 비밀번호:' + isPw + ', 닉네임:' + isName);
     console.log('중복확인 아이디: ' + isIdCheck + ', 닉네임' + isNameCheck);
 
-    if (!(isId && isPw && isPwCheck && isName)) {
-      e.preventDefault();
-    } else {
-      console.log('유효성 검사 통과~!');
+    //중복확인 추가
+    if (isId && isPw && isPwCheck && isName && isIdCheck && isNameCheck) {
+      console.log('유효성/중복 검사 통과~!');
       axios({
         url: '/user/join',
         method: 'POST',
@@ -285,12 +296,15 @@ function SignUp1() {
         },
       }).then((response) => {
         console.log(response.data);
+        if (response.data.isSuccess === true){
+          navigate('/SignUp3', { replace: true });
+        } else {
+          alert(response.data.message);
+        }
       })
       .catch((error) => {
         console.error('AxiosError:', error);
-        e.preventDefault();
       });
-      console.log('백엔드 전달');
     }
   };
 
@@ -310,14 +324,14 @@ function SignUp1() {
             <option value="@naver.com">@naver.com</option>
             <option value="@daum.net">@daum.net</option>
           </InputEmailAdd>
-          <EmailBtn onClick={idCheck}>중복확인</EmailBtn>
         </InputEmailCover>
         <InputLine />
         <HintText id="checkIdText">
           {isId ? '사용 가능한 이메일입니다.' : 'ex) abc123@email.com' }
+          <EmailBtn onClick={idCheck} src={checkBtn} />
         </HintText>
         <InputPw type="password" id="pw" name="pw" placeholder="비밀번호"
-          onChange={( e: React.ChangeEvent<HTMLInputElement> ) => { setInputPw(e.target.value); }} />
+          onChange={( e: React.ChangeEvent<HTMLInputElement> ) => { setPw(e.target.value); }} />
         <InputLine />
         <HintText id="pwText">
           {' '}영문/숫자/특수문자 조합, 최소 8자 이상{' '}
@@ -333,13 +347,10 @@ function SignUp1() {
         </HintText>
         <InputName type="text" id="name" placeholder="닉네임" autoComplete="off" 
           onChange={( e: React.ChangeEvent<HTMLInputElement> ) => { setName(e.target.value); }} />
-        <NameBtn onClick={nameCheck} >중복확인</NameBtn>
         <InputLine />
-        <HintText>최소 2자 최대 5자 이내</HintText>
+        <HintText>최소 2자 최대 5자 이내 <NameBtn onClick={nameCheck} src={checkBtn} /></HintText>
       </SignUpCover2>
-      <Link to="/SignUp3" onClick={nextHandler}>
-        <SignUpNext src={nextBtn} />
-      </Link>
+      <SignUpNext onClick={nextHandler} src={nextBtn} />
     </SignUpCover>
   );
 }

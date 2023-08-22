@@ -109,16 +109,15 @@ const FriendsSearchIc = styled.img`
 
 
 function FriendsAdd() {
-  const [inputWord, setInputWord] = useState("");
+  const [inputWord, setInputWord] = useState('');
   const [addFriend, setAddFriend] = useRecoilState(addFriendAtom);
   
   useEffect(() => {
   }, [inputWord]);
 
   const friendSearch = () => {
-    //친구 조회, 닉네임 전달
     console.log("친구 조회");
-    console.log("친구이름" + inputWord);
+    console.log("친구이름: " + inputWord);
     const token = sessionStorage.getItem('token');
     axios({
       url: '/friends/List',
@@ -131,8 +130,13 @@ function FriendsAdd() {
       },
     }).then(response => {
       console.log(response.data);
-      //친구 name, 친구 여부 (true, false) 
-      //setAddFriend(response.data.name)
+      if (response.data.isSuccess === true) {
+        console.log(response.data.result);
+        //친구 name, 친구 여부 (true, false) 
+        setAddFriend({name: inputWord, isFriend: response.data.result.existFriend});
+      } else {
+        alert(response.data.message);
+      }
     }).catch(error => {
       console.error('AxiosError:', error);
     });
