@@ -155,11 +155,18 @@ function PromiseView() {
     dday: string;
   }
 
+  interface StateList {
+    checkState: boolean;
+  }
+
   const my_promising_count = 3; //내가 만든 진행중 약속
   const [promiselist, SetpromiseList] = useState<IList[]>(
     [],
   ); //약속확정 리스트
   const [progresslist, SetprogressList] = useState<IList[]>(
+    [],
+  ); //진행 중 약속 리스트
+  const [stateList, SetStateList] = useState<StateList[]>(
     [],
   ); //진행 중 약속 리스트
   const promise_count = promiselist.length; //확정된 약속 개수
@@ -179,7 +186,7 @@ function PromiseView() {
     })
       .then((response) => {
         SetprogressList(response.data);
-        //console.log(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         console.error('AxiosError:', error);
@@ -197,8 +204,9 @@ function PromiseView() {
       },
     })
       .then((response) => {
-        console.log(response.data);
+        //console.log(response.data);
         SetpromiseList(response.data);
+        stateList.push(response.data.id);
       })
       .catch((error) => {
         console.error('AxiosError:', error);
@@ -296,6 +304,7 @@ function PromiseView() {
                 }}
               >
                 <FlagBox1
+                  id={item.id}
                   name={item.name}
                   place={item.place}
                   host={item.host}

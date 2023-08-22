@@ -1,6 +1,8 @@
 //import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as Flag } from '../../contents/desktop/flag/flag.svg';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 /*약속 박스*/
 const Flag_box = styled.div`
@@ -62,6 +64,7 @@ interface IUser {
 }
 
 interface IProps {
+  id: number;
   name: string;
   place: string;
   host: string;
@@ -69,11 +72,13 @@ interface IProps {
 }
 
 function FlagBox1({
+  id,
   name,
   place,
   host,
   count,
 }: IProps) {
+  
   return (
     <Flag_box>
       <Flag_box_header>
