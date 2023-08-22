@@ -73,9 +73,17 @@ export const makeFlagAtom = atom<IFlag>({
   },
 });
 
-export const addFriendAtom = atom<string>({
+export interface addFriendState {
+  name: string;
+  isFriend: boolean;
+}
+
+export const addFriendAtom = atom<addFriendState>({
   key: 'addFriend',
-  default: '',
+  default: {
+    name: '',
+    isFriend: false,
+  },
 });
 
 export const delFriendAtom = atom<string>({

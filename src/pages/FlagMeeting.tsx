@@ -1,23 +1,17 @@
 import styled from 'styled-components';
 import { ReactComponent as Unsettled_icon } from '../contents/desktop/flag/Ic_전체약속뷰_Unsettled.svg';
-import TimeTable from '../components/TimeTable/TimeTable';
 import {
   useEffect,
   useLayoutEffect,
   useState,
 } from 'react';
 import axios from 'axios';
-import { useLocation, useParams } from 'react-router-dom';
 import {
-  useRecoilState,
-  useRecoilValue,
-  useResetRecoilState,
-  useSetRecoilState,
-} from 'recoil';
-
-import GuestTimeTable from '../components/TimeTable/GuestTimeTable';
-import { CellStyle } from '../enums';
-
+  useLocation,
+  useParams,
+  useNavigate,
+} from 'react-router-dom';
+import CurrentTimeTable from '../components/TimeTable/CurrentTimeTable';
 const Flag_Meeting_header = styled.div`
   margin-top: 44px;
   margin-left: 198px;
@@ -214,6 +208,14 @@ function FlagMeeting() {
     getData();
   }, [flagId]);
 
+  const navigate = useNavigate();
+
+  const onEdit = () => {
+    navigate(`/flag-meeting/${flagId}/guestTimeInput`, {
+      state: { flagName, timeSlot, dates },
+    });
+  };
+
   return (
     <div>
       <Flag_Meeting_header>{flagName}</Flag_Meeting_header>
@@ -223,7 +225,7 @@ function FlagMeeting() {
       <Flag_Meeting_main_box>
         <TimeTable_box>
           {timeSlot === 6 && isLoading ? (
-            <GuestTimeTable
+            <CurrentTimeTable
               ableCells={ableCells}
               userTotalCount={userTotalCount}
               cycle={'morning'}
@@ -231,7 +233,7 @@ function FlagMeeting() {
             />
           ) : null}
           {timeSlot === 12 && isLoading ? (
-            <GuestTimeTable
+            <CurrentTimeTable
               ableCells={ableCells}
               userTotalCount={userTotalCount}
               cycle={'afternoon'}
@@ -239,7 +241,7 @@ function FlagMeeting() {
             />
           ) : null}
           {timeSlot === 18 && isLoading ? (
-            <GuestTimeTable
+            <CurrentTimeTable
               ableCells={ableCells}
               userTotalCount={userTotalCount}
               cycle={'evening'}
@@ -247,7 +249,7 @@ function FlagMeeting() {
             />
           ) : null}
           {timeSlot === 0 && isLoading ? (
-            <GuestTimeTable
+            <CurrentTimeTable
               ableCells={ableCells}
               userTotalCount={userTotalCount}
               cycle={'dawn'}
@@ -292,7 +294,7 @@ function FlagMeeting() {
             </Participants_people_box>
           </Flag_Meeting_non_set_box>
           {/*입력 수정하기 버튼 */}
-          <Flag_Meeting_edit_btn>
+          <Flag_Meeting_edit_btn onClick={onEdit}>
             입력 수정하기
           </Flag_Meeting_edit_btn>
         </Flag_Meeting_main_content>

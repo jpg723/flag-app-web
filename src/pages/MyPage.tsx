@@ -164,10 +164,18 @@ function MyPage() {
       },
     }).then((response) => {
       console.log('마이페이지 접속');
-      console.log(response.data);
+      //console.log(response.data);
       setName(response.data.name);
       setEmail(response.data.email);
-      setFriendList(response.data.friends);
+      if (response.data.friends[0] !== null){
+        let newList: {name: string}[] = [];
+        for (let f of response.data.friends) {
+          newList = [...newList, {name: f}];
+        }
+        //console.log(newList);
+        setFriendList(newList);
+      }
+      //console.log(friendList);
     })
     .catch((error) => {
       console.error('AxiosError:', error);
@@ -189,24 +197,29 @@ function MyPage() {
       e.preventDefault();
     }
   };
+  
   const delUser = (e: any) => {
     // eslint-disable-next-line no-restricted-globals
     const delUserResult = confirm('계정을 삭제 하시겠습니까?');
     if ( delUserResult ) {
+      const token = sessionStorage.getItem('token');
       axios({
         url: '/user/delete',
         method: 'DELETE',
-        data: {
+        headers: {
+          Authorization: token,
         },
       }).then((response) => {
         console.log(response.data);
-        //URL.revokeObjectURL(profileFile)
-      })
-      .catch((error) => {
+        alert(response.data.message);
+        if (response.data.isSuccess === true){
+          sessionStorage.removeItem('token');
+          setIsLogin(false);
+        }
+      }).catch((error) => {
         console.error('AxiosError:', error);
         e.preventDefault();
       });
-      console.log('백엔드 전달');
     }
     else {
       e.preventDefault();

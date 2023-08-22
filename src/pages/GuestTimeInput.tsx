@@ -1,9 +1,21 @@
-//import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import TimeTable from '../components/TimeTable/TimeTable';
-import { Link } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { makeFlagAtom } from '../recoil/Atoms';
+import {
+  Link,
+  useParams,
+  useLocation,
+} from 'react-router-dom';
+import {
+  useRecoilValue,
+  useSetRecoilState,
+  useResetRecoilState,
+} from 'recoil';
+import {
+  SelectedDatesAtom,
+  makeFlagAtom,
+} from '../recoil/Atoms';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 const Comfirmed_promise_main1 = styled.div`
   margin-top: 44px;
@@ -69,14 +81,47 @@ const Comfirmed_promise_btn = styled.button`
   }
 `;
 
-function ComfirmedPromise() {
-  const { cycle } = useRecoilValue(makeFlagAtom);
+function GuestTimeInput() {
+  const { flagId } = useParams();
+  const { flagName, timeSlot, dates } = useLocation().state;
+  const setDates = useSetRecoilState(SelectedDatesAtom);
+  const resetDates = useResetRecoilState(SelectedDatesAtom);
+
+  useEffect(() => {
+    setDates(dates);
+  }, []);
+
+  const { selectedCell } = useRecoilValue(makeFlagAtom);
+  const token = sessionStorage.getItem('token');
+
+  const onSubmit = () => {
+    console.log(selectedCell);
+    axios({
+      url: `/flag/guest/${flagId}`,
+      method: 'post',
+      headers: {
+        Authorization: token,
+      },
+      data: {
+        possibleDates: selectedCell,
+      },
+    })
+      .then((response) => {
+        {
+          console.log(response);
+          resetDates();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div>
       <Comfirmed_promise_main1>
         <Comfirmed_promise_main1_text>
-          FLAG 미팅
+          {flagName}
         </Comfirmed_promise_main1_text>
       </Comfirmed_promise_main1>
       <Comfirmed_promise_main2>
@@ -84,18 +129,20 @@ function ComfirmedPromise() {
           가능한 시간대를 스크롤해 입력해주세요.
         </Comfirmed_promise_main2_text>
       </Comfirmed_promise_main2>
-      {cycle === 6 ? <TimeTable cycle={'morning'} /> : null}
-      {cycle === 12 ? (
+      {timeSlot === 6 ? (
+        <TimeTable cycle={'morning'} />
+      ) : null}
+      {timeSlot === 12 ? (
         <TimeTable cycle={'afternoon'} />
       ) : null}
-      {cycle === 18 ? (
+      {timeSlot === 18 ? (
         <TimeTable cycle={'evening'} />
       ) : null}
-      {cycle === 0 ? <TimeTable cycle={'dawn'} /> : null}
+      {timeSlot === 0 ? <TimeTable cycle={'dawn'} /> : null}
       <Comfirmed_promise_footer>
         <Comfirmed_promise_btn_box>
-          <Link to="/makeFlagFinish">
-            <Comfirmed_promise_btn>
+          <Link to="/promise-view">
+            <Comfirmed_promise_btn onClick={onSubmit}>
               완료하기
             </Comfirmed_promise_btn>
           </Link>
@@ -104,4 +151,4 @@ function ComfirmedPromise() {
     </div>
   );
 }
-export default ComfirmedPromise;
+export default GuestTimeInput;
