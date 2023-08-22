@@ -45,7 +45,7 @@ function App() {
                 element={<PromiseView />}
               />
               <Route
-                path="/flag-meeting"
+                path="/flag-meeting/:flagId"
                 element={<FlagMeeting />}
               />
               <Route
@@ -76,11 +76,20 @@ function App() {
                 path="/SignUp3"
                 element={<SignUp3 />}
               />
-              
+
               <Route path="/MyPage" element={<MyPage />} />
-              <Route path="/flag-finish-meeting" element={<FlagFinishMeeting />} />
-              <Route path="/finish-flag-update" element={<FinishFlagUpdate />} />
-              <Route path="/flag-people-view" element={<FlagPeopleView />} />
+              <Route
+                path="/flag-finish-meeting"
+                element={<FlagFinishMeeting />}
+              />
+              <Route
+                path="/finish-flag-update"
+                element={<FinishFlagUpdate />}
+              />
+              <Route
+                path="/flag-people-view"
+                element={<FlagPeopleView />}
+              />
             </Route>
             {/* 헤더 없음 */}
             <Route path="/login" element={<Login />} />
