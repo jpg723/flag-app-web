@@ -58,7 +58,7 @@ export const makeFlagAtom = atom<IFlag>({
     selectedDates: [], // dates
     cycle: -1, // timeSlot
     minimumTime: 1, // minTime
-    
+
     flagPlace: {
       // place - isChecked 검사해서 보낼때는 content 또는 '' 전달
       content: '',
@@ -162,15 +162,4 @@ export const timeTableAtom = atom<boolean[][]>({
 export const SelectedDatesAtom = atom<string[]>({
   key: 'selectedDates',
   default: [],
-});
-
-export const GuestTimeTableAtom = atom<number[][]>({
-  key: 'GuestTimeTable',
-  default: [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  ],
 });
