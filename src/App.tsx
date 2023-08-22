@@ -28,6 +28,7 @@ import FlagFinishMeeting from './pages/FlagFinishMeeting';
 import FinishFlagUpdate from './pages/FinishFlagUpdate';
 import FlagPeopleView from './pages/FlagPeopleView';
 import ScrollToTop from './ScrollToTop';
+import GuestTimeInput from './pages/GuestTimeInput';
 
 function App() {
   return (
@@ -47,6 +48,10 @@ function App() {
               <Route
                 path="/flag-meeting/:flagId"
                 element={<FlagMeeting />}
+              />
+              <Route
+                path="/flag-meeting/:flagId/guestTimeInput"
+                element={<GuestTimeInput />}
               />
               <Route
                 path="/comfirmed-promise"

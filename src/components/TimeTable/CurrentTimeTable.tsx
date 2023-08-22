@@ -99,7 +99,7 @@ interface IProps {
   //flagId: string | undefined;
 }
 
-function GuestTimeTable({
+function CurrentTimeTable({
   cycle,
   ableCells,
   userTotalCount,
@@ -226,7 +226,7 @@ function GuestTimeTable({
     }
   }
 
-  const [guestTimeTable, setGuestTimeTable] = useState<
+  const [currentTimeTable, setCurrentTimeTable] = useState<
     number[][]
   >([
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -238,7 +238,7 @@ function GuestTimeTable({
 
   const paintCells = async () => {
     const timeTable = JSON.parse(
-      JSON.stringify(guestTimeTable),
+      JSON.stringify(currentTimeTable),
     );
 
     ableCells.forEach((cell) => {
@@ -248,7 +248,7 @@ function GuestTimeTable({
       timeTable[c_index][r_index - 1]++;
     });
 
-    setGuestTimeTable(timeTable);
+    setCurrentTimeTable(timeTable);
 
     const copiedCellStyleTable = JSON.parse(
       JSON.stringify(cellStyleTable),
@@ -393,4 +393,4 @@ function GuestTimeTable({
     </div>
   );
 }
-export default GuestTimeTable;
+export default CurrentTimeTable;
