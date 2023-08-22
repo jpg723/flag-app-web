@@ -66,20 +66,22 @@ interface IProps {
   place: string;
   host: string;
   count: number;
+  dday: string;
 }
 
-function FlagBox1({
+function FlagBox3({
   name,
   place,
   host,
   count,
+  dday
 }: IProps) {
   return (
     <Flag_box>
       <Flag_box_header>
         <Flag></Flag>
         <Flag_box_title>{name}</Flag_box_title>
-        <Flag_box_dday>진행중</Flag_box_dday>
+        <Flag_box_dday>{dday}</Flag_box_dday>
       </Flag_box_header>
       <Flag_box_content>{place}</Flag_box_content>
       <Flag_box_people_count>
@@ -88,4 +90,4 @@ function FlagBox1({
     </Flag_box>
   );
 }
-export default FlagBox1;
+export default FlagBox3;

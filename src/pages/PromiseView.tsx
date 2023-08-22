@@ -5,6 +5,7 @@ import { ReactComponent as Arrow2 } from '../contents/mobile/flag/모바일_Ic_�
 import { Link } from 'react-router-dom';
 import FlagBox1 from '../components/FlagBox/FlagBox1';
 import FlagBox2 from '../components/FlagBox/FlagBox2';
+import FlagBox3 from '../components/FlagBox/FlagBox3';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
@@ -143,19 +144,6 @@ const Promise_none = styled.div`
 `;
 
 function PromiseView() {
-  const my_promising_count = 3; //내가 만든 진행중 약속
-  const [promiselist, SetpromiseList] = useState<IList[]>(
-    [],
-  ); //진행 중 약속 리스트
-  const [progresslist, SetprogressList] = useState<IList[]>(
-    [],
-  ); //진행 중 약속 리스트
-  const promise_count = promiselist.length; //확정된 약속 개수
-  const progress_count = progresslist.length; //진행중 약속 개수
-  const promising_total_count =
-    progress_count + my_promising_count; //총 진행중 약속
-  const token = sessionStorage.getItem('token');
-
   interface IList {
     name: string;
     place: string;
@@ -164,7 +152,21 @@ function PromiseView() {
     state: boolean;
     host: string,
     count: number;
+    dday: string;
   }
+
+  const my_promising_count = 3; //내가 만든 진행중 약속
+  const [promiselist, SetpromiseList] = useState<IList[]>(
+    [],
+  ); //약속확정 리스트
+  const [progresslist, SetprogressList] = useState<IList[]>(
+    [],
+  ); //진행 중 약속 리스트
+  const promise_count = promiselist.length; //확정된 약속 개수
+  const progress_count = progresslist.length; //진행중 약속 개수
+  const promising_total_count =
+    progress_count + my_promising_count; //총 진행중 약속
+  const token = sessionStorage.getItem('token');
 
   /*진행중 약속 값 받아오기*/
   useEffect(() => {
@@ -176,17 +178,16 @@ function PromiseView() {
       },
     })
       .then((response) => {
-        //console.log(response.data);
         SetprogressList(response.data);
-        console.log(response.data);
+        //console.log(response.data);
       })
       .catch((error) => {
-        console.error('실패');
         console.error('AxiosError:', error);
         //error.preventDefault();
       });
   }, []);
 
+  //약속 확정 값 받아오기
   useEffect(() => {
     axios({
       url: '/flag/fixedlist',
@@ -196,11 +197,10 @@ function PromiseView() {
       },
     })
       .then((response) => {
-        //console.log(response.data);
+        console.log(response.data);
         SetpromiseList(response.data);
       })
       .catch((error) => {
-        console.error('실패');
         console.error('AxiosError:', error);
         //error.preventDefault();
       });
@@ -237,19 +237,20 @@ function PromiseView() {
           {/*약속 확정 박스*/}
           {promiselist.map((item, index) => (
             <Link
-              to={`/flag-meeting`}
+              to={`/flag-meeting/${item.id}`}
               state={{
                 id: item.id,
                 name: item.name,
                 place: item.place,
               }}
             >
-              <FlagBox1
+              <FlagBox3
                 name={item.name}
                 place={item.place}
                 host={item.host}
                 count={item.count}
-              ></FlagBox1>
+                dday={item.dday}
+              ></FlagBox3>
             </Link>
           ))}
           {promise_count > 0 ? (
