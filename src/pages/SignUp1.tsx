@@ -229,7 +229,7 @@ function SignUp1() {
       //이메일 중복확인 
       axios({
         url: '/user/checkEmail',
-        method: 'GET',
+        method: 'POST',
         data: {
           email: id,
         },
@@ -249,7 +249,7 @@ function SignUp1() {
     if (isName === true) {
       axios({
         url: '/user/checkName',
-        method: 'GET',
+        method: 'POST',
         data: {
           name: name,
         },
