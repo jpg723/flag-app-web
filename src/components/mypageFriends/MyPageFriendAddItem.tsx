@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import {
-  userIdState,
-  addFriendAtom,
-} from '../../recoil/Atoms';
+import { addFriendAtom, friendListAtom } from '../../recoil/Atoms';
 import btnAddfriend1 from '../../contents/desktop/mypage/Btn_friendAdd.svg';
 import btnAddfriend2 from '../../contents/desktop/mypage/Btn_friendAdd2.svg';
-
-//const FriendFrame = styled.div<{ id: number, name: string }>`
-//display: ${(props) => (props.id === -1 ? 'none' : 'inline')};
 
 const FriendFrame = styled.div`
   width: 400px;
@@ -58,13 +52,12 @@ const FriendAddBtn = styled.span<{ isAdd: boolean }>`
 `;
 
 const MyPageFriendAddItem = () => {
-  const [isAdd, setIsAdd] = useState(true);
-  const user = useRecoilValue(userIdState);
-  const addFriend = useRecoilValue(addFriendAtom);
+  const [addFriend, setAddFriend] = useRecoilState(addFriendAtom);
+  const [friendList, setFriendList] = useRecoilState(friendListAtom);
 
   const addFriendsList = (e: any) => {
     const token = sessionStorage.getItem('token');
-    if (isAdd === true) {
+    if (addFriend.isFriend === false) {
       console.log('친구 추가');
       axios({
         url: '/friends/add',
@@ -77,48 +70,46 @@ const MyPageFriendAddItem = () => {
         },
       }).then((response) => {
         console.log(response.data);
-        // 친구 목록 반환 필요
-        setIsAdd(!isAdd); //버튼 변화
+        alert(response.data.message);
+        if (response.data.isSuccess){
+          setAddFriend({name: addFriend.name, isFriend: true}); //버튼 변화
+          changeFriends();
+        }
       }).catch((error) => {
         console.error('AxiosError:', error);
         e.preventDefault();
       });
-      console.log('백엔드 전달');
     } else {
-      console.log('친구 삭제');
-      axios({
-        url: '/friends/delete',
-        method: 'DELETE',
-        headers: {
-          Authorization: token,
-        },
-        data: {
-          name: addFriend,
-        },
-      })
-        .then((response) => {
-          console.log(response.data);
-          // 친구 목록 반환 필요 -> 버튼 변화
-          setIsAdd(!isAdd);
-        })
-        .catch((error) => {
-          console.error('AxiosError:', error);
-          e.preventDefault();
-        });
-      console.log('백엔드 전달');
+      alert('이미 친구인 사용자 입니다.');
     }
   };
 
+  const changeFriends = () => {
+    console.log('친구목록 업데이트');
+    const token = sessionStorage.getItem('token');
+    axios({
+      url: '/friends/friendList',
+      method: 'get',
+      headers: {
+        Authorization: token,
+      },
+    }).then((response) => {
+      setFriendList(response.data);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
   return (
     <>
-      {addFriend === '' ? (
+      {addFriend.name === '' ? (
         <FriendFrame />
       ) : (
         <FriendFrame>
           <FriendProfile />
-          <FriendName>{addFriend}</FriendName>
+          <FriendName>{addFriend.name}</FriendName>
           <FriendAddBtn
-            isAdd={isAdd}
+            isAdd={addFriend.isFriend}
             onClick={addFriendsList}
           />
         </FriendFrame>
