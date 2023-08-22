@@ -13,7 +13,7 @@ const Comfirmed_promise_main1_text = styled.text`
   font-size: 28px;
   font-weight: 600;
   margin-left: 198px;
-  
+
   @media screen and (max-width: 500px) {
     margin-left: 23px;
   }
@@ -70,12 +70,7 @@ const Comfirmed_promise_btn = styled.button`
 `;
 
 function ComfirmedPromise() {
-  const { cycle, selectedCell } =
-    useRecoilValue(makeFlagAtom);
-
-  const handleSubmit = () => {
-    console.log(selectedCell);
-  };
+  const { cycle } = useRecoilValue(makeFlagAtom);
 
   return (
     <div>
@@ -100,7 +95,7 @@ function ComfirmedPromise() {
       <Comfirmed_promise_footer>
         <Comfirmed_promise_btn_box>
           <Link to="/makeFlagFinish">
-            <Comfirmed_promise_btn onClick={handleSubmit}>
+            <Comfirmed_promise_btn>
               완료하기
             </Comfirmed_promise_btn>
           </Link>
