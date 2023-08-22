@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { isLoginAtom } from '../recoil/Atoms';
@@ -154,6 +154,7 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [userIdError, setUserIdError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
 
@@ -201,6 +202,7 @@ function LoginForm() {
     }
   };
 
+  //로그인 버튼 클릭 시
   const handleLoginButtonClick = () => {
     if (
       !userId ||
@@ -222,17 +224,22 @@ function LoginForm() {
           password: requestData.password,
         },
       })
-        .then((response) => {
-          console.log(response.data);
-          console.log('로그인 성공');
-          sessionStorage.setItem('token', response.data.result);
-          setIsLogin(true);
+        .then((response) => {     
+          console.log(response.data.isSuccess);     
+            if(response.data.isSuccess == true){
+              sessionStorage.setItem('token', response.data.result);
+              navigate('/promise-view');
+              setIsLogin(true);
+              console.log('로그인 성공');
+            }
+            else if(response.data.isSuccess == false){
+              alert('아이디 또는 비밀번호를 확인해주세요');
+            }
+            
         })
         .catch((error) => {
-          console.error('AxiosError:', error);
-          //error.preventDefault();
+          console.log('로그인 실패');
         });
-      return <Link to="/promise-view" />;
     }
   };
 
@@ -267,22 +274,11 @@ function LoginForm() {
               <ErrorMessage>{passwordError}</ErrorMessage>
             )}
           </MessageWrapper>
-          <Link
-            to={
-              userId ||
-              password ||
-              !userIdError ||
-              !passwordError
-                ? '/promise-view'
-                : '#'
-            }
-          >
             <LoginButton
               src={loginButton}
               alt="로그인 버튼"
               onClick={handleLoginButtonClick}
             />
-          </Link>
         </InputWrapper>
         <FindSignUpWrapper>
           <Link

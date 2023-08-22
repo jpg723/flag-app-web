@@ -25,7 +25,7 @@ function FlagPeopleView() {
     <div>
       <Flag_People_header>가능한 일정 목록이에요!</Flag_People_header>
       <Flag_People_weaper>약속을 확정해주세요.</Flag_People_weaper>
-     
+      
     </div>
   );
 }
