@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { isLoginAtom } from '../recoil/Atoms';
@@ -183,10 +183,13 @@ function Header() {
     }
   }, []);
 
+  //로그아웃 버튼 클릭시
+  const navigate = useNavigate();
   const onLogout = () => {
     console.log("로그아웃");
     sessionStorage.removeItem("token");
     setIsLogin(false);
+    navigate('/');
   }
 
   return (
