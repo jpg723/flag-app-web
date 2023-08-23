@@ -91,6 +91,7 @@ export const delFriendAtom = atom<string>({
   default: '',
 });
 
+/*
 export const timeTableAtom = atom<boolean[][]>({
   key: 'timeTable',
   default: [
@@ -165,4 +166,4 @@ export const timeTableAtom = atom<boolean[][]>({
       false,
     ],
   ],
-});
+});*/

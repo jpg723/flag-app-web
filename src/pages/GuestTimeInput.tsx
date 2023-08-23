@@ -12,7 +12,11 @@ import {
 } from 'recoil';
 import { makeFlagAtom } from '../recoil/Atoms';
 import axios from 'axios';
-import { useEffect } from 'react';
+import {
+  useEffect,
+  useState,
+  useLayoutEffect,
+} from 'react';
 
 const Comfirmed_promise_main1 = styled.div`
   margin-top: 44px;
@@ -81,18 +85,19 @@ const Comfirmed_promise_btn = styled.button`
 function GuestTimeInput() {
   const { flagId } = useParams();
   const { flagName, timeSlot, dates } = useLocation().state;
-  //const setDates = useSetRecoilState(SelectedDatesAtom);
-  //const resetDates = useResetRecoilState(SelectedDatesAtom);
-  const { selectedDates } = useRecoilValue(makeFlagAtom);
+
   const setValue = useSetRecoilState(makeFlagAtom);
   const resetValue = useResetRecoilState(makeFlagAtom);
 
-  useEffect(() => {
-    setValue((v) => ({ ...v, selectedDates: dates }));
-  }, []);
-
   const { selectedCell } = useRecoilValue(makeFlagAtom);
   const token = sessionStorage.getItem('token');
+
+  useEffect(() => {
+    setValue((v) => ({
+      ...v,
+      selectedDates: dates,
+    }));
+  }, []);
 
   const onSubmit = () => {
     console.log(selectedCell);
@@ -130,15 +135,26 @@ function GuestTimeInput() {
         </Comfirmed_promise_main2_text>
       </Comfirmed_promise_main2>
       {timeSlot === 6 ? (
-        <TimeTable cycle={'morning'} />
+        <TimeTable
+          selectedDates={dates}
+          cycle={'morning'}
+        />
       ) : null}
       {timeSlot === 12 ? (
-        <TimeTable cycle={'afternoon'} />
+        <TimeTable
+          selectedDates={dates}
+          cycle={'afternoon'}
+        />
       ) : null}
       {timeSlot === 18 ? (
-        <TimeTable cycle={'evening'} />
+        <TimeTable
+          selectedDates={dates}
+          cycle={'evening'}
+        />
       ) : null}
-      {timeSlot === 0 ? <TimeTable cycle={'dawn'} /> : null}
+      {timeSlot === 0 ? (
+        <TimeTable selectedDates={dates} cycle={'dawn'} />
+      ) : null}
       <Comfirmed_promise_footer>
         <Comfirmed_promise_btn_box>
           <Link to="/promise-view">

@@ -8,7 +8,10 @@ import FormInputMemo from '../components/makeFlag/FormInputMemo';
 import img_btn from '../contents/desktop/flag/Btn_약속만들기_Createappoint.svg';
 import img_btn_mobile from '../contents/mobile/flag/모바일_Btn_약속만들기_Complete.svg';
 import FormMinimumTime from '../components/makeFlag/FormMinimumTime';
-import { useRecoilValue } from 'recoil';
+import {
+  useRecoilValue,
+  useResetRecoilState,
+} from 'recoil';
 import { makeFlagAtom } from '../recoil/Atoms';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -56,6 +59,11 @@ const Button = styled.button`
 const MakeFlag = () => {
   const { flagName, checkedFriends, selectedDates, cycle } =
     useRecoilValue(makeFlagAtom);
+  const resetValue = useResetRecoilState(makeFlagAtom);
+
+  useEffect(() => {
+    resetValue();
+  }, []);
   const navigate = useNavigate();
 
   const handleSubmit = () => {
