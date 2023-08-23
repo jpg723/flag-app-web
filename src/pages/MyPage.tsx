@@ -9,7 +9,7 @@ import btnAddfriend from '../contents/desktop/mypage/Btn_마이페이지_Addfrie
 import MyPageFriendList from '../components/mypageFriends/MyPageFriendList';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Link } from 'react-router-dom';
-import { emailState, friendListAtom, isLoginAtom, userNameState } from '../recoil/Atoms';
+import { addFriendAtom, emailState, friendListAtom, isLoginAtom, userNameState } from '../recoil/Atoms';
 import axios from 'axios';
 //display: none;
 //border: 2px solid #000;
@@ -151,6 +151,7 @@ function MyPage() {
   const [name, setName] = useRecoilState(userNameState);
   const [email, setEmail] = useRecoilState(emailState);
   const [friendList, setFriendList] = useRecoilState(friendListAtom);
+  const [addFriend, setAddFriend] = useRecoilState(addFriendAtom);
 
   useEffect(()=> {
     //마이페이지 axios
@@ -180,7 +181,7 @@ function MyPage() {
     .catch((error) => {
       console.error('AxiosError:', error);
     });
-  },[]);
+  },[addFriend]);
 
   const addFriends = () => {
     window.open( '/MyPage_FriendsAdd', '_blank', 'width=835, height=375, toolbar=no' );

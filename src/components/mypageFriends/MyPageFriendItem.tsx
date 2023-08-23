@@ -61,15 +61,12 @@ const ProfileDel = styled.span`
 
 interface IFriendItemProps {
   name: string;
-  handleCheck: (name: string) => void;
 }
 
-const MyPageFriendItem = ({
-  name,
-  handleCheck,
-}: IFriendItemProps) => {
-  const onClick = (e: any) => {
-    handleCheck(name);
+const MyPageFriendItem = ({name}: IFriendItemProps) => {
+
+  const onClick = () => {
+    window.open('/MyPage_FriendsDelete?name='+name, '_blank', 'width=577, height=321, toolbar=no');
   };
   return (
     <Wrapper>

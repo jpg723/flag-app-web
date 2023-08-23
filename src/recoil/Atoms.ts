@@ -86,11 +86,6 @@ export const addFriendAtom = atom<addFriendState>({
   },
 });
 
-export const delFriendAtom = atom<string>({
-  key: 'delFriend',
-  default: '',
-});
-
 export const timeTableAtom = atom<boolean[][]>({
   key: 'timeTable',
   default: [

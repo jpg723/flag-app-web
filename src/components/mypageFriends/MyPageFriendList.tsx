@@ -1,9 +1,7 @@
-import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import MyPageFriendItem from './MyPageFriendItem';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import {
-  delFriendAtom,
   friendListAtom,
   IFriendTypes,
 } from '../../recoil/Atoms';
@@ -44,28 +42,12 @@ const FriendsListFrame = styled.div`
 
 const MyPageFriendList = () => {
   const friendList = useRecoilValue(friendListAtom);
-  const [delFriend, setDelFriend] =
-    useRecoilState(delFriendAtom);
-
-  const handleCheck = (name: string) => {
-    //console.log('id? ' + id);
-    setDelFriend(name);
-    window.open(
-      '/MyPage_FriendsDelete',
-      '_blank',
-      'width=577, height=321, toolbar=no',
-    );
-  };
 
   return (
     <Wrapper>
       <FriendsListFrame>
-        {friendList.map((item: IFriendTypes, index) => (
-          <MyPageFriendItem
-            key={index}
-            name={item.name}
-            handleCheck={handleCheck}
-          />
+        {friendList.map((item: IFriendTypes) => (
+          <MyPageFriendItem name={item.name} />
         ))}
       </FriendsListFrame>
     </Wrapper>
