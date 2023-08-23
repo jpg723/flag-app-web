@@ -74,7 +74,7 @@ function FlagBox3({
   place,
   host,
   count,
-  dday
+  dday,
 }: IProps) {
   return (
     <Flag_box>
@@ -85,7 +85,7 @@ function FlagBox3({
       </Flag_box_header>
       <Flag_box_content>{place}</Flag_box_content>
       <Flag_box_people_count>
-        {host}외 {count}명
+        {host} 외 {count}명
       </Flag_box_people_count>
     </Flag_box>
   );

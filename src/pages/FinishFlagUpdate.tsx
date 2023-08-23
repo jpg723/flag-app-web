@@ -1,13 +1,20 @@
 import styled from 'styled-components';
 import FormUpdateName from '../components/makeFlag/FormUpdateName';
-import FormSelectFriends from '../components/makeFlag/FormSelectFriends';
-import FormSelectDates from '../components/makeFlag/FormSelectDates';
-import FormSelectCycle from '../components/makeFlag/FormSelectCycle';
 import FormUpdateFlagPlace from '../components/makeFlag/FormUpdateFlagPlace';
 import FormUpdateMemo from '../components/makeFlag/FormUpdateMemo';
-import { useRecoilValue } from 'recoil';
+import {
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from 'recoil';
 import { makeFlagAtom } from '../recoil/Atoms';
-import { useNavigate } from 'react-router-dom';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const Container = styled.div`
   display: flex;
@@ -56,18 +63,56 @@ const Flag_Meeting_edit_btn = styled.button`
 `;
 
 const FinishFlagUpdate = () => {
-  const { flagName, checkedFriends, selectedDates, cycle } =
+  const { name, place, memo } = useLocation().state;
+  const { flagId } = useParams();
+  const { flagName, flagPlace, flagMemo } =
     useRecoilValue(makeFlagAtom);
+  const setValue = useSetRecoilState(makeFlagAtom);
   const navigate = useNavigate();
+  const resetValue = useResetRecoilState(makeFlagAtom);
+  const token = sessionStorage.getItem('token');
+
+  useEffect(() => {
+    resetValue();
+    setValue((v) => ({
+      ...v,
+      flagName: name,
+      flagPlace: {
+        content: place,
+        isChecked: place !== '' ? true : false,
+      },
+      flagMemo: {
+        content: memo,
+        isChecked: memo !== '' ? true : false,
+      },
+    }));
+  }, []);
+
+  const sendData = () => {
+    axios({
+      url: `/flag/${flagId}`,
+      method: 'patch',
+      headers: {
+        Authorization: token,
+      },
+      data: {
+        name: flagName,
+        place: flagPlace.content,
+        memo: flagMemo.content,
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        navigate('/promise-view');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const handleSubmit = () => {
-    if (
-      flagName !== '' &&
-      checkedFriends.length > 0 &&
-      selectedDates.length > 0 &&
-      cycle > -1
-    ) {
-      navigate('/comfirmed-promise', { replace: true });
+    if (flagName !== '') {
+      sendData();
     } else console.log('필수 입력을 채워주세요');
   };
 
@@ -80,7 +125,7 @@ const FinishFlagUpdate = () => {
       </FormWrapper>
       <ButtonWrapper>
         <Flag_Meeting_edit_btn onClick={handleSubmit}>
-            입력 수정하기
+          입력 수정하기
         </Flag_Meeting_edit_btn>
       </ButtonWrapper>
     </Container>
