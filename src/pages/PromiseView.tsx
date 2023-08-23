@@ -4,7 +4,6 @@ import { ReactComponent as Arrow1 } from '../contents/desktop/flag/arrow_back_io
 import { ReactComponent as Arrow2 } from '../contents/mobile/flag/모바일_Ic_플래그메인_Go.svg';
 import { Link } from 'react-router-dom';
 import FlagBox1 from '../components/FlagBox/FlagBox1';
-import FlagBox2 from '../components/FlagBox/FlagBox2';
 import FlagBox3 from '../components/FlagBox/FlagBox3';
 import { useState, useEffect } from 'react';
 import axios, { AxiosResponse } from 'axios';
@@ -164,8 +163,6 @@ function PromiseView() {
   ); //진행 중 약속 리스트
   const promise_count = promiselist.length; //확정된 약속 개수
   const progress_count = progresslist.length; //진행중 약속 개수
-  const promising_total_count =
-    progress_count + my_promising_count; //총 진행중 약속
   const token = sessionStorage.getItem('token');
 
   /*진행중 약속 값 받아오기*/
@@ -179,7 +176,7 @@ function PromiseView() {
     })
       .then(response => {
         SetprogressList(response.data);
-        console.log(`data: ${response.data.id}`);
+        console.log(response.data);
       })
       .catch((error) => {
         console.error('AxiosError:', error);
@@ -281,29 +278,21 @@ function PromiseView() {
         <PromiseView_flag_box>
           {/*약속 진행중 박스*/}
           {progresslist.map((item, index) =>
-            item.state === true ? (
-              <FlagBox2
-              name={item.name}
-              host={item.host}
-              count={item.count}
-              ></FlagBox2>
-            ) : (
-              <Link
-                to={`/flag-meeting/${item.id}`}
-                state={{
-                  name: item.name,
-                  place: item.place,
-                }}
-              >
-                <FlagBox1
-                  id={item.id}
-                  name={item.name}
-                  place={item.place}
-                  host={item.host}
-                  count={item.count}
-                ></FlagBox1>
-              </Link>
-            ),
+            <Link
+              to={`/flag-meeting/${item.id}`}
+              state={{
+                name: item.name,
+                place: item.place,
+              }}
+            >
+              <FlagBox1
+                id={item.id}
+                name={item.name}
+                place={item.place}
+                host={item.host}
+                count={item.count}
+              ></FlagBox1>
+            </Link>
           )}
           {progress_count > 0 ? (
             ''

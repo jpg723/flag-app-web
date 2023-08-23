@@ -37,7 +37,6 @@ const Flag_Meeting_content = styled.div`
 
 /*타임테이블+참여자박스*/
 const Flag_Meeting_main_box = styled.div`
-  //border: 1px solid black;
   width: 870px;
   margin-top: 30px;
   margin-left: auto;
@@ -57,9 +56,7 @@ const Flag_Meeting_main_box = styled.div`
 const TimeTable_box = styled.div`
   display: flex;
   justify-content: center;
-  border: 1px solid red;
   width: 480px;
-  height: 417.33px;
 
   @media screen and (max-width: 500px) {
     width: 350px;
@@ -68,7 +65,6 @@ const TimeTable_box = styled.div`
 
 /*참여자 박스*/
 const Flag_Meeting_main_content = styled.div`
-  border: 1px solid black;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -82,6 +78,12 @@ const Flag_Meeting_main_content = styled.div`
 
 /*가능한 참여자*/
 const Flag_Meeting_participants_box = styled.div`
+  width: 365px;
+`;
+
+const Set_text = styled.div`
+  margin-left: 5px;
+  font-size: 15px;
   width: 365px;
 `;
 
@@ -152,8 +154,8 @@ const Participants_people_id = styled.div`
 const Flag_Meeting_edit_btn = styled.button`
   border: none;
   display: flex;
-  margin-top: 47px;
-  padding: 10px 45px;
+  margin-top: 25px;
+  padding: 12px 45px;
   width: 208px;
   height: 49px;
   border-radius: 99px;
@@ -222,6 +224,8 @@ function FlagMeeting() {
       <Flag_Meeting_content>
         {flagPlace}
       </Flag_Meeting_content>
+      <Flag_Meeting_content>
+      </Flag_Meeting_content>
       <Flag_Meeting_main_box>
         <TimeTable_box>
           {timeSlot === 6 && isLoading ? (
@@ -262,7 +266,7 @@ function FlagMeeting() {
           <Flag_Meeting_participants_box>
             <Participants_box_header>
               <Participants_box_icon1></Participants_box_icon1>
-              응답한 참여자
+              <Set_text>응답한 참여자</Set_text>
             </Participants_box_header>
             <Participants_people_box>
               {/*참여자 정보*/}
