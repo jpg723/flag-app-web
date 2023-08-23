@@ -125,15 +125,17 @@ function FriendsAdd() {
       headers: {
         Authorization: token,
       },
-      data: {
+      params: {
         name: inputWord,
       },
     }).then(response => {
       console.log(response.data);
       if (response.data.isSuccess === true) {
         console.log(response.data.result);
-        //친구 name, 친구 여부 (true, false) 
-        setAddFriend({name: inputWord, isFriend: response.data.result.existFriend});
+        //친구 name, 친구 여부 (true, false)
+        const text = response.data.result.UserResponse;
+        console.log('text' + text);
+        setAddFriend({name: inputWord, isFriend: false});
       } else {
         alert(response.data.message);
       }
@@ -154,7 +156,7 @@ function FriendsAdd() {
         <FriendsSearch type='text' id='searchFriend' placeholder="검색" onChange={ (e: React.ChangeEvent<HTMLInputElement>) => { setInputWord(e.target.value); } } />
         <FriendsSearchIc src={searchIc} onClick={friendSearch}/>
       </FriendsSearchFrame>
-      <MyPageFriendAddItem />
+      <MyPageFriendAddItem name={addFriend.name} existFriend={addFriend.isFriend} />
     </>
   );
 }

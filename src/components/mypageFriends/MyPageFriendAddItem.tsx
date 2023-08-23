@@ -43,7 +43,7 @@ const FriendName = styled.span`
 const FriendAddBtn = styled.span<{ isAdd: boolean }>`
   width: 27px;
   height: 27px;
-  background-image: url(${(props) => (props.isAdd? btnAddfriend1 : btnAddfriend2)});
+  background-image: url(${(props) => (props.isAdd? btnAddfriend2 : btnAddfriend1)});
   background-size: cover;
   font-size: 18px;
   font-weight: 400;
@@ -51,33 +51,42 @@ const FriendAddBtn = styled.span<{ isAdd: boolean }>`
   margin: auto 0px auto auto;
 `;
 
-const MyPageFriendAddItem = () => {
+interface IFriendItemProps {
+  name: string;
+  existFriend: boolean;
+}
+
+
+const MyPageFriendAddItem = ({name, existFriend}: IFriendItemProps) => {
   const [addFriend, setAddFriend] = useRecoilState(addFriendAtom);
   const [friendList, setFriendList] = useRecoilState(friendListAtom);
 
-  const addFriendsList = (e: any) => {
+  const addFriendsList = () => {
     const token = sessionStorage.getItem('token');
     if (addFriend.isFriend === false) {
       console.log('친구 추가');
+      console.log(addFriend.name);
+      console.log(name);
       axios({
         url: '/friends/add',
         method: 'POST',
         headers: {
           Authorization: token,
         },
-        data: {
-          name: addFriend,
+        params: {
+          friendName: name,
         },
       }).then((response) => {
         console.log(response.data);
         alert(response.data.message);
         if (response.data.isSuccess){
-          setAddFriend({name: addFriend.name, isFriend: true}); //버튼 변화
-          changeFriends();
+          const newList = [...friendList, {name: name}];
+          setFriendList(newList);
+          setAddFriend({name: name, isFriend: true}); //버튼 변화
+          //changeFriends();
         }
       }).catch((error) => {
         console.error('AxiosError:', error);
-        e.preventDefault();
       });
     } else {
       alert('이미 친구인 사용자 입니다.');
@@ -102,14 +111,14 @@ const MyPageFriendAddItem = () => {
 
   return (
     <>
-      {addFriend.name === '' ? (
+      {name === '' ? (
         <FriendFrame />
       ) : (
         <FriendFrame>
           <FriendProfile />
-          <FriendName>{addFriend.name}</FriendName>
+          <FriendName>{name}</FriendName>
           <FriendAddBtn
-            isAdd={addFriend.isFriend}
+            isAdd={existFriend}
             onClick={addFriendsList}
           />
         </FriendFrame>
