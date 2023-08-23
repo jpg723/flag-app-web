@@ -70,7 +70,8 @@ const Comfirmed_promise_btn = styled.button`
 `;
 
 function ComfirmedPromise() {
-  const { cycle } = useRecoilValue(makeFlagAtom);
+  const { cycle, selectedDates } =
+    useRecoilValue(makeFlagAtom);
 
   return (
     <div>
@@ -84,14 +85,30 @@ function ComfirmedPromise() {
           가능한 시간대를 스크롤해 입력해주세요.
         </Comfirmed_promise_main2_text>
       </Comfirmed_promise_main2>
-      {cycle === 6 ? <TimeTable cycle={'morning'} /> : null}
+      {cycle === 6 ? (
+        <TimeTable
+          selectedDates={selectedDates}
+          cycle={'morning'}
+        />
+      ) : null}
       {cycle === 12 ? (
-        <TimeTable cycle={'afternoon'} />
+        <TimeTable
+          selectedDates={selectedDates}
+          cycle={'afternoon'}
+        />
       ) : null}
       {cycle === 18 ? (
-        <TimeTable cycle={'evening'} />
+        <TimeTable
+          selectedDates={selectedDates}
+          cycle={'evening'}
+        />
       ) : null}
-      {cycle === 0 ? <TimeTable cycle={'dawn'} /> : null}
+      {cycle === 0 ? (
+        <TimeTable
+          selectedDates={selectedDates}
+          cycle={'dawn'}
+        />
+      ) : null}
       <Comfirmed_promise_footer>
         <Comfirmed_promise_btn_box>
           <Link to="/makeFlagFinish">

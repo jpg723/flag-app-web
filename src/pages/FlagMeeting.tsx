@@ -13,6 +13,8 @@ import {
 } from 'react-router-dom';
 import CurrentTimeTable from '../components/TimeTable/CurrentTimeTable';
 import moment from 'moment';
+import { useSetRecoilState } from 'recoil';
+import { makeFlagAtom } from '../recoil/Atoms';
 const Flag_Meeting_header = styled.div`
   margin-top: 44px;
   margin-left: 198px;
@@ -202,22 +204,40 @@ function FlagMeeting() {
   const [timeSlot, setTimeSlot] = useState(-1);
   const [userTotalCount, setUserTotalCount] = useState(-1);
 
+  const setValue = useSetRecoilState(makeFlagAtom);
+
   const getData = async () => {
-    await axios({
-      url: `/flag/${flagId}/show`,
-      method: 'get',
-      headers: {
-        Authorization: token,
-      },
-    }).then((response) => {
-      console.log(response.data);
-      setAbleCells(response.data.ableCells);
-      setAcceptUser(response.data.acceptUsers);
-      setDates(response.data.dates);
-      setNoneResponseUsers(response.data.nonResponseUsers);
-      setTimeSlot(response.data.timeSlot);
-      setUserTotalCount(response.data.userTotalCount);
-    });
+    await axios
+      .all([
+        axios.get(`/flag/${flagId}/show`, {
+          headers: {
+            Authorization: token,
+          },
+        }),
+        axios.get(`/flag/${flagId}/cellInfo`, {
+          headers: {
+            Authorization: token,
+          },
+        }),
+      ])
+      .then(
+        axios.spread((response1, response2) => {
+          console.log(response1.data);
+          setAbleCells(response1.data.ableCells);
+          setAcceptUser(response1.data.acceptUsers);
+          setDates(response1.data.dates);
+          setNoneResponseUsers(
+            response1.data.nonResponseUsers,
+          );
+          setTimeSlot(response1.data.timeSlot);
+          setUserTotalCount(response1.data.userTotalCount);
+          console.log(response2.data);
+          setValue((v) => ({
+            ...v,
+            selectedCell: response2.data,
+          }));
+        }),
+      );
 
     setIsLoading(true);
   };
@@ -237,7 +257,7 @@ function FlagMeeting() {
 
   //약속 후보자 화면으로 이동
   const onPromiseSelect = () => {
-    navigate(`/flag-people-view`);
+    navigate(`/flag-candidate/${flagId}`);
   };
 
   //약속 확정 가능 여부 확인

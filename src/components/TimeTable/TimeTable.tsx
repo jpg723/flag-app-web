@@ -5,12 +5,9 @@ import {
   useSetRecoilState,
   useResetRecoilState,
 } from 'recoil';
-import {
-  makeFlagAtom,
-  timeTableAtom,
-} from '../../recoil/Atoms';
+import { makeFlagAtom } from '../../recoil/Atoms';
 import moment from 'moment';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const Timetable_day = styled.div`
   height: 18px;
@@ -88,21 +85,88 @@ const TimeTable_box = styled.div``;
 
 interface IProps {
   cycle: string;
+  selectedDates: string[];
 }
 
-function TimeTable({ cycle }: IProps) {
-  //const selectedDates = useRecoilValue(SelectedDatesAtom);
-  const resetTimeTable = useResetRecoilState(timeTableAtom);
-
+function TimeTable({ cycle, selectedDates }: IProps) {
   const copyDates: string[] = [];
   const copyDays: string[] = [];
   const day = ['일', '월', '화', '수', '목', '금', '토'];
 
-  const { selectedDates, selectedCell } =
-    useRecoilValue(makeFlagAtom);
-  const timeTable = useRecoilValue(timeTableAtom);
+  const { selectedCell } = useRecoilValue(makeFlagAtom);
   const setValue = useSetRecoilState(makeFlagAtom);
-  const setTimeTable = useSetRecoilState(timeTableAtom);
+  const [timeTable, setTimeTable] = useState<boolean[][]>([
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ],
+  ]);
 
   let selectedDates_copy = [...selectedDates];
   selectedDates_copy.sort();
@@ -118,10 +182,27 @@ function TimeTable({ cycle }: IProps) {
   const row = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const time: number[] = [];
 
+  const paintCells = () => {
+    const copiedTimeTable = JSON.parse(
+      JSON.stringify(timeTable),
+    );
+    console.log(copiedTimeTable);
+    console.log(selectedCell);
+
+    selectedCell.forEach((cell: number) => {
+      const unit = selectedDates_copy.length;
+      console.log(unit);
+      const c_index = cell % unit;
+      const r_index = Math.floor(cell / unit);
+      copiedTimeTable[c_index][r_index - 1] = true;
+      console.log(c_index);
+    });
+    setTimeTable(copiedTimeTable);
+  };
+
   useEffect(() => {
-    resetTimeTable();
-    setValue((v) => ({ ...v, selectedCell: [] }));
-  }, [selectedDates.length]);
+    paintCells();
+  }, []);
 
   switch (cycle) {
     case 'morning': {
