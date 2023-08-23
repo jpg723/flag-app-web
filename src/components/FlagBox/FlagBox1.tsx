@@ -59,10 +59,6 @@ const Flag_box_people_count = styled.div`
   font-weight: 500;
 `;
 
-interface IUser {
-  id: number;
-}
-
 interface IProps {
   id: number;
   name: string;
@@ -78,7 +74,25 @@ function FlagBox1({
   host,
   count,
 }: IProps) {
-  
+  const token = sessionStorage.getItem('token');
+
+  useEffect(() => {
+    axios({
+      url: `/flag/${id}/checkState`,
+      method: 'GET',
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((response) => {
+        console.log(`${id}:` + response.data);
+      })
+      .catch((error) => {
+        console.error('AxiosError:', error);
+        //error.preventDefault();
+      });
+  }, []);
+
   return (
     <Flag_box>
       <Flag_box_header>

@@ -7,7 +7,7 @@ import FlagBox1 from '../components/FlagBox/FlagBox1';
 import FlagBox2 from '../components/FlagBox/FlagBox2';
 import FlagBox3 from '../components/FlagBox/FlagBox3';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useRecoilState } from 'recoil';
 import { isLoginAtom } from '../recoil/Atoms';
 import { useNavigate } from 'react-router-dom';
@@ -155,18 +155,11 @@ function PromiseView() {
     dday: string;
   }
 
-  interface StateList {
-    checkState: boolean;
-  }
-
   const my_promising_count = 3; //내가 만든 진행중 약속
   const [promiselist, SetpromiseList] = useState<IList[]>(
     [],
   ); //약속확정 리스트
   const [progresslist, SetprogressList] = useState<IList[]>(
-    [],
-  ); //진행 중 약속 리스트
-  const [stateList, SetStateList] = useState<StateList[]>(
     [],
   ); //진행 중 약속 리스트
   const promise_count = promiselist.length; //확정된 약속 개수
@@ -184,9 +177,9 @@ function PromiseView() {
         Authorization: token,
       },
     })
-      .then((response) => {
+      .then(response => {
         SetprogressList(response.data);
-        console.log(response.data);
+        console.log(`data: ${response.data.id}`);
       })
       .catch((error) => {
         console.error('AxiosError:', error);
