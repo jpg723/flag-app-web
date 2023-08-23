@@ -26,7 +26,7 @@ import MyPageFriendsAdd from './pages/MyPageFriendsAdd';
 import MyPageFriendsDelete from './pages/MyPageFriendsDelete';
 import FlagFinishMeeting from './pages/FlagFinishMeeting';
 import FinishFlagUpdate from './pages/FinishFlagUpdate';
-import FlagPeopleView from './pages/FlagPeopleView';
+import FlagCandidateView from './pages/FlagCandidateView';
 import ScrollToTop from './ScrollToTop';
 import GuestTimeInput from './pages/GuestTimeInput';
 
@@ -92,8 +92,8 @@ function App() {
                 element={<FinishFlagUpdate />}
               />
               <Route
-                path="/flag-people-view"
-                element={<FlagPeopleView />}
+                path="/flag-candidate/:flagId"
+                element={<FlagCandidateView />}
               />
             </Route>
             {/* 헤더 없음 */}
