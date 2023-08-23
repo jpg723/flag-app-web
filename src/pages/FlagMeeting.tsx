@@ -37,7 +37,6 @@ const Flag_Meeting_content = styled.div`
 
 /*타임테이블+참여자박스*/
 const Flag_Meeting_main_box = styled.div`
-  //border: 1px solid black;
   width: 870px;
   margin-top: 30px;
   margin-left: auto;
@@ -57,9 +56,7 @@ const Flag_Meeting_main_box = styled.div`
 const TimeTable_box = styled.div`
   display: flex;
   justify-content: center;
-  border: 1px solid red;
   width: 480px;
-  height: 417.33px;
 
   @media screen and (max-width: 500px) {
     width: 350px;
@@ -68,7 +65,6 @@ const TimeTable_box = styled.div`
 
 /*참여자 박스*/
 const Flag_Meeting_main_content = styled.div`
-  border: 1px solid black;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -82,6 +78,12 @@ const Flag_Meeting_main_content = styled.div`
 
 /*가능한 참여자*/
 const Flag_Meeting_participants_box = styled.div`
+  width: 365px;
+`;
+
+const Set_text = styled.div`
+  margin-left: 5px;
+  font-size: 15px;
   width: 365px;
 `;
 
@@ -152,8 +154,8 @@ const Participants_people_id = styled.div`
 const Flag_Meeting_edit_btn = styled.button`
   border: none;
   display: flex;
-  margin-top: 47px;
-  padding: 10px 45px;
+  margin-top: 25px;
+  padding: 12px 45px;
   width: 208px;
   height: 49px;
   border-radius: 99px;
@@ -171,6 +173,8 @@ function FlagMeeting() {
   const { flagId } = useParams();
   const flagName = location.state.name;
   const flagPlace = location.state.place;
+  const flagHost = location.state.host;
+  const flag_id = location.state.id;
   const token = sessionStorage.getItem('token');
   const [isLoading, setIsLoading] = useState(true);
 
@@ -210,17 +214,64 @@ function FlagMeeting() {
 
   const navigate = useNavigate();
 
+  //약속 수정하기로 이동
   const onEdit = () => {
     navigate(`/flag-meeting/${flagId}/guestTimeInput`, {
       state: { flagName, timeSlot, dates },
     });
   };
 
+  //약속 후보자 화면으로 이동
+  const onPromiseSelect = () => {
+    navigate(`/flag-people-view`);
+  };
+
+  //약속 확정 가능 여부 확인
+  const [state, setState] = useState(false);
+  useEffect(() => {
+    axios({
+      url: `/flag/${flag_id}/checkState`,
+      method: 'GET',
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((response) => {
+        console.log(response.data);
+        setState(response.data);
+      })
+      .catch((error) => {
+        console.error('AxiosError:', error);
+        //error.preventDefault();
+      });
+  }, []);
+
+    //사용자 이름 가져오기
+    const [user, setUser] = useState("");
+    useEffect(() => {
+      axios({
+        url: `/user/mypage`,
+        method: 'GET',
+        headers: {
+          Authorization: token,
+        },
+      })
+        .then((response) => {
+          setUser(response.data.name);
+        })
+        .catch((error) => {
+          console.error('AxiosError:', error);
+          //error.preventDefault();
+        });
+    }, []);
+
   return (
     <div>
       <Flag_Meeting_header>{flagName}</Flag_Meeting_header>
       <Flag_Meeting_content>
         {flagPlace}
+      </Flag_Meeting_content>
+      <Flag_Meeting_content>
       </Flag_Meeting_content>
       <Flag_Meeting_main_box>
         <TimeTable_box>
@@ -262,7 +313,7 @@ function FlagMeeting() {
           <Flag_Meeting_participants_box>
             <Participants_box_header>
               <Participants_box_icon1></Participants_box_icon1>
-              응답한 참여자
+              <Set_text>응답한 참여자</Set_text>
             </Participants_box_header>
             <Participants_people_box>
               {/*참여자 정보*/}
@@ -294,9 +345,15 @@ function FlagMeeting() {
             </Participants_people_box>
           </Flag_Meeting_non_set_box>
           {/*입력 수정하기 버튼 */}
-          <Flag_Meeting_edit_btn onClick={onEdit}>
-            입력 수정하기
-          </Flag_Meeting_edit_btn>
+          {state === true && user === flagHost? 
+          (<Flag_Meeting_edit_btn onClick={onPromiseSelect}>
+              약속 확정하기
+            </Flag_Meeting_edit_btn>) : (
+            <Flag_Meeting_edit_btn onClick={onEdit}>
+              입력 수정하기
+            </Flag_Meeting_edit_btn>
+            )
+          }
         </Flag_Meeting_main_content>
       </Flag_Meeting_main_box>
     </div>

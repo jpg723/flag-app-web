@@ -4,9 +4,9 @@ import { ReactComponent as Arrow1 } from '../contents/desktop/flag/arrow_back_io
 import { ReactComponent as Arrow2 } from '../contents/mobile/flag/모바일_Ic_플래그메인_Go.svg';
 import { Link } from 'react-router-dom';
 import FlagBox1 from '../components/FlagBox/FlagBox1';
-import FlagBox2 from '../components/FlagBox/FlagBox2';
+import FlagBox3 from '../components/FlagBox/FlagBox3';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useRecoilState } from 'recoil';
 import { isLoginAtom } from '../recoil/Atoms';
 import { useNavigate } from 'react-router-dom';
@@ -143,27 +143,27 @@ const Promise_none = styled.div`
 `;
 
 function PromiseView() {
+  interface IList {
+    name: string;
+    place: string;
+    dates: string[];
+    id: number;
+    state: boolean;
+    host: string,
+    count: number;
+    dday: string;
+  }
+
   const my_promising_count = 3; //내가 만든 진행중 약속
   const [promiselist, SetpromiseList] = useState<IList[]>(
     [],
-  ); //진행 중 약속 리스트
+  ); //약속확정 리스트
   const [progresslist, SetprogressList] = useState<IList[]>(
     [],
   ); //진행 중 약속 리스트
   const promise_count = promiselist.length; //확정된 약속 개수
   const progress_count = progresslist.length; //진행중 약속 개수
-  const promising_total_count =
-    progress_count + my_promising_count; //총 진행중 약속
   const token = sessionStorage.getItem('token');
-
-  interface IList {
-    name: string;
-    place: string;
-    dates: string[];
-    userCount: number;
-    id: number;
-    state: boolean;
-  }
 
   /*진행중 약속 값 받아오기*/
   useEffect(() => {
@@ -174,17 +174,17 @@ function PromiseView() {
         Authorization: token,
       },
     })
-      .then((response) => {
-        //console.log(response.data);
+      .then(response => {
         SetprogressList(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
-        console.error('실패');
         console.error('AxiosError:', error);
         //error.preventDefault();
       });
   }, []);
 
+  //약속 확정 값 받아오기
   useEffect(() => {
     axios({
       url: '/flag/fixedlist',
@@ -198,7 +198,6 @@ function PromiseView() {
         SetpromiseList(response.data);
       })
       .catch((error) => {
-        console.error('실패');
         console.error('AxiosError:', error);
         //error.preventDefault();
       });
@@ -235,20 +234,20 @@ function PromiseView() {
           {/*약속 확정 박스*/}
           {promiselist.map((item, index) => (
             <Link
-              to={`/flag-meeting`}
+              to={`/flag-meeting/${item.id}`}
               state={{
                 id: item.id,
                 name: item.name,
                 place: item.place,
               }}
             >
-              <FlagBox1
+              <FlagBox3
                 name={item.name}
                 place={item.place}
-                dates={item.dates}
-                userCount={item.userCount}
-                id={item.id}
-              ></FlagBox1>
+                host={item.host}
+                count={item.count}
+                dday={item.dday}
+              ></FlagBox3>
             </Link>
           ))}
           {promise_count > 0 ? (
@@ -279,31 +278,23 @@ function PromiseView() {
         <PromiseView_flag_box>
           {/*약속 진행중 박스*/}
           {progresslist.map((item, index) =>
-            item.state === true ? (
-              <FlagBox2
+            <Link
+              to={`/flag-meeting/${item.id}`}
+              state={{
+                name: item.name,
+                place: item.place,
+                host: item.host,
+                id: item.id
+              }}
+            >
+              <FlagBox1
+                id={item.id}
                 name={item.name}
                 place={item.place}
-                dates={item.dates}
-                userCount={item.userCount}
-                id={item.id}
-              ></FlagBox2>
-            ) : (
-              <Link
-                to={`/flag-meeting/${item.id}`}
-                state={{
-                  name: item.name,
-                  place: item.place,
-                }}
-              >
-                <FlagBox1
-                  name={item.name}
-                  place={item.place}
-                  dates={item.dates}
-                  userCount={item.userCount}
-                  id={item.id}
-                ></FlagBox1>
-              </Link>
-            ),
+                host={item.host}
+                count={item.count}
+              ></FlagBox1>
+            </Link>
           )}
           {progress_count > 0 ? (
             ''
