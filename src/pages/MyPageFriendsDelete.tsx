@@ -1,11 +1,7 @@
 import axios from 'axios';
 import styled from 'styled-components';
-import {
-  delFriendAtom,
-  friendListAtom,
-  userIdState,
-} from '../recoil/Atoms';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { friendListAtom } from '../recoil/Atoms';
+import { useRecoilState } from 'recoil';
 //display: none;
 //border: 2px solid #000;
 //@media screen and (max-width: 360px) {}
@@ -73,30 +69,32 @@ const DeleteBtn = styled.button`
 `;
 
 function FriendsDelete() {
-  const [delFriend, setDelFriend] = useRecoilState(delFriendAtom);
   const [friendList, setFriendList] = useRecoilState(friendListAtom);
+
+  var name = new URLSearchParams(window.location.search).get("name");
+  console.log(name + '의 삭제 페이지');
 
   const delHandler = () => {
     console.log('친구 삭제');
+    console.log(name + '를 삭제할 것');
     const token = sessionStorage.getItem('token');
     axios({
       url: '/friends/delete',
-      method: 'DELETE',
+      method: 'delete',
       headers: {
         Authorization: token,
       },
-      data: {
-        name: delFriend,
+      params: {
+        name: name
       } ,
     }).then((response) => {
-      console.log(response.data);
-      if (response.data.isSuccess){
+      console.log(response);
+      if (response.data.result === "SUCCESS" ){
         window.close();
-        setDelFriend('');
-        changeFriends();
+        changeFriends(); //안되는...!
       }
       else {
-        alert(response.data.message);
+        alert(response.data.result);
       }
     }).catch((error) => {
       console.error('AxiosError:', error);
