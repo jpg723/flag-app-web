@@ -149,7 +149,7 @@ function PromiseView() {
     dates: string[];
     id: number;
     state: boolean;
-    host: string,
+    host: string;
     count: number;
     dday: string;
   }
@@ -174,7 +174,7 @@ function PromiseView() {
         Authorization: token,
       },
     })
-      .then(response => {
+      .then((response) => {
         SetprogressList(response.data);
         console.log(response.data);
       })
@@ -234,7 +234,7 @@ function PromiseView() {
           {/*약속 확정 박스*/}
           {promiselist.map((item, index) => (
             <Link
-              to={`/flag-meeting/${item.id}`}
+              to={`/flag-fixed-meeting/${item.id}`}
               state={{
                 id: item.id,
                 name: item.name,
@@ -277,14 +277,14 @@ function PromiseView() {
         </PromiseView_title2>
         <PromiseView_flag_box>
           {/*약속 진행중 박스*/}
-          {progresslist.map((item, index) =>
+          {progresslist.map((item, index) => (
             <Link
               to={`/flag-meeting/${item.id}`}
               state={{
                 name: item.name,
                 place: item.place,
                 host: item.host,
-                id: item.id
+                id: item.id,
               }}
             >
               <FlagBox1
@@ -295,7 +295,7 @@ function PromiseView() {
                 count={item.count}
               ></FlagBox1>
             </Link>
-          )}
+          ))}
           {progress_count > 0 ? (
             ''
           ) : (

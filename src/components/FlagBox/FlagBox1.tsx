@@ -73,11 +73,9 @@ const Flag_box2_content = styled.div`
   display: flex;
 `;
 
-const Flag_box2_content2 = styled.div`
-`;
+const Flag_box2_content2 = styled.div``;
 
-const Flag_box1 = styled.div`
-`;
+const Flag_box1 = styled.div``;
 
 //host 박스 안 화살표
 const Flag_box2 = styled.div`
@@ -99,7 +97,6 @@ function FlagBox1({
   host,
   count,
 }: IProps) {
-
   //약속 완료 상태 확인
   const token = sessionStorage.getItem('token');
   const [state, setState] = useState(false);
@@ -121,7 +118,7 @@ function FlagBox1({
   }, []);
 
   //사용자 이름 가져오기
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState('');
   useEffect(() => {
     axios({
       url: `/user/mypage`,
@@ -145,18 +142,16 @@ function FlagBox1({
         <Flag_box>
           <Flag_box1>
             <Flag_box_header>
-                <Flag></Flag>
-                <Flag_box_title>
-                {name}
-                </Flag_box_title>
+              <Flag></Flag>
+              <Flag_box_title>{name}</Flag_box_title>
             </Flag_box_header>
             <Flag_box2_content>
               <Flag_box2_content2>
                 <Flag_box_content2>
-                    모든 친구들이 수락했어요!
+                  모든 친구들이 수락했어요!
                 </Flag_box_content2>
                 <Flag_box_content2>
-                    FLAG를 진행할까요?
+                  FLAG를 진행할까요?
                 </Flag_box_content2>
               </Flag_box2_content2>
               <Flag_box2>
@@ -164,16 +159,17 @@ function FlagBox1({
               </Flag_box2>
             </Flag_box2_content>
           </Flag_box1>
-        </Flag_box>):
-      (<Flag_box>
-        <Flag_box_header>
-          <Flag></Flag>
-          <Flag_box_title>{name}</Flag_box_title>
-          <Flag_box_dday>진행중</Flag_box_dday>
-        </Flag_box_header>
+        </Flag_box>
+      ) : (
+        <Flag_box>
+          <Flag_box_header>
+            <Flag></Flag>
+            <Flag_box_title>{name}</Flag_box_title>
+            <Flag_box_dday>진행중</Flag_box_dday>
+          </Flag_box_header>
           <Flag_box_content>{place}</Flag_box_content>
           <Flag_box_people_count>
-            {host}외 {count}명
+            {host} 외 {count}명
           </Flag_box_people_count>
         </Flag_box>
       )}

@@ -24,7 +24,7 @@ import SignUp3 from './pages/SignUp3';
 import MyPage from './pages/MyPage';
 import MyPageFriendsAdd from './pages/MyPageFriendsAdd';
 import MyPageFriendsDelete from './pages/MyPageFriendsDelete';
-import FlagFinishMeeting from './pages/FlagFinishMeeting';
+import FlagFixedMeeting from './pages/FlagFixedMeeting';
 import FinishFlagUpdate from './pages/FinishFlagUpdate';
 import FlagCandidateView from './pages/FlagCandidateView';
 import ScrollToTop from './ScrollToTop';
@@ -84,11 +84,11 @@ function App() {
 
               <Route path="/MyPage" element={<MyPage />} />
               <Route
-                path="/flag-finish-meeting"
-                element={<FlagFinishMeeting />}
+                path="/flag-fixed-meeting/:flagId"
+                element={<FlagFixedMeeting />}
               />
               <Route
-                path="/finish-flag-update"
+                path="/finish-flag-update/:flagId"
                 element={<FinishFlagUpdate />}
               />
               <Route
