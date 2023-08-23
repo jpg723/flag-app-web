@@ -283,6 +283,8 @@ function PromiseView() {
               state={{
                 name: item.name,
                 place: item.place,
+                host: item.host,
+                id: item.id
               }}
             >
               <FlagBox1

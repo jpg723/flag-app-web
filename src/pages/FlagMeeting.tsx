@@ -173,6 +173,8 @@ function FlagMeeting() {
   const { flagId } = useParams();
   const flagName = location.state.name;
   const flagPlace = location.state.place;
+  const flagHost = location.state.host;
+  const flag_id = location.state.id;
   const token = sessionStorage.getItem('token');
   const [isLoading, setIsLoading] = useState(true);
 
@@ -212,11 +214,56 @@ function FlagMeeting() {
 
   const navigate = useNavigate();
 
+  //약속 수정하기로 이동
   const onEdit = () => {
     navigate(`/flag-meeting/${flagId}/guestTimeInput`, {
       state: { flagName, timeSlot, dates },
     });
   };
+
+  //약속 후보자 화면으로 이동
+  const onPromiseSelect = () => {
+    navigate(`/flag-meeting/${flagId}/guestTimeInput`);
+  };
+
+  //약속 확정 가능 여부 확인
+  const [state, setState] = useState(false);
+  useEffect(() => {
+    axios({
+      url: `/flag/${flag_id}/checkState`,
+      method: 'GET',
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((response) => {
+        console.log(response.data);
+        setState(response.data);
+      })
+      .catch((error) => {
+        console.error('AxiosError:', error);
+        //error.preventDefault();
+      });
+  }, []);
+
+    //사용자 이름 가져오기
+    const [user, setUser] = useState("");
+    useEffect(() => {
+      axios({
+        url: `/user/mypage`,
+        method: 'GET',
+        headers: {
+          Authorization: token,
+        },
+      })
+        .then((response) => {
+          setUser(response.data.name);
+        })
+        .catch((error) => {
+          console.error('AxiosError:', error);
+          //error.preventDefault();
+        });
+    }, []);
 
   return (
     <div>
@@ -298,9 +345,15 @@ function FlagMeeting() {
             </Participants_people_box>
           </Flag_Meeting_non_set_box>
           {/*입력 수정하기 버튼 */}
-          <Flag_Meeting_edit_btn onClick={onEdit}>
-            입력 수정하기
-          </Flag_Meeting_edit_btn>
+          {state === true && user === flagHost? 
+          (<Flag_Meeting_edit_btn onClick={onPromiseSelect}>
+              약속 확정하기
+            </Flag_Meeting_edit_btn>) : (
+            <Flag_Meeting_edit_btn onClick={onEdit}>
+              입력 수정하기
+            </Flag_Meeting_edit_btn>
+            )
+          }
         </Flag_Meeting_main_content>
       </Flag_Meeting_main_box>
     </div>
