@@ -37,6 +37,10 @@ const Candidate_Container = styled.div`
   align-items: center;
   width: 587px;
   height: 450px;
+
+  @media screen and (max-width: 500px) {
+    width: 350px;
+  }
 `;
 
 const Frame = styled.div`
@@ -67,6 +71,10 @@ const MemberCountArea = styled.div`
   justify-content: flex-start;
   margin-top: 25px;
   padding: 15px 15px 0px 15px;
+
+  @media screen and (max-width: 500px) {
+    width: 350px;
+  }
 `;
 
 const PeopleIcon = styled.img`
@@ -91,6 +99,10 @@ const CandidateWrapper = styled.div<{
     ${(props) => (props.isSelected ? '#6041FF' : '#9c9c9c')};
   background: #fff;
   margin-bottom: 17px;
+
+  @media screen and (max-width: 500px) {
+    width: 320px;
+  }
 `;
 
 const CandidateInfoWrapper = styled.div`
@@ -143,6 +155,7 @@ const Button = styled.button`
   background-color: white;
   border: none;
   margin-top: 20px;
+  margin-bottom: 20px;
 `;
 
 interface ICandiates {

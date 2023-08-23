@@ -27,6 +27,10 @@ const ContentWrapper = styled.div`
   width: 587px;
   border: 2px solid #9c9c9c;
   border-radius: 14px;
+
+  @media screen and (max-width: 500px) {
+    width: 320px;
+  }
 `;
 
 const Flag_Content = styled.div`
