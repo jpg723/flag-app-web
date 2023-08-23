@@ -7,7 +7,7 @@ import btnLogout from '../contents/desktop/mypage/Btn_마이페이지_Logout.svg
 import btnWithdraw from '../contents/desktop/mypage/Btn_마이페이지_Withdraw.svg';
 import btnAddfriend from '../contents/desktop/mypage/Btn_마이페이지_Addfriend.svg';
 import MyPageFriendList from '../components/mypageFriends/MyPageFriendList';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { addFriendAtom, emailState, friendListAtom, isLoginAtom, userNameState } from '../recoil/Atoms';
 import axios from 'axios';
@@ -17,7 +17,8 @@ import axios from 'axios';
 
 const MyPageCover = styled.div`
   height: 1481px;
-  width: 1440px;
+  width: 100%;
+  text-align: center;
   @media screen and (max-width: 500px) {
     width: 100%;
     height: 100%;
@@ -31,7 +32,8 @@ const MyPageAccount = styled.div`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin: 69px auto 0px 233px;
+  width: 300px;
+  margin: 69px auto 0px 230px;
   @media screen and (max-width: 500px) {
     font-size: 17px;
     width: 200px;
@@ -39,12 +41,15 @@ const MyPageAccount = styled.div`
   }
 `;
 const MyPageCover2 = styled.div`
+border: 2px solid #000;
   width: 355px;
   text-align: center;
-  margin: 0px auto auto 542px;
+  margin: 0px auto;
+  margin-bottom: 125px;
   @media screen and (max-width: 500px) {
     width: 100%;
     margin: 0px;
+    margin-bottom: 100px;
   }
 `;
 const MyPageAccountImg = styled.div`
@@ -111,16 +116,7 @@ const MyPageLine = styled.hr`
     background: rgba(0, 0, 0, 0.18);
   }
 `;
-const MyPageCover3 = styled.div`
-  width: 607px;
-  margin: 157px auto auto 216px;
-  @media screen and (max-width: 500px) {
-    width: 302px;
-    height: 270px;
-    margin: 51px auto 18px;
-    text-align: left;
-  }
-`;
+
 const MyPageFriendsListText = styled.span`
   color: #000;
   font-family: Inter;
@@ -128,19 +124,29 @@ const MyPageFriendsListText = styled.span`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin: 0px auto 0px 0px;
+  margin: auto auto -10px -170px;
   @media screen and (max-width: 500px) {
-    font-size: 20px;
-    margin: 0px auto 0px 0px;
+    font-size: 18px;
+    margin: auto auto -10px -110px;
+  }
+`;
+const MyPageCover3 = styled.div`
+  width: 507px;
+  margin: 0px auto auto;
+  @media screen and (max-width: 500px) {
+    width: 302px;
+    height: 270px;
+    margin: 0px auto 18px;
+    text-align: left;
   }
 `;
 const MyPageFriendAdd = styled.img`
   background-color: transparent;
   padding: 0px;
   float: right;
-  margin: 20px 15px 11px auto;
+  margin: -35px 15px 11px auto;
   @media screen and (max-width: 500px) {
-    margin: 7px 10px 11px auto;
+    margin: -25px 10px 11px auto;
     width: 21px;
     height: 21px;
   }
@@ -241,8 +247,8 @@ function MyPage() {
           <Link to="/" ><MyPageEdit src={btnLogout} onClick={logout} /></Link>
           <Link to="/" ><MyPageEdit src={btnWithdraw} onClick={delUser} /></Link>
         </MyPageCover2>
+        <MyPageFriendsListText> {name}님의 친구목록 </MyPageFriendsListText>
         <MyPageCover3>
-          <MyPageFriendsListText> {name}님의 친구목록 </MyPageFriendsListText>
           <MyPageFriendAdd src={btnAddfriend} onClick={addFriends} />
           <MyPageFriendList />
         </MyPageCover3>

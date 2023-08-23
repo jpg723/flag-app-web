@@ -7,9 +7,9 @@ import {
 } from '../../recoil/Atoms';
 
 const Wrapper = styled.div`
-  width: 605px;
+  width: 505px;
   height: 362px;
-  margin: 20px 0px 0px 0px;
+  margin: 10px 0px 0px 0px;
   border-radius: 18px;
   border: 2px solid var(--primary-deep, #6041ff);
   padding: 20px 10px 20px 25px;
@@ -24,6 +24,7 @@ const Wrapper = styled.div`
   }
 `;
 const FriendsListFrame = styled.div`
+border: 2px solid #000;
   width: 100%;
   height: 100%;
   row-gap: 22px;
