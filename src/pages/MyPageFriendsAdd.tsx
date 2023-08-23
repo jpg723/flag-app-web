@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import searchIc from '../contents/desktop/mypage/Ic_마이페이지 - 친구추가_Search.svg';
-import { addFriendAtom } from '../recoil/Atoms';
+import { addFriendAtom, friendListAtom } from '../recoil/Atoms';
 import MyPageFriendAddItem from '../components/mypageFriends/MyPageFriendAddItem';
 import btnBack from '../contents/mobile/mypage/Btn_back.svg';
 import mobileLogo from '../contents/mobile/sign/Logo_플래그.svg';
@@ -31,29 +31,14 @@ const FriendsAddHeaderBack = styled.button`
     background-image: url(${btnBack});
     background-color: transparent;
     background-repeat: no-repeat;
-    margin: auto auto 11px 12px;
+    margin: auto 0px 11px 12px;
   }
 `;
 const FriendsAddHeaderLogo = styled.img`
   display: none;
   @media screen and (max-width: 500px) {
     display: inline; 
-    margin: auto 20% 10px;
-  }
-`;
-const FriendsAddHeaderMenuBtn = styled.button`
-  display: none;
-  @media screen and (max-width: 500px) {
-    display: inline; 
-    text-align: right;
-    border: none;
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-    background-image: url(${mobileMenuBtn});
-    background-color: transparent;
-    background-repeat: no-repeat; 
-    margin: auto 20px 15px auto;
+    margin: auto auto 10px 30%;
   }
 `;
 
@@ -84,12 +69,13 @@ const FriendsSearchFrame = styled.div`
   @media screen and (max-width: 500px) {
     width: 310px;
     height: 35px;
-    padding: 13px;
+    padding-left: 10px;
     margin: 15px auto 0px 28px;
   }
 `;
 const FriendsSearch = styled.input`
   border: none;
+  
   outline: none;
   color: #999;
   background: #D9D9D9;
@@ -98,22 +84,46 @@ const FriendsSearch = styled.input`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  @media screen and (max-width: 500px) {
+    width: 210px;
+  }
 `;
 const FriendsSearchIc = styled.img`
   margin-left: 160px;
   margin-right: 13px;
   @media screen and (max-width: 500px) {
-    margin-left: 45px;
+    margin-left: 50px;
   }
 `;
 
 
 function FriendsAdd() {
   const [inputWord, setInputWord] = useState('');
+  const [name, setName] = useState('');
   const [addFriend, setAddFriend] = useRecoilState(addFriendAtom);
-  
-  useEffect(() => {
-  }, [inputWord]);
+  const [friendList, setFriendList] = useRecoilState(friendListAtom);
+
+  useEffect(()=> {
+    const userName = sessionStorage.getItem('name');
+    if (userName !== null){
+      setName(userName);
+    }
+    sessionStorage.removeItem('name');
+
+    console.log('친구목록 업데이트');
+    const token = sessionStorage.getItem('token');
+    axios({
+      url: '/friends/friendList',
+      method: 'get',
+      headers: {
+        Authorization: token,
+      },
+    }).then((response) => {
+      setFriendList(response.data);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }, []);
 
   const friendSearch = () => {
     console.log("친구 조회");
@@ -130,12 +140,19 @@ function FriendsAdd() {
       },
     }).then(response => {
       console.log(response.data);
+      console.log(friendList);
       if (response.data.isSuccess === true) {
         console.log(response.data.result);
-        //친구 name, 친구 여부 (true, false)
-        const text = response.data.result.UserResponse;
-        console.log('text' + text);
-        setAddFriend({name: inputWord, isFriend: false});
+        let isFriend = false;
+        for (let f of friendList) {
+          if (f.name === inputWord) {
+            isFriend = true;
+          }
+        }
+        if (name === inputWord) {
+          isFriend = true;
+        }
+        setAddFriend({name: inputWord, isFriend: isFriend});
       } else {
         alert(response.data.message);
       }
@@ -144,12 +161,12 @@ function FriendsAdd() {
     });
     console.log("백엔드 전달");
   }
+
   return (
     <>
       <FriendsAddHeaderFrame>
         <FriendsAddHeaderBack onClick={() => {window.close();}} />
         <FriendsAddHeaderLogo src={mobileLogo} />
-        <FriendsAddHeaderMenuBtn />
       </FriendsAddHeaderFrame>
       <FriendsAddText>친구 추가</FriendsAddText>
       <FriendsSearchFrame>

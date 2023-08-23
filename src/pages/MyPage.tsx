@@ -184,6 +184,7 @@ function MyPage() {
   },[addFriend]);
 
   const addFriends = () => {
+    sessionStorage.setItem('name', name);
     window.open( '/MyPage_FriendsAdd', '_blank', 'width=835, height=375, toolbar=no' );
   }
 

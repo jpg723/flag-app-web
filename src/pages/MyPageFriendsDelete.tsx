@@ -47,6 +47,12 @@ const ReturnBtn = styled.button`
   font-weight: 600;
   line-height: normal;
   margin-right: 45px;
+  @media screen and (max-width: 500px) {
+    width: 128px;
+    height: 39px;
+    font-size: 16px;
+    padding: 10px;
+  }
 `;
 const DeleteBtn = styled.button`
   display: inline;
@@ -66,6 +72,12 @@ const DeleteBtn = styled.button`
   font-weight: 600;
   line-height: normal;
   margin-left: 45px;
+  @media screen and (max-width: 500px) {
+    width: 128px;
+    height: 41px;
+    font-size: 16px;
+    padding: 10px;
+  }
 `;
 
 function FriendsDelete() {
@@ -90,30 +102,14 @@ function FriendsDelete() {
     }).then((response) => {
       console.log(response);
       if (response.data.result === "SUCCESS" ){
+        window.opener.location.reload();
         window.close();
-        changeFriends(); //안되는...!
       }
       else {
         alert(response.data.result);
       }
     }).catch((error) => {
       console.error('AxiosError:', error);
-    });
-  }
-
-  const changeFriends = () => {
-    console.log('친구목록 업데이트');
-    const token = sessionStorage.getItem('token');
-    axios({
-      url: '/friends/friendList',
-      method: 'get',
-      headers: {
-        Authorization: token,
-      },
-    }).then((response) => {
-      setFriendList(response.data);
-    }).catch((error) => {
-      console.log(error);
     });
   }
 
