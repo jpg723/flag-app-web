@@ -12,6 +12,7 @@ import {
   useNavigate,
 } from 'react-router-dom';
 import CurrentTimeTable from '../components/TimeTable/CurrentTimeTable';
+import moment from 'moment';
 const Flag_Meeting_header = styled.div`
   margin-top: 44px;
   margin-left: 198px;
@@ -79,18 +80,21 @@ const Flag_Meeting_main_content = styled.div`
 /*가능한 참여자*/
 const Flag_Meeting_participants_box = styled.div`
   width: 365px;
-`;
-
-const Set_text = styled.div`
-  margin-left: 5px;
-  font-size: 15px;
-  width: 365px;
+  margin-bottom: 20px;
 `;
 
 /*미응답 참여자*/
 const Flag_Meeting_non_set_box = styled.div`
-  margin-top: 20px;
+  //margin-top: 20px;
   width: 365px;
+`;
+
+const Set_text = styled.div`
+  display: flex;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 3px;
+  margin-left: 6px;
 `;
 
 const Nonset_text = styled.div`
@@ -103,6 +107,7 @@ const Nonset_text = styled.div`
 
 const Participants_box_header = styled.div`
   display: flex;
+  align-items: center;
   font-size: 15px;
   font-weight: 500;
 `;
@@ -111,6 +116,15 @@ const Participants_box_header = styled.div`
 const Participants_box_icon1 = styled.div`
   border: none;
   background-color: #85ff72;
+  width: 18px;
+  height: 18px;
+  border-radius: 20px;
+`;
+
+/*빨간공*/
+const Participants_box_icon2 = styled.div`
+  border: none;
+  background-color: #ff6060;
   width: 18px;
   height: 18px;
   border-radius: 20px;
@@ -232,9 +246,6 @@ function FlagMeeting() {
     axios({
       url: `/flag/${flag_id}/checkState`,
       method: 'GET',
-      headers: {
-        Authorization: token,
-      },
     })
       .then((response) => {
         console.log(response.data);
@@ -246,24 +257,61 @@ function FlagMeeting() {
       });
   }, []);
 
-    //사용자 이름 가져오기
-    const [user, setUser] = useState("");
-    useEffect(() => {
-      axios({
-        url: `/user/mypage`,
-        method: 'GET',
-        headers: {
-          Authorization: token,
-        },
+  //사용자 이름 가져오기
+  const [user, setUser] = useState('');
+  useEffect(() => {
+    axios({
+      url: `/user/mypage`,
+      method: 'GET',
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((response) => {
+        setUser(response.data.name);
       })
-        .then((response) => {
-          setUser(response.data.name);
-        })
-        .catch((error) => {
-          console.error('AxiosError:', error);
-          //error.preventDefault();
-        });
-    }, []);
+      .catch((error) => {
+        console.error('AxiosError:', error);
+        //error.preventDefault();
+      });
+  }, []);
+
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+
+  interface ICellInfo {
+    date: string;
+    endTime: string;
+    startTime: string;
+    members: string[];
+  }
+  const [cellInfo, setCellInfo] = useState<ICellInfo>();
+  const [date, setDate] = useState('');
+
+  useEffect(() => {
+    const temp = moment(cellInfo?.date);
+    const month = temp.format('M');
+    const day = temp.format('D');
+    setDate(`${month}월 ${day}일`);
+  }, [cellInfo]);
+
+  const onClickCell = (cellIndex: number) => {
+    setSelectedIndex(cellIndex);
+
+    axios({
+      url: `/flag/${flagId}/${cellIndex}`,
+      method: 'get',
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((response) => {
+        console.log(response.data);
+        setCellInfo(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div>
@@ -271,8 +319,7 @@ function FlagMeeting() {
       <Flag_Meeting_content>
         {flagPlace}
       </Flag_Meeting_content>
-      <Flag_Meeting_content>
-      </Flag_Meeting_content>
+      <Flag_Meeting_content></Flag_Meeting_content>
       <Flag_Meeting_main_box>
         <TimeTable_box>
           {timeSlot === 6 && isLoading ? (
@@ -281,6 +328,8 @@ function FlagMeeting() {
               userTotalCount={userTotalCount}
               cycle={'morning'}
               selectedDates={dates}
+              selectedIndex={selectedIndex}
+              onClickCell={onClickCell}
             />
           ) : null}
           {timeSlot === 12 && isLoading ? (
@@ -289,6 +338,8 @@ function FlagMeeting() {
               userTotalCount={userTotalCount}
               cycle={'afternoon'}
               selectedDates={dates}
+              selectedIndex={selectedIndex}
+              onClickCell={onClickCell}
             />
           ) : null}
           {timeSlot === 18 && isLoading ? (
@@ -297,6 +348,8 @@ function FlagMeeting() {
               userTotalCount={userTotalCount}
               cycle={'evening'}
               selectedDates={dates}
+              selectedIndex={selectedIndex}
+              onClickCell={onClickCell}
             />
           ) : null}
           {timeSlot === 0 && isLoading ? (
@@ -305,6 +358,8 @@ function FlagMeeting() {
               userTotalCount={userTotalCount}
               cycle={'dawn'}
               selectedDates={dates}
+              selectedIndex={selectedIndex}
+              onClickCell={onClickCell}
             />
           ) : null}
         </TimeTable_box>
@@ -312,7 +367,7 @@ function FlagMeeting() {
           {/*가능한 참여자 */}
           <Flag_Meeting_participants_box>
             <Participants_box_header>
-              <Participants_box_icon1></Participants_box_icon1>
+              <Participants_box_icon1 />
               <Set_text>응답한 참여자</Set_text>
             </Participants_box_header>
             <Participants_people_box>
@@ -327,6 +382,29 @@ function FlagMeeting() {
               ))}
             </Participants_people_box>
           </Flag_Meeting_participants_box>
+          {selectedIndex > -1 ? (
+            <Flag_Meeting_participants_box>
+              <Participants_box_header>
+                <Participants_box_icon2 />
+                <Set_text>
+                  {`${date} ${cellInfo?.startTime} ~ ${cellInfo?.endTime} 에 가능한 참여자`}
+                </Set_text>
+              </Participants_box_header>
+              <Participants_people_box>
+                {/*참여자 정보*/}
+                {cellInfo?.members.map((name) => (
+                  <Participants_people_content_box>
+                    <Participants_people_profile></Participants_people_profile>
+                    <Participants_people_id>
+                      {name}
+                    </Participants_people_id>
+                  </Participants_people_content_box>
+                ))}
+              </Participants_people_box>
+            </Flag_Meeting_participants_box>
+          ) : null}
+          {/*클릭한 셀에 가능한 참여자 */}
+
           {/*미응답 참여자 */}
           <Flag_Meeting_non_set_box>
             <Participants_box_header>
@@ -345,15 +423,17 @@ function FlagMeeting() {
             </Participants_people_box>
           </Flag_Meeting_non_set_box>
           {/*입력 수정하기 버튼 */}
-          {state === true && user === flagHost? 
-          (<Flag_Meeting_edit_btn onClick={onPromiseSelect}>
+          {state === true && user === flagHost ? (
+            <Flag_Meeting_edit_btn
+              onClick={onPromiseSelect}
+            >
               약속 확정하기
-            </Flag_Meeting_edit_btn>) : (
+            </Flag_Meeting_edit_btn>
+          ) : (
             <Flag_Meeting_edit_btn onClick={onEdit}>
               입력 수정하기
             </Flag_Meeting_edit_btn>
-            )
-          }
+          )}
         </Flag_Meeting_main_content>
       </Flag_Meeting_main_box>
     </div>

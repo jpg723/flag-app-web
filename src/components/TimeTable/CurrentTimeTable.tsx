@@ -6,6 +6,8 @@ import {
   useState,
 } from 'react';
 import { CellStyle } from '../../enums';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const Timetable_day = styled.div`
   height: 18px;
@@ -64,6 +66,7 @@ const TimeTable_container_col = styled.div`
 
 const TimeTable_container_row = styled.span<{
   cellStyle: CellStyle;
+  isSelected: boolean;
 }>`
   width: 100%;
   height: 100%;
@@ -76,7 +79,9 @@ const TimeTable_container_row = styled.span<{
   align-items: center;
 
   background-color: ${(props) =>
-    props.cellStyle === CellStyle.RARE
+    props.isSelected
+      ? '#FF6060'
+      : props.cellStyle === CellStyle.RARE
       ? '#ddd4ff'
       : props.cellStyle === CellStyle.SOME
       ? '#bdabff'
@@ -96,6 +101,8 @@ interface IProps {
   ableCells: number[];
   userTotalCount: number;
   selectedDates: string[];
+  selectedIndex: number;
+  onClickCell: (cellIndex: number) => void;
   //flagId: string | undefined;
 }
 
@@ -104,6 +111,8 @@ function CurrentTimeTable({
   ableCells,
   userTotalCount,
   selectedDates,
+  selectedIndex,
+  onClickCell,
 }: IProps) {
   const [cellStyleTable, setCellStyleTable] = useState<
     CellStyle[][]
@@ -195,6 +204,9 @@ function CurrentTimeTable({
     copyDates.push(copyDate);
     copyDays.push(day[d]);
   });
+
+  const { flagId } = useParams();
+  const token = sessionStorage.getItem('token');
 
   const row = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const time: number[] = [];
@@ -309,16 +321,33 @@ function CurrentTimeTable({
               (selectedDates.length >= 1 ? ' active' : '')
             }
           >
-            {row.map((time_row, r_index) => (
-              <TimeTable_container_row
-                key={'1 ' + time_row}
-                id={'1 ' + time_row}
-                cellStyle={cellStyleTable[0][time_row - 1]}
-                className={
-                  'TimeTable_container_row' + `${time_row}`
-                }
-              ></TimeTable_container_row>
-            ))}
+            {row.map((time_row, r_index) => {
+              const gap = selectedDates.length;
+              const start_cell = gap;
+              const cellIndex =
+                start_cell + gap * (time_row - 1);
+              return (
+                <TimeTable_container_row
+                  key={'1 ' + time_row}
+                  id={'1 ' + time_row}
+                  cellStyle={
+                    cellStyleTable[0][time_row - 1]
+                  }
+                  isSelected={
+                    cellIndex === selectedIndex
+                      ? true
+                      : false
+                  }
+                  onClick={() => {
+                    onClickCell(cellIndex);
+                  }}
+                  className={
+                    'TimeTable_container_row' +
+                    `${time_row}`
+                  }
+                ></TimeTable_container_row>
+              );
+            })}
           </TimeTable_container_col>
           <TimeTable_container_col
             className={
@@ -326,16 +355,33 @@ function CurrentTimeTable({
               (selectedDates.length >= 2 ? ' active' : '')
             }
           >
-            {row.map((time_row, r_index) => (
-              <TimeTable_container_row
-                key={'2 ' + time_row}
-                id={'2 ' + time_row}
-                cellStyle={cellStyleTable[1][time_row - 1]}
-                className={
-                  'TimeTable_container_row' + `${time_row}`
-                }
-              ></TimeTable_container_row>
-            ))}
+            {row.map((time_row, r_index) => {
+              const gap = selectedDates.length;
+              const start_cell = gap + 1;
+              const cellIndex =
+                start_cell + gap * (time_row - 1);
+              return (
+                <TimeTable_container_row
+                  key={'2 ' + time_row}
+                  id={'2 ' + time_row}
+                  cellStyle={
+                    cellStyleTable[1][time_row - 1]
+                  }
+                  isSelected={
+                    cellIndex === selectedIndex
+                      ? true
+                      : false
+                  }
+                  onClick={() => {
+                    onClickCell(cellIndex);
+                  }}
+                  className={
+                    'TimeTable_container_row' +
+                    `${time_row}`
+                  }
+                ></TimeTable_container_row>
+              );
+            })}
           </TimeTable_container_col>
           <TimeTable_container_col
             className={
@@ -343,16 +389,33 @@ function CurrentTimeTable({
               (selectedDates.length >= 3 ? ' active' : '')
             }
           >
-            {row.map((time_row, r_index) => (
-              <TimeTable_container_row
-                key={'3 ' + time_row}
-                id={'3 ' + time_row}
-                cellStyle={cellStyleTable[2][time_row - 1]}
-                className={
-                  'TimeTable_container_row' + `${time_row}`
-                }
-              ></TimeTable_container_row>
-            ))}
+            {row.map((time_row, r_index) => {
+              const gap = selectedDates.length;
+              const start_cell = gap + 2;
+              const cellIndex =
+                start_cell + gap * (time_row - 1);
+              return (
+                <TimeTable_container_row
+                  key={'3 ' + time_row}
+                  id={'3 ' + time_row}
+                  cellStyle={
+                    cellStyleTable[2][time_row - 1]
+                  }
+                  isSelected={
+                    cellIndex === selectedIndex
+                      ? true
+                      : false
+                  }
+                  onClick={() => {
+                    onClickCell(cellIndex);
+                  }}
+                  className={
+                    'TimeTable_container_row' +
+                    `${time_row}`
+                  }
+                ></TimeTable_container_row>
+              );
+            })}
           </TimeTable_container_col>
           <TimeTable_container_col
             className={
@@ -360,16 +423,33 @@ function CurrentTimeTable({
               (selectedDates.length >= 4 ? ' active' : '')
             }
           >
-            {row.map((time_row, r_index) => (
-              <TimeTable_container_row
-                key={'4 ' + time_row}
-                id={'4 ' + time_row}
-                cellStyle={cellStyleTable[3][time_row - 1]}
-                className={
-                  'TimeTable_container_row' + `${time_row}`
-                }
-              ></TimeTable_container_row>
-            ))}
+            {row.map((time_row, r_index) => {
+              const gap = selectedDates.length;
+              const start_cell = gap + 3;
+              const cellIndex =
+                start_cell + gap * (time_row - 1);
+              return (
+                <TimeTable_container_row
+                  key={'4 ' + time_row}
+                  id={'4 ' + time_row}
+                  cellStyle={
+                    cellStyleTable[3][time_row - 1]
+                  }
+                  isSelected={
+                    cellIndex === selectedIndex
+                      ? true
+                      : false
+                  }
+                  onClick={() => {
+                    onClickCell(cellIndex);
+                  }}
+                  className={
+                    'TimeTable_container_row' +
+                    `${time_row}`
+                  }
+                ></TimeTable_container_row>
+              );
+            })}
           </TimeTable_container_col>
           <TimeTable_container_col
             className={
@@ -377,16 +457,33 @@ function CurrentTimeTable({
               (selectedDates.length >= 5 ? ' active' : '')
             }
           >
-            {row.map((time_row, r_index) => (
-              <TimeTable_container_row
-                key={'5 ' + time_row}
-                id={'5 ' + time_row}
-                cellStyle={cellStyleTable[4][time_row - 1]}
-                className={
-                  'TimeTable_container_row' + `${time_row}`
-                }
-              ></TimeTable_container_row>
-            ))}
+            {row.map((time_row, r_index) => {
+              const gap = selectedDates.length;
+              const start_cell = gap + 4;
+              const cellIndex =
+                start_cell + gap * (time_row - 1);
+              return (
+                <TimeTable_container_row
+                  key={'5 ' + time_row}
+                  id={'5 ' + time_row}
+                  cellStyle={
+                    cellStyleTable[4][time_row - 1]
+                  }
+                  isSelected={
+                    cellIndex === selectedIndex
+                      ? true
+                      : false
+                  }
+                  onClick={() => {
+                    onClickCell(cellIndex);
+                  }}
+                  className={
+                    'TimeTable_container_row' +
+                    `${time_row}`
+                  }
+                ></TimeTable_container_row>
+              );
+            })}
           </TimeTable_container_col>
         </TimeTable_container>
       </TimeTable_box>
