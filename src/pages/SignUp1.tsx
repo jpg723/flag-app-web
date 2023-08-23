@@ -244,7 +244,7 @@ function SignUp1() {
       axios({
         url: '/user/checkEmail',
         method: 'POST',
-        data: { email: id, },
+        params: { email: id, },
       }).then((response) => {
         console.log(response.data);
         alert(response.data.message); 
@@ -263,7 +263,7 @@ function SignUp1() {
       axios({
         url: '/user/checkName',
         method: 'POST',
-        data: { name: name, },
+        params: { name: name, },
       }).then((response) => {
         console.log(response.data);
         alert(response.data.message); 
@@ -327,7 +327,7 @@ function SignUp1() {
         </InputEmailCover>
         <InputLine />
         <HintText id="checkIdText">
-          {isId ? '사용 가능한 이메일입니다.' : 'ex) abc123@email.com' }
+          {isIdCheck ? '사용 가능한 이메일입니다.' : 'ex) abc123@email.com' }
           <EmailBtn onClick={idCheck} src={checkBtn} />
         </HintText>
         <InputPw type="password" id="pw" name="pw" placeholder="비밀번호"

@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { addFriendAtom, friendListAtom } from '../../recoil/Atoms';
+import { addFriendAtom } from '../../recoil/Atoms';
 import btnAddfriend1 from '../../contents/desktop/mypage/Btn_friendAdd.svg';
 import btnAddfriend2 from '../../contents/desktop/mypage/Btn_friendAdd2.svg';
 
@@ -14,6 +13,8 @@ const FriendFrame = styled.div`
   align-items: center;
   margin: 18px auto auto 100px;
   @media screen and (max-width: 500px) {
+    width: 280px;
+    margin: 18px auto auto 40px;
   }
 `;
 
@@ -49,6 +50,9 @@ const FriendAddBtn = styled.span<{ isAdd: boolean }>`
   font-weight: 400;
   line-height: 17px;
   margin: auto 0px auto auto;
+  @media screen and (max-width: 500px) {
+    margin: auto 0px auto auto;
+  }
 `;
 
 interface IFriendItemProps {
@@ -59,7 +63,6 @@ interface IFriendItemProps {
 
 const MyPageFriendAddItem = ({name, existFriend}: IFriendItemProps) => {
   const [addFriend, setAddFriend] = useRecoilState(addFriendAtom);
-  const [friendList, setFriendList] = useRecoilState(friendListAtom);
 
   const addFriendsList = () => {
     const token = sessionStorage.getItem('token');
@@ -79,11 +82,9 @@ const MyPageFriendAddItem = ({name, existFriend}: IFriendItemProps) => {
       }).then((response) => {
         console.log(response.data);
         alert(response.data.message);
+        window.opener.location.reload();
         if (response.data.isSuccess){
-          const newList = [...friendList, {name: name}];
-          setFriendList(newList);
           setAddFriend({name: name, isFriend: true}); //버튼 변화
-          //changeFriends();
         }
       }).catch((error) => {
         console.error('AxiosError:', error);
@@ -92,22 +93,6 @@ const MyPageFriendAddItem = ({name, existFriend}: IFriendItemProps) => {
       alert('이미 친구인 사용자 입니다.');
     }
   };
-
-  const changeFriends = () => {
-    console.log('친구목록 업데이트');
-    const token = sessionStorage.getItem('token');
-    axios({
-      url: '/friends/friendList',
-      method: 'get',
-      headers: {
-        Authorization: token,
-      },
-    }).then((response) => {
-      setFriendList(response.data);
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
 
   return (
     <>
