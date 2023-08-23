@@ -28,8 +28,11 @@ import img_step3_mobile from '../contents/mobile/flag/모바일_Img_서비스안
 import img_btn from '../contents/desktop/flag/데스크탑_Btn_서비스안내_약속만들기.svg';
 import img_btn_mobile from '../contents/mobile/flag/모바일_Btn_서비스안내_약속 만들기.svg';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { isLoginAtom } from '../recoil/Atoms';
+import {
+  useRecoilState,
+  useResetRecoilState,
+} from 'recoil';
+import { isLoginAtom, makeFlagAtom } from '../recoil/Atoms';
 
 const Wrapper = styled.div`
   display: flex;
@@ -233,6 +236,7 @@ const Button = styled.button`
 
 const ServiceInfo = () => {
   const navigate = useNavigate();
+  const resetValue = useResetRecoilState(makeFlagAtom);
   const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
 
   //약속 만들기 버튼 클릭 시
@@ -243,8 +247,9 @@ const ServiceInfo = () => {
       navigate('/login');
     } else {
       // sessionStorage 에 name 라는 key 값으로 저장된 값이 있다면
+      resetValue();
       navigate('/makeFlag');
-      }
+    }
   };
 
   return (

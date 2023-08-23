@@ -62,7 +62,7 @@ const MakeFlag = () => {
   const resetValue = useResetRecoilState(makeFlagAtom);
 
   useEffect(() => {
-    resetValue();
+    //resetValue();
   }, []);
   const navigate = useNavigate();
 

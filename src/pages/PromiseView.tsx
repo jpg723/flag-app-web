@@ -7,8 +7,11 @@ import FlagBox1 from '../components/FlagBox/FlagBox1';
 import FlagBox3 from '../components/FlagBox/FlagBox3';
 import { useState, useEffect } from 'react';
 import axios, { AxiosResponse } from 'axios';
-import { useRecoilState } from 'recoil';
-import { isLoginAtom } from '../recoil/Atoms';
+import {
+  useRecoilState,
+  useResetRecoilState,
+} from 'recoil';
+import { isLoginAtom, makeFlagAtom } from '../recoil/Atoms';
 import { useNavigate } from 'react-router-dom';
 
 const PromiseView_main = styled.div`
@@ -204,6 +207,7 @@ function PromiseView() {
   }, []);
 
   const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
+  const resetValue = useResetRecoilState(makeFlagAtom);
   const navigate = useNavigate();
 
   //약속 만들기 버튼 클릭 시
@@ -212,6 +216,7 @@ function PromiseView() {
       navigate('/login');
     } else {
       // sessionStorage 에 name 라는 key 값으로 저장된 값이 있다면
+      resetValue();
       navigate('/makeFlag');
     }
   };

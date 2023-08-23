@@ -13,8 +13,11 @@ import img5_mobile from '../contents/mobile/flag/모바일_Img_메인3.svg';
 import img_btn_mobile from '../contents/mobile/flag/모바일_Btn_메인_약속 만들기.svg';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import { isLoginAtom } from '../recoil/Atoms';
+import {
+  useRecoilState,
+  useResetRecoilState,
+} from 'recoil';
+import { isLoginAtom, makeFlagAtom } from '../recoil/Atoms';
 
 const Wrapper = styled.div`
   display: flex;
@@ -111,19 +114,20 @@ const Button = styled.button`
 
 const Main = () => {
   const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
+  const resetValue = useResetRecoilState(makeFlagAtom);
   const navigate = useNavigate();
 
   const handleButton = () => {
-
-    if (sessionStorage.getItem("token") === null) {
+    if (sessionStorage.getItem('token') === null) {
       // sessionStorage 에 name 라는 key 값으로 저장된 값이 없다면
       navigate('/login');
     } else {
       // sessionStorage 에 name 라는 key 값으로 저장된 값이 있다면
       // 로그인 상태 변경
       setIsLogin(true);
+      resetValue();
       navigate('/makeFlag');
-      }
+    }
   };
   return (
     <Wrapper>
