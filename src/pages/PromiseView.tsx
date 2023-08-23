@@ -46,8 +46,7 @@ const PromiseView_flag_box = styled.div`
 const PromiseView_line = styled.div`
   background: rgba(0, 0, 0, 0.61);
   width: 2px;
-  height: 607px;
-  margin: 80px 65px 100px;
+  margin: 80px 65px 30px 65px;
 
   @media screen and (max-width: 500px) {
     width: 360px;

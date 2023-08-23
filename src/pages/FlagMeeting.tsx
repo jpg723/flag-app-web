@@ -181,6 +181,8 @@ const Flag_Meeting_edit_btn = styled.button`
   color: var(--background-white, #fff);
 
   @media screen and (max-width: 500px) {
+    padding-left: 53px;
+    padding-rigth: 53px;
   }
 `;
 

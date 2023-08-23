@@ -143,6 +143,7 @@ const Button = styled.button`
   background-color: white;
   border: none;
   margin-top: 20px;
+  margin-bottom: 20px;
 `;
 
 interface ICandiates {
