@@ -24,7 +24,6 @@ const Wrapper = styled.div`
   }
 `;
 const FriendsListFrame = styled.div`
-border: 2px solid #000;
   width: 100%;
   height: 100%;
   row-gap: 22px;
