@@ -6,7 +6,6 @@ import {
   useResetRecoilState,
 } from 'recoil';
 import {
-  SelectedDatesAtom,
   makeFlagAtom,
   timeTableAtom,
 } from '../../recoil/Atoms';
@@ -92,19 +91,21 @@ interface IProps {
 }
 
 function TimeTable({ cycle }: IProps) {
-  const selectedDates = useRecoilValue(SelectedDatesAtom);
+  //const selectedDates = useRecoilValue(SelectedDatesAtom);
   const resetTimeTable = useResetRecoilState(timeTableAtom);
-  let selectedDates_copy = [...selectedDates];
-  selectedDates_copy.sort();
 
   const copyDates: string[] = [];
   const copyDays: string[] = [];
   const day = ['일', '월', '화', '수', '목', '금', '토'];
 
-  const { selectedCell } = useRecoilValue(makeFlagAtom);
+  const { selectedDates, selectedCell } =
+    useRecoilValue(makeFlagAtom);
   const timeTable = useRecoilValue(timeTableAtom);
   const setValue = useSetRecoilState(makeFlagAtom);
   const setTimeTable = useSetRecoilState(timeTableAtom);
+
+  let selectedDates_copy = [...selectedDates];
+  selectedDates_copy.sort();
 
   selectedDates_copy.forEach((date, index) => {
     let m = moment(date, 'YYYY-MM-DD');

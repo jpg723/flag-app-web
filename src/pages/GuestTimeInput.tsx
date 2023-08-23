@@ -10,10 +10,7 @@ import {
   useSetRecoilState,
   useResetRecoilState,
 } from 'recoil';
-import {
-  SelectedDatesAtom,
-  makeFlagAtom,
-} from '../recoil/Atoms';
+import { makeFlagAtom } from '../recoil/Atoms';
 import axios from 'axios';
 import { useEffect } from 'react';
 
@@ -84,11 +81,14 @@ const Comfirmed_promise_btn = styled.button`
 function GuestTimeInput() {
   const { flagId } = useParams();
   const { flagName, timeSlot, dates } = useLocation().state;
-  const setDates = useSetRecoilState(SelectedDatesAtom);
-  const resetDates = useResetRecoilState(SelectedDatesAtom);
+  //const setDates = useSetRecoilState(SelectedDatesAtom);
+  //const resetDates = useResetRecoilState(SelectedDatesAtom);
+  const { selectedDates } = useRecoilValue(makeFlagAtom);
+  const setValue = useSetRecoilState(makeFlagAtom);
+  const resetValue = useResetRecoilState(makeFlagAtom);
 
   useEffect(() => {
-    setDates(dates);
+    setValue((v) => ({ ...v, selectedDates: dates }));
   }, []);
 
   const { selectedCell } = useRecoilValue(makeFlagAtom);
@@ -109,7 +109,7 @@ function GuestTimeInput() {
       .then((response) => {
         {
           console.log(response);
-          resetDates();
+          resetValue();
         }
       })
       .catch((error) => {

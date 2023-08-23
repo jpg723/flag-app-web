@@ -166,8 +166,3 @@ export const timeTableAtom = atom<boolean[][]>({
     ],
   ],
 });
-
-export const SelectedDatesAtom = atom<string[]>({
-  key: 'selectedDates',
-  default: [],
-});
