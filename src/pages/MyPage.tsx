@@ -41,7 +41,6 @@ const MyPageAccount = styled.div`
   }
 `;
 const MyPageCover2 = styled.div`
-border: 2px solid #000;
   width: 355px;
   text-align: center;
   margin: 0px auto;
