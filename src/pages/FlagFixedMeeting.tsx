@@ -4,6 +4,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import img_btn from '../contents/desktop/flag/Btn_약속현황_Modify.svg';
+import { ReactComponent as MemoIcon } from '../contents/desktop/flag/Group 377.svg';
+import { ReactComponent as PlaceIcon } from '../contents/desktop/flag/Group 378.svg';
+import { ReactComponent as TimeIcon } from '../contents/desktop/flag/Group.svg';
+import { ReactComponent as TitleIcon } from '../contents/desktop/flag/Group 422.svg';
 
 const Container = styled.div`
   display: flex;
@@ -11,12 +15,22 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
+//약속 이름 박스
 const Flag_Title = styled.div`
   margin-top: 31px;
   text-align: center;
-  font-size: 30px;
+  font-size: 22px;
   font-style: normal;
   font-weight: 700;
+  display: flex;
+`;
+
+const Flag_Title_Content = styled.div`
+  text-align: center;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  display: flex;
 `;
 
 const ContentWrapper = styled.div`
@@ -24,8 +38,8 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 587px;
-  border: 2px solid #9c9c9c;
+  width: 400px;
+  border: 2px solid #D9D9D9;
   border-radius: 14px;
 
   @media screen and (max-width: 500px) {
@@ -35,10 +49,12 @@ const ContentWrapper = styled.div`
 
 const Flag_Content = styled.div`
   text-align: center;
-  font-size: 18px;
+  font-size: 15px;
   font-style: normal;
-  font-weight: 700;
-  padding: 20px;
+  font-weight: 600;
+  margin-left: 50px;
+  margin-top: 15px;
+  margin-bottom: 10px;
 `;
 
 const Button = styled.button`
@@ -48,6 +64,26 @@ const Button = styled.button`
   background-color: white;
   border: none;
   margin-top: 30px;
+`;
+
+//아이콘 박스
+const IconBox = styled.div`
+  margin-left: 20px;
+  margin-right: 10px;
+`;
+
+//구분선
+const Box_inline = styled.div`
+  border: 1px solid #D9D9D9;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  width: 350px;
+
+  @media screen and (max-width: 500px) {
+    width: 300px;
+  }
 `;
 
 const FlagFixedMeeting = () => {
@@ -103,14 +139,20 @@ const FlagFixedMeeting = () => {
     <Container>
       {isLoading ? null : (
         <>
-          <Flag_Title>{data?.name}</Flag_Title>
           <ContentWrapper>
-            <Flag_Content>{`- ${year}년 ${month}월 ${day}일`}</Flag_Content>
-            <Flag_Content>
-              {`- ${data?.startTime} ~ ${data?.endTime}`}
-            </Flag_Content>
-            <Flag_Content>{`- ${data?.place}`}</Flag_Content>
-            <Flag_Content>{`- ${data?.memo}`}</Flag_Content>
+            <Flag_Title>
+              <IconBox><TitleIcon></TitleIcon></IconBox>{data?.name}
+            </Flag_Title>
+            <Box_inline></Box_inline>
+            <Flag_Title_Content><IconBox><TimeIcon></TimeIcon></IconBox>일시</Flag_Title_Content>
+            <Flag_Content>{`${year}년 ${month}월 ${day}일`}&nbsp;&nbsp;
+            {`${data?.startTime} ~ ${data?.endTime}`}</Flag_Content>
+            <Box_inline></Box_inline>
+            <Flag_Title_Content><IconBox><PlaceIcon></PlaceIcon></IconBox>장소</Flag_Title_Content>
+            <Flag_Content>{`${data?.place}`}</Flag_Content>
+            <Box_inline></Box_inline>
+            <Flag_Title_Content><IconBox><MemoIcon></MemoIcon></IconBox>메모</Flag_Title_Content>
+            <Flag_Content>{`${data?.memo}`}</Flag_Content>
           </ContentWrapper>
           <Button onClick={onClick} />
         </>
