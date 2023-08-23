@@ -197,7 +197,9 @@ function Header() {
       <HeaderCover>
         <Link to="/"><HeaderLogo /></Link> 
         <HeaderItem><Link to="/serviceInfo">서비스 안내</Link></HeaderItem>
-        <HeaderItem><Link to="/promise-view">플래그</Link></HeaderItem>
+        <HeaderItem>
+          {isLogin === true ? (<Link to="/promise-view">플래그</Link>)
+          :(<Link to="/login">플래그</Link>)}</HeaderItem>
         { isLogin ? (
             <HeaderMenuLine>
               <HeaderLoginMenuBtn onClick={() => setMenu(!menu)} />
