@@ -223,7 +223,7 @@ function FlagMeeting() {
 
   //약속 후보자 화면으로 이동
   const onPromiseSelect = () => {
-    navigate(`/flag-meeting/${flagId}/guestTimeInput`);
+    navigate(`/flag-people-view`);
   };
 
   //약속 확정 가능 여부 확인
