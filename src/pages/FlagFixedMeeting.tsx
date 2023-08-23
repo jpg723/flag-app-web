@@ -75,6 +75,7 @@ const FlagFixedMeeting = () => {
   }
 
   const [data, setData] = useState<IData>();
+  const [isLoading, setIsLoading] = useState(true);
 
   const getData = async () => {
     await axios({
@@ -84,6 +85,7 @@ const FlagFixedMeeting = () => {
       .then((response) => {
         console.log(response.data);
         setData(response.data);
+        setIsLoading(false);
       })
       .catch((error) => console.log(error));
   };
@@ -99,16 +101,20 @@ const FlagFixedMeeting = () => {
 
   return (
     <Container>
-      <Flag_Title>{data?.name}</Flag_Title>
-      <ContentWrapper>
-        <Flag_Content>{`- ${year}년 ${month}월 ${day}일`}</Flag_Content>
-        <Flag_Content>
-          {`- ${data?.startTime} ~ ${data?.endTime}`}
-        </Flag_Content>
-        <Flag_Content>{`- ${data?.place}`}</Flag_Content>
-        <Flag_Content>{`- ${data?.memo}`}</Flag_Content>
-      </ContentWrapper>
-      <Button onClick={onClick} />
+      {isLoading ? null : (
+        <>
+          <Flag_Title>{data?.name}</Flag_Title>
+          <ContentWrapper>
+            <Flag_Content>{`- ${year}년 ${month}월 ${day}일`}</Flag_Content>
+            <Flag_Content>
+              {`- ${data?.startTime} ~ ${data?.endTime}`}
+            </Flag_Content>
+            <Flag_Content>{`- ${data?.place}`}</Flag_Content>
+            <Flag_Content>{`- ${data?.memo}`}</Flag_Content>
+          </ContentWrapper>
+          <Button onClick={onClick} />
+        </>
+      )}
     </Container>
   );
 };
