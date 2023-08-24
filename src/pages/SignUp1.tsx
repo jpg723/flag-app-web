@@ -284,7 +284,7 @@ function SignUp1() {
     console.log('중복확인 아이디: ' + isIdCheck + ', 닉네임' + isNameCheck);
 
     //중복확인 추가
-    //if (isId && isPw && isPwCheck && isName && isIdCheck && isNameCheck) {
+    //if (isId && isPw && isPwCheck && isName && isIdCheck && isNameCheck) 
     if (isId && isPw && isName && isIdCheck && isNameCheck) {
       console.log('유효성/중복 검사 통과~!');
       axios({
