@@ -9,19 +9,22 @@ import { SignUpNameAtom } from '../recoil/SignUpState';
 //@media screen and (max-width: 500px) {}
 
 const SignUp3Cover = styled.div`
-  height: 910px;
-  width: 1440px;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   @media screen and (max-width: 500px) {
     width: 100%;
     text-align: center;
   }
 `;
 const SignUpInputImgIc = styled.img`
+  margin-top: 30px;
   width: 118px;
   height: 118px;
   flex-shrink: 0;
   border-radius: 50%;
-  margin: 183px 661px 0px;
+  //margin: 183px 661px 0px;
   @media screen and (max-width: 500px) {
     width: 95px;
     height: 95px;
@@ -72,7 +75,9 @@ function SignUp3() {
     <SignUp3Cover>
       <SignUpInputImgIc src={profilepic} />
       <SignUpAccount>{name}</SignUpAccount>
-      <SignUpAccountText>계정이 생성되었습니다.</SignUpAccountText>
+      <SignUpAccountText>
+        계정이 생성되었습니다.
+      </SignUpAccountText>
       <Link to="/login">
         <SignUpBtnLogin src={btnLogin} />
       </Link>
