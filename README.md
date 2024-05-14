@@ -9,5 +9,3 @@
 |                마크/이선호                |           제이피지/이미지           |               다다/이다솔               |                차차/김나령                |
 | :---------------------------------------: | :---------------------------------: | :-------------------------------------: | :---------------------------------------: |
 | [Lee-Sunho](https://github.com/Lee-Sunho) | [jpg723](https://github.com/jpg723) | [dasol729](https://github.com/dasol729) | [NhaRyeong](https://github.com/NhaRyeong) |
-
-<img src=https://prod-files-secure.s3.us-west-2.amazonaws.com/747504b7-082d-4093-8769-67d7c882f3c6/dfe39921-e53c-44ca-9020-6ddbbd28b5e3/Untitled.png/>
