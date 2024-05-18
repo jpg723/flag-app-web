@@ -11,9 +11,11 @@ http://flagapp.site/
 | [Lee-Sunho](https://github.com/Lee-Sunho) | [jpg723](https://github.com/jpg723) | [dasol729](https://github.com/dasol729) | [NhaRyeong](https://github.com/NhaRyeong) |
 
 ## 🛠️skills
-- react
-- typescript
-- styledcomponent
+### Environment
+<img src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=flat-square&logo=Visual Studio Code&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white"/>   
+
+### Development
+<img src="https://img.shields.io/badge/React-2E2E2E?style=flat-square&logo=react&logoColor=61DAFB"/> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white"/> <img src="https://img.shields.io/badge/StyledComponents-DB7093?style=flat-square&logo=styled components&logoColor=white"/>
   
 ## 💡What is FLAG?
 <img src=https://github.com/Team-OnDot/OnDot-Frontend/assets/86431761/d95c955f-533d-4d75-b148-934fa461bfa9/>
